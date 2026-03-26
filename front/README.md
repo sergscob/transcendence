@@ -19,3 +19,8 @@ If you are developing a production application, we recommend using TypeScript wi
 # Install
 
 npm create vite@latest frontend
+
+
+# Components
+
+https://ui.shadcn.com/
