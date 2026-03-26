@@ -17,8 +17,8 @@ front:
 
 
 cleardocker:
-	docker rm -f $(docker ps -aq)	
-	docker rmi -f $(docker images -aq)
+	docker ps -aq | xargs -r docker rm -f
+	docker images -aq | xargs -r docker rmi -f
 
 clearports:
 	lsof -ti :8000 | xargs -r kill -9

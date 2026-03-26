@@ -1,5 +1,7 @@
 1. Minor: Use a frontend framework (React)
-1. Minor: Use a backend framework (Django)
+2. Minor: Use a backend framework (Django)
+3. Minor: Use an ORM for the database.
+
 
 
 Major: Implement real-time features using WebSockets
@@ -7,3 +9,6 @@ Major: Allow users to interact with other users. The minimum requirements are:
     ◦ A basic chat system (send/receive messages between users).
     ◦ A profile system (view user information).
     ◦ A friends system (add/remove friends, see friends list)
+
+Minor: Custom-made design system with reusable components, including a proper
+    color palette, typography, and icons (minimum: 10 reusable components).    
