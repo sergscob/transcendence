@@ -57,6 +57,7 @@ export default function Login() {
         <Button loading={loading} className="">
           Login
         </Button>
+        <a className="block text-center mt-3" href="http://localhost:8000/api/auth/google/">Login with Google</a>
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a href="/register">Register here</a></div>
       </form>
