@@ -4,7 +4,6 @@ import requests
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
-
 def google_login(request):
     url = (
         "https://accounts.google.com/o/oauth2/v2/auth"
@@ -49,5 +48,4 @@ def google_callback(request):
 
     refresh = RefreshToken.for_user(user)
 
-    # редирект обратно во frontend
     return redirect(f"http://localhost:5173/oauth?token={refresh.access_token}")
