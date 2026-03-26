@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import API from "../api/api";
 import Button from "../components/ui/Button";
 
-
 export default function Index() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
