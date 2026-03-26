@@ -3,6 +3,7 @@
 #### `python -m venv venv`
 #### `source venv/bin/activate`
 #### `pip install django djangorestframework djangorestframework-simplejwt django-cors-headers Pillow requests`
+#### `pip install -r requirements.txt`
 
 # Start 
 
@@ -19,3 +20,5 @@
 #### `python manage.py startapp users`
 
 #### `python manage.py createsuperuser`
+
+#### `pip freeze > requirements.txt`
