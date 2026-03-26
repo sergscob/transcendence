@@ -4,18 +4,12 @@ services:
   backend:
     build: ./back
     container_name: backend
-    # volumes:
-    #   - ./back:/app
     ports:
       - "8000:8000"
-    # environment:
-    #   - DJANGO_SETTINGS_MODULE=core.settings
 
   frontend:
     build: ./front
     container_name: frontend
-    # volumes:
-    #   - ./front:/app
     ports:
       - "5173:5173"
     depends_on:
