@@ -4,7 +4,7 @@ import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-
+import { APIURL } from "/config"
 
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -57,7 +57,7 @@ export default function Login() {
         <Button loading={loading} className="">
           Login
         </Button>
-        <a className="block text-center mt-3" href="http://localhost:8000/api/auth/google/">Login with Google</a>
+        <a className="block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a href="/register">Register here</a></div>
       </form>

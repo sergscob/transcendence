@@ -48,4 +48,4 @@ def google_callback(request):
 
     refresh = RefreshToken.for_user(user)
 
-    return redirect(f"http://localhost:5173/oauth?token={refresh.access_token}")
+    return redirect(f"{settings.FRONTEND_URL}/oauth?token={refresh.access_token}")
