@@ -1,0 +1,17 @@
+POST http://localhost:8000/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "user",
+    "password": "user1234"
+}
+
+###
+GET http://localhost:8000/api/profile/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc0NjEyOTM0LCJpYXQiOjE3NzQ2MDkzMzQsImp0aSI6Ijc4NzBlOWVkY2Q2NzQ3ZDViNjYwYTRhMWEyM2MyZDBiIiwidXNlcl9pZCI6IjIifQ.5JmU_6tkewXMHdXJtWN_eZ2Ez-u5RJhGng5zzG96BH4
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
