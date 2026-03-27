@@ -1,8 +1,9 @@
 import axios from "axios";
 import { getToken, logout } from "../utils/auth";
+import { APIURL } from "/config"
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+  baseURL: APIURL,
 });
 
 API.interceptors.request.use(config => {

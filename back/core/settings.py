@@ -143,3 +143,5 @@ SIMPLE_JWT = {
 GOOGLE_CLIENT_ID = "575802398695-cjok9kgf3kqfbet28l7c493otk3fsdlj.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "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"
 GOOGLE_REDIRECT_URI = "http://localhost:8000/api/auth/google/callback/"
+
+FRONTEND_URL = "http://localhost:5173"
