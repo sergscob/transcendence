@@ -1,0 +1,37 @@
+POST http://localhost:8000/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "user2",
+    "password": "user1234"
+}
+
+###
+GET http://localhost:8000/api/profile/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4MjM1OTQ4LCJpYXQiOjE3NzQ2MzU5NDgsImp0aSI6IjI4YTExNzc5Y2MwZjQwNTA5YjJkMzM4YWI1NmZlYjI4IiwidXNlcl9pZCI6IjQifQ.YiuRFDA4XnpeP-cyjb6MDc8KK_kmuLAm32ksZgAImaQ
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+
+###  Search friends with name containing 'r'
+GET http://localhost:8000/api/friends/search/?name=r HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4MjM1OTQ4LCJpYXQiOjE3NzQ2MzU5NDgsImp0aSI6IjI4YTExNzc5Y2MwZjQwNTA5YjJkMzM4YWI1NmZlYjI4IiwidXNlcl9pZCI6IjQifQ.YiuRFDA4XnpeP-cyjb6MDc8KK_kmuLAm32ksZgAImaQ
+
+{
+    
+}
+
+
+###  Add friend 
+POST http://localhost:8000/api/friends/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4MjM1OTQ4LCJpYXQiOjE3NzQ2MzU5NDgsImp0aSI6IjI4YTExNzc5Y2MwZjQwNTA5YjJkMzM4YWI1NmZlYjI4IiwidXNlcl9pZCI6IjQifQ.YiuRFDA4XnpeP-cyjb6MDc8KK_kmuLAm32ksZgAImaQ
+
+{
+    "friend_id": "2"
+}

@@ -23,7 +23,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await API.post("login/", form);
+      const res = await API.post("auth/login/", form);
       localStorage.setItem("token", res.data.access);
       navigate("/")
     } catch (err) {
@@ -57,9 +57,9 @@ export default function Login() {
         <Button loading={loading} className="">
           Login
         </Button>
-        <a className="block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
+        <a className="simple-link block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
 
-        <div className="text-center text-sm mt-6">You don't have any account ? <a href="/register">Register here</a></div>
+        <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
       </form>
     </div>
   );

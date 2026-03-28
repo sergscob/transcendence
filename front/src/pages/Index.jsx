@@ -15,7 +15,8 @@ export default function Index() {
   return (
     <div className="flex w-screen h-screen items-center justify-center bg-gray-100">
         <div>
-            Main Page
+            <div>Main Page</div>
+            <div><a className="simple-link" href="/profile">Profile</a></div>
         </div>
 
     </div>

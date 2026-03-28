@@ -17,9 +17,9 @@ class ProfileUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [parsers.MultiPartParser, parsers.FormParser, parsers.JSONParser]
 
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+    # def get(self, request):
+    #     serializer = UserSerializer(request.user)
+    #     return Response(serializer.data)
 
     def patch(self, request):
         serializer = UserSerializer(request.user, data=request.data, partial=True)

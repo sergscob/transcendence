@@ -12,6 +12,10 @@
 }
 
 a {
+    /* color: #4545cc; */
+    cursor: pointer !important;
+}
+a.simple-link {
     color: #4545cc;
 }
 
