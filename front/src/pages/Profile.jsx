@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import API from "../api/api";
+import { IMAGES_DIR } from "/config";
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [allFriends, setAllFriends] = useState([]);
   const [friends, setFriends] = useState([]);
   const [waitingList, setWaitingList] = useState([]);
+  const fileInputRef = useRef();
 
   async function fetchAllData() {
     await Promise.all([
@@ -19,6 +21,23 @@ function Profile() {
     API.get("profile/").then(res => setUser(res.data)),
     fetchAllData();
   }, []);
+
+  async function uploadAvatar(e) {
+    e.preventDefault();
+    const file = fileInputRef.current.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("avatar", file);
+    try {
+      const res = await API.patch("profile/update/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setUser(res.data);
+      fileInputRef.current.value = "";
+    } catch (err) {
+      alert("Failed to upload avatar");
+    }
+  }
 
   async function sendInvitation(friendId) {
     await API.post("friends/", { friend_id: friendId });
@@ -40,6 +59,13 @@ function Profile() {
   return (
     <div>
       <div>{user.username}</div>
+      {user.avatar && (
+          <img src={IMAGES_DIR + user.avatar} className="w-15 h-15 rounded-full" />
+      )}
+      <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
+        <input type="file" accept="image/*" ref={fileInputRef} />
+        <button type="submit">Upload Avatar</button>
+      </form>
       <h2 className="text-lg font-bold">All Friends:</h2>
       <ul>
         {allFriends.map(friend => (
