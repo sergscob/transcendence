@@ -5,38 +5,126 @@ from .serializers import FriendSerializer
 from django.contrib.auth import get_user_model
 from users.models import User
 from .models import Friend
+from django.db import models
 
-class FriendSearchView(APIView):
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+
+class FriendView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [parsers.FormParser, parsers.JSONParser]
-    
-    def get(self, request):
-        user = request.user
-        name_query = request.query_params.get('name', '')
-        print(name_query)
 
-        friends_ids = Friend.objects.filter(user=user, accepted=True).values_list('friend_id', flat=True)
-        users = User.objects.exclude(pk=user.pk).exclude(pk__in=friends_ids).filter(username__icontains=name_query)
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('waiting', openapi.IN_QUERY, description="waiting for approval", type=openapi.TYPE_INTEGER)
+        ]
+    )
+    def get(self, request):
+        waiting = request.query_params.get('waiting', None)
+        user = request.user
         data = []
-        for u in users:
-            user_info = {
-                'id': u.id,
-                'username': u.username,
-                'email': u.email,
-                'avatar': u.avatar.url if getattr(u, 'avatar', None) and getattr(u.avatar, 'url', None) else None
-            }
-            friend_rel = Friend.objects.filter(user=user, friend=u).first()
-            if friend_rel:
+        if waiting is not None:
+            friends = Friend.objects.filter(friend=user, accepted=False).select_related('user')
+            for f in friends:
+                friend = f.user
                 friend_info = {
-                    'wait_accept': friend_rel.wait_accept,
-                    'want_to_be_friend': friend_rel.want_to_be_friend,
-                    'accepted': friend_rel.accepted
+                    'id': friend.id,
+                    'username': friend.username,
+                    'email': friend.email,
+                    'avatar': friend.avatar.url if getattr(friend, 'avatar', None) and getattr(friend.avatar, 'url', None) else None,
+                    'accepted': f.accepted
                 }
-            else:
+                data.append(friend_info)
+
+        else:
+            friends = Friend.objects.filter(user=user, accepted=True).select_related('friend')
+            for f in friends:
+                friend = f.friend
                 friend_info = {
-                    'wait_accept': None,
-                    'want_to_be_friend': None,
-                    'accepted': None
+                    'id': friend.id,
+                    'username': friend.username,
+                    'email': friend.email,
+                    'avatar': friend.avatar.url if getattr(friend, 'avatar', None) and getattr(friend.avatar, 'url', None) else None,
+                    'accepted': f.accepted
                 }
-            data.append({**user_info, **friend_info})
+                data.append(friend_info)
         return Response(data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['friend_id'],
+            properties={
+                'friend_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID пользователя для добавления в друзья')
+            }
+        )
+    )
+    def post(self, request):
+        friend_id = request.data.get('friend_id', None)
+        user = request.user
+        if not friend_id:
+            return Response({'error': 'friend_id in URL is required'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            friend = User.objects.get(id=friend_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        if Friend.objects.filter(user=user, friend=friend).exists():
+            return Response({'error': 'Friend request already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # if there is a reverse request, accept it 
+        reverse_request = Friend.objects.filter(user=friend, friend=user, accepted=False).first()
+        if reverse_request:
+            reverse_request.accepted = True
+            reverse_request.save()
+            # second record 
+            Friend.objects.create(user=user, friend=friend, accepted=True)
+            return Response({'success': 'Friendship accepted'}, status=status.HTTP_201_CREATED)
+             
+        # create new request
+        friend_request = Friend.objects.create(
+            user=user,
+            friend=friend,
+            accepted=False
+        )
+        return Response({'success': 'Friend request sent', 'id': friend_request.id}, status=status.HTTP_201_CREATED)
+
+    def patch(self, request, friend_id=None):
+        user = request.user
+        accepted = request.data.get('accepted')
+        if friend_id is None or accepted is None:
+            return Response({'error': 'friend_id (in URL) and accepted are required'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            friend = User.objects.get(id=friend_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            rec = Friend.objects.get(user=friend, friend=user)
+        except Friend.DoesNotExist:
+            return Response({'error': 'Friendship not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if str(accepted).lower() in ['true', '1', 'yes']:
+            rec.accepted = True
+            rec.save()
+            if not Friend.objects.filter(user=user, friend=friend).exists():
+                Friend.objects.create(user=user, friend=friend, accepted=True)
+            return Response({'success': 'Friendship accepted and mirrored'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'info': 'No changes made, friendship not accepted'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, friend_id=None):
+        user = request.user
+        if friend_id is None:
+            return Response({'error': 'friend_id is required in URL'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            friend = User.objects.get(id=friend_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        deleted_count, _ = Friend.objects.filter(
+            (models.Q(user=user, friend=friend) | models.Q(user=friend, friend=user))
+        ).delete()
+        if deleted_count == 0:
+            return Response({'error': 'No friendship found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'success': 'Friendship deleted'}, status=status.HTTP_200_OK)

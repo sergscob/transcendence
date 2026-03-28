@@ -13,4 +13,4 @@ class FriendSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friend
-        fields = ('id', 'username', 'email', 'avatar' 'wait_accept', 'want_to_be_friend', 'accepted')
+        fields = ('id', 'username', 'email', 'avatar', 'accepted')

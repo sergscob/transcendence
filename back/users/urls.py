@@ -5,12 +5,13 @@ from .views import RegisterView, ProfileView
 from .views_profile import ProfileUpdateView
 
 urlpatterns = [
-    path('api/register/', RegisterView.as_view()),
-    path('api/profile/', ProfileView.as_view()),
-    path('api/profile/update/', ProfileUpdateView.as_view()),
-    path('api/login/', TokenObtainPairView.as_view()),
-    
+    path('api/auth/register/', RegisterView.as_view()),
+    path('api/auth/login/', TokenObtainPairView.as_view()),
+
     path("api/auth/google/", google_login),
     path("api/auth/google/callback/", google_callback),
 
+    path('api/profile/', ProfileView.as_view()),
+    path('api/profile/update/', ProfileUpdateView.as_view()),
+    
 ]

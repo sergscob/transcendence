@@ -23,7 +23,7 @@ function Register() {
     setErrors({})
     setLoading(true)
     try {
-      await API.post("register/", form)
+      await API.post("auth/register/", form)
       setRegistered(true)
     } catch (err) {
       setErrors(getErrorMessage(err))
@@ -72,7 +72,7 @@ function Register() {
         <div className="error-message">{errors.password}</div>
         <div className="error-message">{errors.common}</div>
         <Button className="" loading={loading}>Register</Button>
-        <div className="text-sm mt-6 text-center">You have an account ? <a href="/login">Login here</a></div>
+        <div className="text-sm mt-6 text-center">You have an account ? <a className="simple-link" href="/login">Login here</a></div>
 
       </form>
       }
