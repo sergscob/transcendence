@@ -6,3 +6,4 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     desc = models.TextField(blank=True)
+    last_seen = models.DateTimeField(null=True, blank=True)

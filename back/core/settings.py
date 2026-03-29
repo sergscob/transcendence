@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
+    'channels',
     'users',    
     'friends',    
 ]
@@ -134,11 +135,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+ASGI_APPLICATION = 'core.asgi.application'
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60000),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
 
 GOOGLE_CLIENT_ID = "575802398695-cjok9kgf3kqfbet28l7c493otk3fsdlj.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "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"

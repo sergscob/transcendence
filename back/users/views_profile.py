@@ -13,7 +13,11 @@ from rest_framework.response import Response
 from rest_framework import status, permissions, parsers
 from .serializers import UserSerializer
 
-class ProfileUpdateView(APIView):
+
+from .mixins import UpdateLastSeenMixin
+
+
+class ProfileUpdateView(UpdateLastSeenMixin, APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [parsers.MultiPartParser, parsers.FormParser, parsers.JSONParser]
 

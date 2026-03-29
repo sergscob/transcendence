@@ -1,8 +1,10 @@
 
 from django.shortcuts import render
 from rest_framework import generics, permissions
+
 from .models import User
 from .serializers import RegisterSerializer, UserSerializer
+from .mixins import UpdateLastSeenMixin
 
 
 class RegisterView(generics.CreateAPIView):
@@ -11,7 +13,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 
-class ProfileView(generics.RetrieveAPIView):
+class ProfileView(UpdateLastSeenMixin, generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 

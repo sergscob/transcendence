@@ -6,9 +6,13 @@ from django.contrib.auth import get_user_model
 from users.models import User
 from .models import Friend
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
-class FriendSearchView(APIView):
+from drf_yasg import openapi
+from users.mixins import UpdateLastSeenMixin
+
+
+
+class FriendSearchView(UpdateLastSeenMixin, APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [parsers.FormParser, parsers.JSONParser]
     

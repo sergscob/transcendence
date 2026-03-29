@@ -6,12 +6,16 @@ from django.contrib.auth import get_user_model
 from users.models import User
 from .models import Friend
 from django.db import models
-
+from django.utils import timezone
+from datetime import date, timedelta
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from users.mixins import UpdateLastSeenMixin
 
 
-class FriendView(APIView):
+
+
+class FriendView(UpdateLastSeenMixin, APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [parsers.FormParser, parsers.JSONParser]
 
@@ -41,12 +45,14 @@ class FriendView(APIView):
             friends = Friend.objects.filter(user=user, accepted=True).select_related('friend')
             for f in friends:
                 friend = f.friend
+                print(friend.username, friend.last_seen, timezone.now() , timezone.now() - timedelta(minutes=15))
                 friend_info = {
                     'id': friend.id,
                     'username': friend.username,
                     'email': friend.email,
                     'avatar': friend.avatar.url if getattr(friend, 'avatar', None) and getattr(friend.avatar, 'url', None) else None,
-                    'accepted': f.accepted
+                    'accepted': f.accepted,
+                    'online': friend.last_seen and (friend.last_seen > timezone.now() - timedelta(minutes=15))
                 }
                 data.append(friend_info)
         return Response(data, status=status.HTTP_200_OK)
