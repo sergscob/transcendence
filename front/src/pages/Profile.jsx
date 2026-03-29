@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../api/api";
+import avatarSvg from '../assets/images/avatar.svg';
 import { IMAGES_DIR } from "/config";
+import FriendInfo from "../components/ui/FriendInfo";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -60,7 +62,7 @@ function Profile() {
     <div>
       <div>{user.username}</div>
       {user.avatar && (
-          <img src={IMAGES_DIR + user.avatar} className="w-15 h-15 rounded-full" />
+          <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
       )}
       <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
         <input type="file" accept="image/*" ref={fileInputRef} />
@@ -70,7 +72,7 @@ function Profile() {
       <ul>
         {allFriends.map(friend => (
           <li key={friend.id}>
-            <div >{friend.username} 
+            <FriendInfo friend={friend} className="my-2">
               {friend.accepted ? <span className="text-xs text-red-600"> ERROR! accepted</span> : ''}
               {friend.invitation_sent ? 
                   <span>
@@ -83,7 +85,7 @@ function Profile() {
                     send request
                   </a>
               }
-            </div>
+            </FriendInfo>
           </li>
         ))}
       </ul>
@@ -92,12 +94,11 @@ function Profile() {
         <ul>
           {friends.map(friend => (
             <li key={friend.id}>
-              <div>
-                {friend.username} 
+              <FriendInfo friend={friend} className="my-2">
                   <a className="text-xs text-red-400 pl-2" onClick={() => deleteInvitation(friend.id)}> 
                       delete friend
                   </a>
-                </div>
+                </FriendInfo>
             </li>
           ))}
         </ul>
@@ -107,12 +108,11 @@ function Profile() {
         <ul>
           {waitingList.map(friend => (
             <li key={friend.id}>
-              <div>
-                {friend.username}
+              <FriendInfo friend={friend} className="my-2">
                 <a className="text-xs text-green-600" onClick={() => acceptInvitation(friend.id)}>
                   accept invitation
                 </a>
-              </div>
+              </FriendInfo>
             </li>
           ))}
         </ul>

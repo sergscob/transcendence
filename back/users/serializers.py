@@ -25,6 +25,14 @@ class UserSerializer(serializers.ModelSerializer):
             if hasattr(value, 'content_type') and value.content_type not in valid_types:
                 raise ValidationError("Only JPEG and PNG images are allowed.")
         return value
+
+    # add avatar and get_avatar for returning URL instead of absolute path
+    avatar = serializers.SerializerMethodField()
+    def get_avatar(self, obj):
+        if obj.avatar:
+            return obj.avatar.url
+        return None
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'desc', 'avatar')
