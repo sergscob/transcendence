@@ -4,12 +4,14 @@ import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import { Spinner } from "../components/ui/Spinner";
 import { APIURL } from "/config"
 
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [login42Clicked, setLogin42Clicked] = useState(false);
   const navigate = useNavigate()
 
   async function changeForm(field) {
@@ -17,7 +19,7 @@ export default function Login() {
     setForm({...form, ...field})
   }
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setErrors("");
     setLoading(true);
@@ -33,10 +35,15 @@ export default function Login() {
     }
   };
 
+  function onLogin42() {
+    setLogin42Clicked(true);
+    window.location = APIURL + 'auth/e42/'
+  }
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-100"
       >
         <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
@@ -58,7 +65,9 @@ export default function Login() {
           Login
         </Button>
         <a className="simple-link block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
-        <a className="simple-link block text-center" href={`${APIURL}auth/e42/`}>Login with 42</a>
+        <a className="simple-link block text-center" onClick={onLogin42}>
+          {login42Clicked ? <span>redirecting to 42 auth... <Spinner className="inline mb-1"/></span> : 'Login with 42'} 
+        </a>
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
       </form>

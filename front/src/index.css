@@ -20,7 +20,7 @@ a.simple-link {
 }
 
 
-
+/*
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
@@ -144,3 +144,4 @@ a.simple-link {
     @apply font-sans;
     }
 }
+*/
