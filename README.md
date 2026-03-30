@@ -38,7 +38,8 @@ npm install
 ```bash
 cd back
 source venv/bin/activate
-python manage.py runserver
+#python manage.py runserver
+daphne -b 0.0.0.0 -p 8000 core.asgi:application
 ```
 or 
 ```bash

@@ -10,7 +10,8 @@ prod:
 	docker-compose up --build
 
 back:
-	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
+# 	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
+	cd back && . venv/bin/activate && daphne -b 0.0.0.0 -p 8000 core.asgi:application
 
 front:
 	cd front && npm run dev 
