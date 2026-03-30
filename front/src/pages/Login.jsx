@@ -58,6 +58,7 @@ export default function Login() {
           Login
         </Button>
         <a className="simple-link block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
+        <a className="simple-link block text-center" href={`${APIURL}auth/e42/`}>Login with 42</a>
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
       </form>

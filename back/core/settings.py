@@ -146,7 +146,19 @@ GOOGLE_CLIENT_ID = "575802398695-cjok9kgf3kqfbet28l7c493otk3fsdlj.apps.googleuse
 GOOGLE_CLIENT_SECRET = "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"
 GOOGLE_REDIRECT_URI = "http://localhost:8000/api/auth/google/callback/"
 
+E42_CLIENT_ID = "u-s4t2ud-c36acdfff1ce89d719c034d568b65fb0ce63f13d5453fdb1d87ab1c741ae7869"
+E42_CLIENT_SECRET = "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"
+E42_REDIRECT_URI = "http://localhost:8000/api/auth/e42callback/"
+
+
 FRONTEND_URL = "http://localhost:5173"
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
+
+# Channels in-memory layer (for dev)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
