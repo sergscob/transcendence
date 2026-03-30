@@ -1,5 +1,5 @@
 
-.PHONY: all prod back front
+.PHONY: all prod back front i-back i-front i
 
 all:
 	$(MAKE) back &
@@ -15,6 +15,15 @@ back:
 front:
 	cd front && npm run dev 
 
+i-back:
+	cd back && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt
+
+i-front:
+	cd front && npm install
+
+i:
+	$(MAKE) i-back
+	$(MAKE) i-front
 
 cleardocker:
 	docker ps -aq | xargs -r docker rm -f

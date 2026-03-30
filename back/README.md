@@ -2,7 +2,7 @@
 
 #### `python -m venv venv`
 #### `source venv/bin/activate`
-#### `pip install django djangorestframework djangorestframework-simplejwt django-cors-headers Pillow requests`
+#### `pip install django djangorestframework djangorestframework-simplejwt django-cors-headers Pillow requests drf_yasg channels`
 #### `pip install -r requirements.txt`
 
 # Start 
