@@ -6,6 +6,12 @@ Backend - Django, frontend - React
 
 ## Installation 
 
+```bash
+make i
+```
+
+or
+
 #### Back :
 
 ```bash
