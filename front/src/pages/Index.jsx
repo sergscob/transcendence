@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useUserStore } from "../stores/userStore";
 import API from "../api/api";
 import Button from "../components/ui/Button";
 import ChatWindow from "@/components/chat/ChatWindow";
@@ -7,6 +8,14 @@ import ChatWindow from "@/components/chat/ChatWindow";
 export default function Index() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+
+  // const user = useAuthStore((s) => s.user);
+  // const fetchUser = useAuthStore((s) => s.login); // если нужно обновление
+
+  // useEffect(() => {
+  //   if (!user) fetchUser();
+  // }, []);
+
 
   function onLogout() {
     localStorage.setItem("token", '')
