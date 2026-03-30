@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import API from "../api/api";
 import Button from "../components/ui/Button";
+import ChatWindow from "@/components/chat/ChatWindow";
 
 export default function Index() {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function Index() {
             <div>Main Page</div>
             <div><a className="simple-link" href="/profile">Profile</a></div>
         </div>
+        <ChatWindow>  </ChatWindow>
 
     </div>
   );
