@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../api/api";
-import avatarSvg from '../assets/images/avatar.svg';
+import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
 import FriendInfo from "../components/ui/FriendInfo";
 
 function Profile() {
-  const [user, setUser] = useState(null);
+  const loadUser = useUserStore((s) => s.loadUser);
+  const user = useUserStore((s) => s.user);
+  const loading = useUserStore((s) => s.loading);
+  const loaded = useUserStore((s) => s.loaded);
   const [allFriends, setAllFriends] = useState([]);
   const [friends, setFriends] = useState([]);
   const [waitingList, setWaitingList] = useState([]);
@@ -20,9 +23,11 @@ function Profile() {
   }
 
   useEffect(() => {
-    API.get("profile/").then(res => setUser(res.data)),
-    fetchAllData();
-  }, []);
+    if (loaded && user) {
+      console.log("User loaded in Profile.jsx", user);
+      fetchAllData();
+    }
+  }, [user]);
 
   async function uploadAvatar(e) {
     e.preventDefault();
@@ -34,7 +39,7 @@ function Profile() {
       const res = await API.patch("profile/update/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setUser(res.data);
+      loadUser(true);
       fileInputRef.current.value = "";
     } catch (err) {
       alert("Failed to upload avatar");
@@ -56,7 +61,7 @@ function Profile() {
     await fetchAllData();
   }
 
-  if (!user) return <div>Loading...</div>;
+  if (loading || !user) return <div>Loading...</div>;
 
   return (
     <div>

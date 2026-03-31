@@ -1,24 +1,19 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-// import { fetchCurrentUser } from "../api/userApi";
+import API from "../api/api";
 
-export const useUserStore = create(
-  persist(
-    (set, get) => ({
+export const useUserStore = create((set, get) => ({
       user: null,
       loading: false,
+      loaded: false,
       
-      login: async (credentials) => {
+      loadUser: async (force = false) => {
+        const { loaded, loading } = get();
+        // console.log("loadUser called", { loaded, loading, force, user: get().user });
+        if (!force && (loaded || loading)) 
+          return;
+
         set({ loading: true });
-
-        // const user = await fetchCurrentUser(credentials);
-        set({ user, loading: false });
+        const res = await API.get("profile/");
+        set({ user: res.data, loading: false, loaded: true });
       },
-
-      logout: () => set({ user: null }),
-      
-      isAuth: () => !!get().user,
-    }),
-    { name: "auth-storage" }
-  )
-);
+ }));
