@@ -10,21 +10,30 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
 from pathlib import Path
 from datetime import timedelta
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g@5qt%mq-$*mf(qmcd%4=2crejxifpqmkvd8x^za_)!n)u(bsp'
+SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
@@ -142,16 +151,16 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-GOOGLE_CLIENT_ID = "575802398695-cjok9kgf3kqfbet28l7c493otk3fsdlj.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
-GOOGLE_REDIRECT_URI = "http://localhost:8000/api/auth/google/callback/"
 
-E42_CLIENT_ID = "u-s4t2ud-c36acdfff1ce89d719c034d568b65fb0ce63f13d5453fdb1d87ab1c741ae7869"
-E42_CLIENT_SECRET = "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"
-E42_REDIRECT_URI = "http://localhost:8000/api/auth/e42callback/"
+GOOGLE_CLIENT_ID = env('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = env('GOOGLE_CLIENT_SECRET')
+GOOGLE_REDIRECT_URI = env('GOOGLE_REDIRECT_URI')
 
+E42_CLIENT_ID = env('E42_CLIENT_ID')
+E42_CLIENT_SECRET = env('E42_CLIENT_SECRET')
+E42_REDIRECT_URI = env('E42_REDIRECT_URI')
 
-FRONTEND_URL = "http://localhost:5173"
+FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = BASE_DIR / 'uploads'

@@ -6,3 +6,4 @@ Pillow
 requests
 drf_yasg
 channels
+django-environ
