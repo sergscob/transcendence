@@ -102,6 +102,7 @@ export default function Login() {
         </a>
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
+        <div className="text-center text-sm">You forget your password ? <a className="simple-link" href="/restore" >Restore password</a></div>
       </form>
       <OtpDialog 
           open={openOtpDialog} setOpen={setOpenOtpDialog} 

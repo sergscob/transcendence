@@ -1,8 +1,8 @@
 export const getErrorMessage = (err) => {
   if (!err.response) return { common: "Server not responding" };
   const data = err.response.data;
-  if (data.detail) 
-    return { common: data.detail };
+  if (data.detail || data.error) 
+    return { common: data.detail || data.error };
 
   if (typeof data === "object" && !Array.isArray(data)) {
     const errors = {};

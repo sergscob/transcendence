@@ -161,6 +161,8 @@ E42_CLIENT_SECRET = env('E42_CLIENT_SECRET')
 E42_REDIRECT_URI = env('E42_REDIRECT_URI')
 
 FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')
+BACKEND_URL = env('BACKEND_URL', default='http://localhost:8000')
+DEFAULT_FROM_EMAIL = "no-reply@myapp.com"
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
