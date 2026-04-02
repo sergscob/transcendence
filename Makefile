@@ -1,5 +1,5 @@
 
-.PHONY: all prod back front i-back i-front i
+.PHONY: all prod back front i-back i-front i back-admin
 
 all:
 	$(MAKE) back &
@@ -12,6 +12,9 @@ prod:
 back:
 # 	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
 	cd back && . venv/bin/activate && daphne -b 0.0.0.0 -p 8000 core.asgi:application
+
+back-admin:
+	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
 
 front:
 	cd front && npm run dev 

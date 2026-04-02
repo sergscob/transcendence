@@ -1,19 +1,27 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer 
+from django.conf import settings
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import asyncio
 
-model_name = "microsoft/DialoGPT-small"
+# Lazy loading of model and tokenizer
+tokenizer = None
+model = None
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+def load_model():
+    global tokenizer, model
+    if tokenizer is None or model is None:
+        model_name = settings.CHATBOT_MODEL_NAME
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name)
 
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer ):
     print ("ChatConsumer initialized")
     async def connect(self):
+        load_model()  # Load model when consumer connects
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
@@ -62,7 +70,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer ):
 
         print("Received message:", message)
 
-        # Отправляем сообщение пользователя в чат
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -73,7 +80,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer ):
             }
         )
 
-        # 🤖 === ГЕНЕРАЦИЯ ОТВЕТА БОТА ===
+        # BOT
 
         bot_response = await asyncio.to_thread(self.generate_bot_response, message)
         
@@ -119,6 +126,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer ):
         
 
     def generate_bot_response(self, message):
+        # Add system prompt at the start of conversation
+        if self.chat_history_ids is None:
+            message = f"{settings.CHATBOT_SYSTEM_PROMPT}\n{message}"
+            print("System prompt added to message:", message)
+        
         new_input_ids = tokenizer.encode(
             message + tokenizer.eos_token,
             return_tensors='pt'
