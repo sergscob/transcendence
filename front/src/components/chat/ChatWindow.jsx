@@ -1,8 +1,8 @@
 import { Spinner } from "@/components/ui/Spinner"
 import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "@/stores/userStore";
-import Button from "@/components/ui/Button"
-import Input from "@/components/ui/Input"
+import Button from "@/components/ui_int/Button"
+import Input from "@/components/ui_int/Input"
 
 function ChatWindow({ children, className="", loading=false, ...props }) {
   const [messages, setMessages] = useState([]);

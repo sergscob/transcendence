@@ -35,4 +35,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'desc', 'avatar')
+        fields = ('id', 'username', 'email', 'desc', 'avatar', 'is_2fa_enabled')

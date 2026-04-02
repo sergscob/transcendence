@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
+import EditFriends from "./pages/EditFriends";
 import Index from "./pages/Index";
 
 import OAuth from "./pages/OAuth";
@@ -21,8 +22,9 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            <Route path="/profile" element={<Profile />} />
-            
+            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/editprofile" element={<EditProfile />} />
+            <Route path="/editfriends" element={<EditFriends />} />
             <Route path="/" element={<Index />} />
           </Route>
         </Route>
