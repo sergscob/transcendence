@@ -6,6 +6,7 @@ import RestorePassword from "./pages/RestorePassword";
 import EditProfile from "./pages/EditProfile";
 import EditFriends from "./pages/EditFriends";
 import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
 
 import OAuth from "./pages/OAuth";
 import AuthLayout from "./components/layouts/AuthLayout";
@@ -31,6 +32,7 @@ export default function App() {
           </Route>
         </Route>
         <Route path="/admin" element={<RedirectToDjangoAdmin />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

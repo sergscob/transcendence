@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import ChatWindow from "@/components/chat/ChatWindow";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   const navigate = useNavigate()
@@ -14,8 +15,8 @@ export default function Index() {
     <div className="flex w-screen h-screen justify-center bg-gray-100">
         <div>
             <div className="mt-20">Main Page</div>
-            <div><a className="simple-link" href="/editprofile">Edit profile</a></div>
-            <div><a className="simple-link" href="/friends">Friends</a></div>
+            <div><Link className="simple-link" to="/editprofile">Edit profile</Link></div>
+            <div><Link className="simple-link" to="/editfriends">Friends</Link></div>
         </div>
         <ChatWindow>  </ChatWindow>
 
