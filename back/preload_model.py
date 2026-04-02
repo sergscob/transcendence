@@ -1,7 +1,8 @@
 # preload_model.py
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from core import settings
 
-model_name = "microsoft/DialoGPT-small"
+model_name = settings.CHATBOT_MODEL_NAME
 
 print("Downloading model...")
 
