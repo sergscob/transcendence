@@ -2,6 +2,7 @@
 2. Minor: Use a backend framework (Django)
 3? Minor: Use an ORM for the database.  
 4. Minor: Implement remote authentication with OAuth 2.0 (Google, GitHub, 42, etc.).
+5. Minor: Implement a complete 2FA (Two-Factor Authentication) system for the users.
 
 
 
@@ -33,7 +34,6 @@ Minor: Support for additional browsers.
     ◦ Document any browser-specific limitations.
     ◦ Consistent UI/UX across all supported browsers.
 
-Minor: Implement a complete 2FA (Two-Factor Authentication) system for the users.
 
 
 

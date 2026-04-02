@@ -18,7 +18,7 @@ function EditProfile() {
   async function onCheck2fa(e) {
     e.preventDefault();
     user.is_2fa_enabled = e.target.checked;
-    console.log("user after change", user);
+    // console.log("user after change", user);
     if (user.is_2fa_enabled) 
     {
       try {
@@ -59,6 +59,13 @@ function EditProfile() {
       console.log("User loaded in Profile.jsx", user);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!openOtpDialog) {
+      console.log("openOtpDialog changed", openOtpDialog);
+      loadUser(true);
+    }
+  }, [openOtpDialog]);
 
   async function uploadAvatar(e) {
     e.preventDefault();
