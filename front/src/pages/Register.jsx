@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import Input from "../components/ui_int/Input";
+import Button from "../components/ui_int/Button";
 
 
 function Register() {

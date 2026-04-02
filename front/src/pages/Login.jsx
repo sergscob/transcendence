@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import Input from "../components/ui_int/Input";
+import Button from "../components/ui_int/Button";
 import { Spinner } from "../components/ui/Spinner";
+import OtpDialog from "../components/login/OtpDialog";
+
 import { APIURL } from "/config"
 
 export default function Login() {
@@ -12,12 +14,32 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [login42Clicked, setLogin42Clicked] = useState(false);
+  const [openOtpDialog, setOpenOtpDialog] = useState(false);
+  const [tmpUserId, setTmpUserId] = useState(null);
   const navigate = useNavigate()
+  
 
   async function changeForm(field) {
     setErrors({})
     setForm({...form, ...field})
   }
+
+
+  async function onCodeEntered(code) {
+    try 
+    {
+      const res = await API.post("/auth/verify-otp/", {
+        user_id: tmpUserId,
+        code
+      })
+      setOpenOtpDialog(false);
+      localStorage.setItem("token", res.data.access);
+      navigate("/")
+    } catch (err) {
+      return err.response.data.error || "An error occurred";
+    }
+  }
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -26,8 +48,16 @@ export default function Login() {
 
     try {
       const res = await API.post("auth/login/", form);
-      localStorage.setItem("token", res.data.access);
-      navigate("/")
+      if (res.data.requires_2fa)
+      {
+        setTmpUserId(res.data.user_id);
+        setOpenOtpDialog(true);
+      } 
+      else 
+      {
+        localStorage.setItem("token", res.data.access);
+        navigate("/")
+      }
     } catch (err) {
       setErrors(getErrorMessage(err));
     } finally {
@@ -35,10 +65,12 @@ export default function Login() {
     }
   };
 
+
   function onLogin42() {
     setLogin42Clicked(true);
     window.location = APIURL + 'auth/e42/'
   }
+
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -71,6 +103,11 @@ export default function Login() {
 
         <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
       </form>
+      <OtpDialog 
+          open={openOtpDialog} setOpen={setOpenOtpDialog} 
+          onSuccess={(code) => onCodeEntered(code)}
+       />
+
     </div>
   );
 }

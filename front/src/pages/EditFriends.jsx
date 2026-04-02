@@ -1,18 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
-import { IMAGES_DIR } from "/config";
-import FriendInfo from "../components/ui/FriendInfo";
+import FriendInfo from "../components/ui_int/FriendInfo";
 
-function Profile() {
-  const loadUser = useUserStore((s) => s.loadUser);
+function EditFriends() {
   const user = useUserStore((s) => s.user);
-  const loading = useUserStore((s) => s.loading);
   const loaded = useUserStore((s) => s.loaded);
   const [allFriends, setAllFriends] = useState([]);
   const [friends, setFriends] = useState([]);
   const [waitingList, setWaitingList] = useState([]);
-  const fileInputRef = useRef();
 
   async function fetchAllData() {
     await Promise.all([
@@ -29,23 +25,6 @@ function Profile() {
     }
   }, [user]);
 
-  async function uploadAvatar(e) {
-    e.preventDefault();
-    const file = fileInputRef.current.files[0];
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("avatar", file);
-    try {
-      const res = await API.patch("profile/update/", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      loadUser(true);
-      fileInputRef.current.value = "";
-    } catch (err) {
-      alert("Failed to upload avatar");
-    }
-  }
-
   async function sendInvitation(friendId) {
     await API.post("friends/", { friend_id: friendId });
     await fetchAllData();
@@ -61,18 +40,9 @@ function Profile() {
     await fetchAllData();
   }
 
-  if (loading || !user) return <div>Loading...</div>;
-
   return (
     <div>
       <div>{user.username}</div>
-      {user.avatar && (
-          <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
-      )}
-      <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
-        <input type="file" accept="image/*" ref={fileInputRef} />
-        <button type="submit">Upload Avatar</button>
-      </form>
       <h2 className="text-lg font-bold">All Friends:</h2>
       <ul>
         {allFriends.map(friend => (
@@ -127,4 +97,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default EditFriends;

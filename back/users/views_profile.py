@@ -28,8 +28,10 @@ class ProfileUpdateView(UpdateLastSeenMixin, APIView):
     def patch(self, request):
         serializer = UserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
+            print ("validated data in ProfileUpdateView", serializer.validated_data)
             serializer.save()
             return Response(serializer.data)
+            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):

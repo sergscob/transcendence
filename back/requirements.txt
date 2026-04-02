@@ -10,6 +10,8 @@ drf_yasg
 channels
 django-environ
 daphne
+pyotp
+qrcode
 numpy==1.26.4
 torch==2.2.2+cpu
 transformers==4.37.2
