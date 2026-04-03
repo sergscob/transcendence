@@ -3,6 +3,7 @@ import API from "@/api/api";
 import { useUserStore } from "@/stores/userStore";
 import FriendInfo from "@/components/ui_int/FriendInfo";
 import DraggableWindow from "@/components/ui_int/DraggableWindow";
+import { useDraggableStore } from "@/stores/draggableStore";
 import ChatWindow from "@/components/chat/ChatWindow";
 import { Link } from "react-router-dom";
 import IconChat from "@/assets/icons/chat.svg?react";
@@ -12,6 +13,8 @@ function FriendsPanel() {
   const loaded = useUserStore((s) => s.loaded);
   const [friends, setFriends] = useState([]);
   const [openChats, setOpenChats] = useState([]);
+  const positions = useDraggableStore((s) => s.positions);
+  const delWindowPosition = useDraggableStore((s) => s.delWindowPosition);
 
   async function fetchAllData() {
     await Promise.all([
@@ -19,15 +22,57 @@ function FriendsPanel() {
     ]);
   }
 
+  function getFriendIdFromRoomName(roomName) {
+    const [prefix, ownerId, friendId] = roomName.split("_");
+
+    if (prefix !== "chat" || ownerId !== String(user.id)) {
+      return null;
+    }
+
+    return friendId;
+  }
+
   useEffect(() => {
     if (loaded && user) {
       fetchAllData();
     }
-  }, [user]);
+  }, [loaded, user]);
+
+  useEffect(() => {
+    if (!loaded || !user || !friends.length) {
+      return;
+    }
+
+    const restoredChats = Object.keys(positions)
+      .map((roomName) => {
+        const friendId = getFriendIdFromRoomName(roomName);
+
+        if (!friendId) {
+          return null;
+        }
+
+        return friends.find((friend) => String(friend.id) === String(friendId)) ?? null;
+      })
+      .filter(Boolean)
+      .filter((friend, index, array) => array.findIndex((candidate) => candidate.id === friend.id) === index);
+
+    setOpenChats((currentChats) => {
+      const currentIds = new Set(currentChats.map((chat) => chat.id));
+      const nextChats = [...currentChats];
+
+      restoredChats.forEach((friend) => {
+        if (!currentIds.has(friend.id)) {
+          nextChats.push(friend);
+          currentIds.add(friend.id);
+        }
+      });
+
+      return nextChats;
+    });
+  }, [loaded, user, friends, positions]);
 
   function getRoomName(friendId) {
-    const ids = [String(user.id), String(friendId)].sort();
-    return `chat_${ids[0]}_${ids[1]}`;
+    return `chat_${String(user.id)}_${String(friendId)}`;
   }
 
   function openChat(friend) {
@@ -42,6 +87,7 @@ function FriendsPanel() {
 
   function closeChat(friendId) {
     setOpenChats((currentChats) => currentChats.filter((chat) => chat.id !== friendId));
+    delWindowPosition(getRoomName(friendId));
   }
 
   if (!user) return (<>loading</>)
@@ -49,6 +95,7 @@ function FriendsPanel() {
   return (
     <>
       <DraggableWindow
+        name="friends-panel"
         title="Friends"
         defaultPosition={{ x: 40, y: 120 }}
         headerClassName="bg-amber-50"
@@ -82,6 +129,7 @@ function FriendsPanel() {
       {openChats.map((friend, index) => (
         <ChatWindow
           key={friend.id}
+          name={getRoomName(friend.id)}
           friend={friend}
           roomName={getRoomName(friend.id)}
           onClose={() => closeChat(friend.id)}

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import ButtonClose from "./ButtonClose";
+import { useDraggableStore } from "@/stores/draggableStore";
 
 function DraggableWindow({
+  name,
   title,
   children,
   onClose,
@@ -14,17 +16,33 @@ function DraggableWindow({
 }) {
   const windowRef = useRef(null);
   const dragStateRef = useRef(null);
-  const [position, setPosition] = useState(defaultPosition);
+  const getWindowPosition = useDraggableStore((s) => s.getWindowPosition);
+  const setWindowPosition = useDraggableStore((s) => s.setWindowPosition);
+  const [position, setPosition] = useState(() =>
+    name ? getWindowPosition(name, defaultPosition) : defaultPosition,
+  );
+
+  useEffect(() => {
+    if (!name) return;
+
+    setPosition(getWindowPosition(name, defaultPosition));
+  }, [name, defaultPosition, getWindowPosition]);
 
   useEffect(() => {
     function onPointerMove(event) {
       if (!dragStateRef.current) return;
 
       const { offsetX, offsetY } = dragStateRef.current;
-      setPosition({
+      const nextPosition = {
         x: event.clientX - offsetX,
         y: event.clientY - offsetY,
-      });
+      };
+
+      setPosition(nextPosition);
+
+      if (name) {
+        setWindowPosition(name, nextPosition);
+      }
     }
 
     function onPointerUp() {

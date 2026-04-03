@@ -13,7 +13,7 @@ export default function MainLayout() {
   const user = useUserStore((s) => s.user);
   useEffect(() => {
     loadUser(); 
-  }, []);
+  }, [loadUser]);
 
   function onLogout() {
     localStorage.setItem("token", '')
