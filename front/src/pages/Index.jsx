@@ -17,6 +17,7 @@ export default function Index() {
             <div className="mt-20">Main Page</div>
             <div><Link className="simple-link" to="/editprofile">Edit profile</Link></div>
             <div><Link className="simple-link" to="/editfriends">Friends</Link></div>
+            <div><Link className="simple-link" to="/game">Game</Link></div>
         </div>
         <ChatWindow>  </ChatWindow>
 
