@@ -8,8 +8,8 @@ export default function MainLayout() {
   const navigate = useNavigate()
   const loadUser = useUserStore((s) => s.loadUser);
   const user = useUserStore((s) => s.user);
-
   useEffect(() => {
+    console.log(111)
     loadUser(); 
   }, []);
 

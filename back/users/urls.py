@@ -17,6 +17,7 @@ urlpatterns = [
     path("api/auth/e42callback/", e42_callback),
 
     path('api/profile/', ProfileView.as_view()),
+    path('api/profile/<int:id>/', ProfileView.as_view()),
     path('api/profile/update/', ProfileUpdateView.as_view()),
     
     path('api/auth/login/', login_view),

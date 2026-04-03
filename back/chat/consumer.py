@@ -127,9 +127,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer ):
 
     def generate_bot_response(self, message):
         # Add system prompt at the start of conversation
-        if self.chat_history_ids is None:
-            message = f"{settings.CHATBOT_SYSTEM_PROMPT}\n{message}"
-            print("System prompt added to message:", message)
+        # if self.chat_history_ids is None:
+        #     message = f"{settings.CHATBOT_SYSTEM_PROMPT}\n{message}"
+        #     print("System prompt added to message:", message)
         
         new_input_ids = tokenizer.encode(
             message + tokenizer.eos_token,

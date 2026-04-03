@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import FriendInfo from "../components/ui_int/FriendInfo";
@@ -39,6 +39,8 @@ function EditFriends() {
     await API.patch("friends/" + friendId + "/", { accepted: true });
     await fetchAllData();
   }
+
+  if (!user) return (<>loading</>)
 
   return (
     <div>
