@@ -6,20 +6,31 @@ import { createPlayer }  from './player'
 import { loadWorld }     from './world'
 
 let animationId: number
-let controlsInstance: ReturnType<typeof createControls>
+let controlsInstance: ReturnType<typeof createControls> | undefined
+let rendererInstance: any
+let resizeHandler: any
 
 export function startGame(container: HTMLDivElement) {
 	const scene    = createScene()
 	const camera   = createCamera(container)
-	const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
-	const controlsInstance = createControls(container)
+	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
+	controlsInstance = createControls(container)
 	const player   = createPlayer(camera)
 	const worldOctree = loadWorld(scene)
 
-	renderer.setSize(container.clientWidth, container.clientHeight)
-	renderer.setPixelRatio(window.devicePixelRatio)
-	renderer.shadowMap.enabled = true
-	container.appendChild(renderer.domElement)
+	resizeHandler = () => {
+		if (!rendererInstance)
+			return
+		camera.aspect = container.clientWidth / container.clientHeight
+		camera.updateProjectionMatrix()
+		rendererInstance.setSize(container.clientWidth, container.clientHeight)
+		rendererInstance.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+	}
+
+	rendererInstance.shadowMap.enabled = true
+	container.appendChild(rendererInstance.domElement)
+	resizeHandler()
+	window.addEventListener('resize', resizeHandler)
 
 	const clock = new THREE.Clock()
 
@@ -33,13 +44,26 @@ export function startGame(container: HTMLDivElement) {
 		camera.rotation.x = controlsInstance.getPitch()
 
 		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
-		renderer.render(scene, camera)
+		rendererInstance.render(scene, camera)
 	}
 
 	animate()
 }
 
 export function stopGame() {
+	if (resizeHandler) {
+		window.removeEventListener('resize', resizeHandler)
+		resizeHandler = undefined
+	}
+
 	controlsInstance?.destroy()
 	cancelAnimationFrame(animationId)
+
+	if (rendererInstance) {
+		rendererInstance.dispose()
+		const canvas = rendererInstance.domElement
+		if (canvas.parentNode)
+			canvas.parentNode.removeChild(canvas)
+		rendererInstance = undefined
+	}
 }
