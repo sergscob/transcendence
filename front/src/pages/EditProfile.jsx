@@ -3,7 +3,7 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
 import Input from "../components/ui_int/Input";
-import OtpDialog from "../components/login/OtpDialog";
+import OtpDialog from "../components/pages/login/OtpDialog";
 
 function EditProfile() {
   const loadUser = useUserStore((s) => s.loadUser);
