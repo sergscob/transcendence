@@ -3,6 +3,11 @@
 3? Minor: Use an ORM for the database.  
 4. Minor: Implement remote authentication with OAuth 2.0 (Google, GitHub, 42, etc.).
 5. Minor: Implement a complete 2FA (Two-Factor Authentication) system for the users.
+Major: Standard user management and authentication.
+    ◦ Users can update their profile information.
+    ◦ Users can upload an avatar (with a default avatar if none provided).
+    ◦ Users can add other users as friends and see their online status.
+    ◦ Users have a profile page displaying their information.    
 
 
 
@@ -16,11 +21,6 @@ Major: Allow users to interact with other users. The minimum requirements are:
 Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).    
 
 Minor: Implement advanced search functionality with filters, sorting, and pagination
-Major: Standard user management and authentication.
-    ◦ Users can update their profile information.
-    ◦ Users can upload an avatar (with a default avatar if none provided).
-    ◦ Users can add other users as friends and see their online status.
-    ◦ Users have a profile page displaying their information.    
 
 Minor: Support for multiple languages (at least 3 languages).
     ◦ Implement i18n (internationalization) system.
