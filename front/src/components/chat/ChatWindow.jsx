@@ -5,6 +5,7 @@ import Input from "@/components/ui_int/Input"
 import DraggableWindow from "@/components/ui_int/DraggableWindow";
 
 function ChatWindow({
+  name,
   friend,
   roomName,
   onClose,
@@ -40,7 +41,6 @@ function ChatWindow({
 
   const sendMessage = () => {
     if (channel.current && channel.current.readyState === WebSocket.OPEN) {
-      console.log("Sending message:", userMessage);
       channel.current.send(JSON.stringify({ message: userMessage, username: user.username, user_id: user.id }));
       setUserMessage("");
     } else {
@@ -50,6 +50,7 @@ function ChatWindow({
 
   return (
     <DraggableWindow
+      name={name}
       title={friend.username}
       onClose={onClose}
       defaultPosition={defaultPosition}

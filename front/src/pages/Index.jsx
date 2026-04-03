@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import ChatWindow from "@/components/chat/ChatWindow";
 import MainMenu from "@/components/pages/Index/MainMenu";
-import FriendsPanel from "@/components/pages/Index/FriendsPanel";
+import FriendsPanel from "@/components/chat/FriendsPanel";
 import { Link } from "react-router-dom";
 
 export default function Index() {
