@@ -48,7 +48,7 @@ export default function Login() {
 
     try {
       const res = await API.post("auth/login/", form);
-      if (res.data.requires_2fa)
+      if (res.data.requirechangeForms_2fa)
       {
         setTmpUserId(res.data.user_id);
         setOpenOtpDialog(true);

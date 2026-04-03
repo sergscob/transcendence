@@ -21,13 +21,13 @@ export default function MainLayout() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div>
+    <div className="relative min-h-screen overflow-hidden">
+      <div className="relative z-30">
         <Link to="/"> 
           <IconMenu className="absolute top-2 left-2 mb-4 h-6 w-6 text-slate-900"/>
         </Link>
       </div>
-      <div className="absolute top-2 right-2 cursor-pointer" onClick={()=>onLogout()}>
+      <div className="absolute top-2 right-2 z-30 cursor-pointer" onClick={()=>onLogout()}>
         {
           user 
           ? <div className="flex flex-col items-end">
@@ -38,7 +38,9 @@ export default function MainLayout() {
         } 
         
       </div>
-      <Outlet />
+      <div className="relative z-0 h-screen w-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
