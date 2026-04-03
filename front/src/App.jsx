@@ -6,6 +6,7 @@ import RestorePassword from "./pages/RestorePassword";
 import EditProfile from "./pages/EditProfile";
 import EditFriends from "./pages/EditFriends";
 import Index from "./pages/Index";
+import ViewProfile from "./pages/VIewProfile";
 import NotFound from "./pages/NotFound";
 
 import OAuth from "./pages/OAuth";
@@ -25,7 +26,7 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            {/* <Route path="/profile" element={<Profile />} /> */}
+            <Route path="/profile/:id" element={<ViewProfile />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/editfriends" element={<EditFriends />} />
             <Route path="/" element={<Index />} />
