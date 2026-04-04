@@ -5,6 +5,7 @@ import { createControls } from './controls'
 import { createPlayer }  from './player'
 import { loadWorld }     from './world'
 import { createRocketInstance }  from './rocket'
+import { createStateExchanger } from './GameState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -35,7 +36,6 @@ export function startGame(container: HTMLDivElement) {
 	window.addEventListener('resize', resizeHandler)
 
 	const clock = new THREE.Clock()
-
 	function animate() {
 		animationId = requestAnimationFrame(animate)
 
