@@ -22,14 +22,17 @@ function FriendsPanel() {
     ]);
   }
 
+  function getRoomName(friendId) {
+    const arr = [user.id, friendId].sort()
+    return `chat_${String(arr[0])}_${String(arr[1])}`;
+  }
+
   function getFriendIdFromRoomName(roomName) {
-    const [prefix, ownerId, friendId] = roomName.split("_");
-
-    if (prefix !== "chat" || ownerId !== String(user.id)) {
+    const [prefix, id1, id2] = roomName.split("_");
+    if ((id1 != user.id && id2 != user.id) || prefix !== "chat")
       return null;
-    }
 
-    return friendId;
+    return id1 == user.id ? id2 : id1
   }
 
   useEffect(() => {
@@ -46,10 +49,8 @@ function FriendsPanel() {
     const restoredChats = Object.keys(positions)
       .map((roomName) => {
         const friendId = getFriendIdFromRoomName(roomName);
-
-        if (!friendId) {
+        if (!friendId) 
           return null;
-        }
 
         return friends.find((friend) => String(friend.id) === String(friendId)) ?? null;
       })
@@ -70,10 +71,6 @@ function FriendsPanel() {
       return nextChats;
     });
   }, [loaded, user, friends, positions]);
-
-  function getRoomName(friendId) {
-    return `chat_${String(user.id)}_${String(friendId)}`;
-  }
 
   function openChat(friend) {
     setOpenChats((currentChats) => {
