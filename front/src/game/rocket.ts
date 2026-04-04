@@ -45,5 +45,13 @@ export function createRocketInstance() {
 		}
 	}
 
-	return {update}
+	function state(): string {
+		return JSON.stringify(
+			rockets.map(({mesh}) => ({
+				position: mesh.position.toArray()
+			}))
+		)
+	}
+
+	return {update, state}
 } 
