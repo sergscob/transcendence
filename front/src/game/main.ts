@@ -4,11 +4,12 @@ import { createCamera }  from './camera'
 import { createControls } from './controls'
 import { createPlayer }  from './player'
 import { loadWorld }     from './world'
+import { createRocketInstance }  from './rocket'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
-let rendererInstance: any
-let resizeHandler: any
+let rendererInstance: THREE.WebGLRenderer | undefined
+let resizeHandler: (() => void) | undefined
 
 export function startGame(container: HTMLDivElement) {
 	const scene    = createScene()
@@ -17,6 +18,7 @@ export function startGame(container: HTMLDivElement) {
 	controlsInstance = createControls(container)
 	const player   = createPlayer(camera)
 	const worldOctree = loadWorld(scene)
+	const rocketInstance = createRocketInstance()
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -39,11 +41,12 @@ export function startGame(container: HTMLDivElement) {
 
 		const delta = Math.min(clock.getDelta(), 0.05)  // cap à 50ms pour éviter les bugs physique
 
-		// Met à jour la rotation caméra
 		camera.rotation.y = controlsInstance.getYaw()
 		camera.rotation.x = controlsInstance.getPitch()
 
 		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
+		rocketInstance.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+
 		rendererInstance.render(scene, camera)
 	}
 
