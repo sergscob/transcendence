@@ -30,9 +30,9 @@ export default function MainLayout() {
       <div className="absolute top-2 right-2 z-30 cursor-pointer" onClick={()=>onLogout()}>
         {
           user 
-          ? <div className="flex flex-col items-end">
-            <span className="ml-1 ">{user.username}</span> 
-            <IoMdExit size={20}/>
+          ? <div className="flex items-center">
+            <span className="text-gray-500 mr-3">{user.username}</span> 
+            <IoMdExit size={25}/>
             </div>
           : ''  
         } 
