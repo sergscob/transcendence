@@ -1,5 +1,4 @@
-export function createStateExchanger(user_id: Number, handleRoomState:any )
-{
+export function createStateExchanger(user_id: Number, handleRoomState: any ) {
     const webSocketUrl = `ws://localhost:8000/ws/game/1/`;
     const channel = new WebSocket(webSocketUrl);
 

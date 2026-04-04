@@ -6,6 +6,7 @@ import { createPlayer }  from './player'
 import { loadWorld }     from './world'
 import { createRocketInstance }  from './rocket'
 import { createStateExchanger } from './GameState'
+import { createRoomStateInstance } from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -13,13 +14,15 @@ let rendererInstance: THREE.WebGLRenderer | undefined
 let resizeHandler: (() => void) | undefined
 
 export function startGame(container: HTMLDivElement) {
-	const scene    = createScene()
-	const camera   = createCamera(container)
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
-	const player   = createPlayer(camera)
+	const scene    = createScene()
 	const worldOctree = loadWorld(scene)
-	const rocketInstance = createRocketInstance()
+	const camera   = createCamera(container)
+	const player   = createPlayer(camera)
+	const rockets = createRocketInstance()
+	const roomState = createRoomStateInstance(scene)
+	// const stateExchanger = createStateExchanger(user.id, roomState.modifyRoomState)
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -45,7 +48,11 @@ export function startGame(container: HTMLDivElement) {
 		camera.rotation.x = controlsInstance.getPitch()
 
 		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
-		rocketInstance.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+		rockets.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+
+		// stateExchanger.sendState(`{x: ${camera.position.x}, y: ${camera.position.y}, z: ${camera.position.z}, rockets: ${rockets.state()}}`)
+
+		console.log(`{x: ${camera.position.x}, y: ${camera.position.y}, z: ${camera.position.z}, rockets: ${rockets.state()}}`)
 
 		rendererInstance.render(scene, camera)
 	}
