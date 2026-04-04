@@ -22,11 +22,11 @@ function DraggableWindow({
     name ? getWindowPosition(name, defaultPosition) : defaultPosition,
   );
 
-  useEffect(() => {
-    if (!name) return;
+  // useEffect(() => {
+  //   if (!name) return;
 
-    setPosition(getWindowPosition(name, defaultPosition));
-  }, [name, defaultPosition, getWindowPosition]);
+  //   setPosition(getWindowPosition(name, defaultPosition));
+  // }, [name, defaultPosition ]);
 
   useEffect(() => {
     function onPointerMove(event) {
@@ -39,10 +39,8 @@ function DraggableWindow({
       };
 
       setPosition(nextPosition);
-
-      if (name) {
+      if (name) 
         setWindowPosition(name, nextPosition);
-      }
     }
 
     function onPointerUp() {
@@ -51,6 +49,9 @@ function DraggableWindow({
 
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
+
+    if (name) 
+      setWindowPosition(name, getWindowPosition(name, defaultPosition));
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);

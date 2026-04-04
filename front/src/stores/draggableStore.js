@@ -16,13 +16,18 @@ export const useDraggableStore = create(
                               [name]: position,
                         },
                   })),
-            delWindowPosition: (name) =>
-                  set((state) => ({
-                        positions: {
-                              ...state.positions,
-                              [name]: undefined,
-                        },
-                  })),
+            delWindowPosition: (name) => {
+                  set(state => {
+                        const p = state.positions
+                        delete p[name];
+                        console.log("p=", p)
+                        return { positions: {
+                              ...p,
+                        }
+                  }
+                  
+                  })
+            }
       }),
 );
 
