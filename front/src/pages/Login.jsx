@@ -5,7 +5,7 @@ import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { Spinner } from "../components/ui/Spinner";
-import OtpDialog from "../components/login/OtpDialog";
+import OtpDialog from "../components/pages/login/OtpDialog";
 
 import { APIURL } from "/config"
 
@@ -48,7 +48,7 @@ export default function Login() {
 
     try {
       const res = await API.post("auth/login/", form);
-      if (res.data.requires_2fa)
+      if (res.data.requirechangeForms_2fa)
       {
         setTmpUserId(res.data.user_id);
         setOpenOtpDialog(true);

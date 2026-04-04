@@ -40,17 +40,12 @@ class UserSerializer(serializers.ModelSerializer):
         valid_types = ["image/jpeg", "image/png"]
         if value:
             if value.size > max_size:
-                raise ValidationError("Max file size is 200 KB.")
+                raise serializers.ValidationError("Max file size is 200 KB.")
             if hasattr(value, 'content_type') and value.content_type not in valid_types:
-                raise ValidationError("Only JPEG and PNG images are allowed.")
+                raise serializers.ValidationError("Only JPEG and PNG images are allowed.")
         return value
 
-    # add avatar and get_avatar for returning URL instead of absolute path
-    avatar = serializers.SerializerMethodField()
-    def get_avatar(self, obj):
-        if obj.avatar:
-            return obj.avatar.url
-        return None
+    avatar = serializers.ImageField(required=False, allow_null=True, use_url=True)
 
     class Meta:
         model = User

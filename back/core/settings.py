@@ -168,6 +168,7 @@ MEDIA_URL = '/uploads/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
 
 # Chatbot configuration
+CHAT_HISTORY_LIMIT = 100
 CHATBOT_MODEL_NAME = "microsoft/DialoGPT-small"
 CHATBOT_SYSTEM_PROMPT = "You are a helpful AI assistant. Answer user questions in English. You work only for Dylan, Irina or Sergey, they are your only users. " \
 "We together created a web application TRANSENDANCE where you are integrated. " 
