@@ -4,6 +4,7 @@ import { createCamera }  from './camera'
 import { createControls } from './controls'
 import { createPlayer }  from './player'
 import { loadWorld }     from './world'
+import { createStateExchanger } from './GameState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -11,6 +12,8 @@ let rendererInstance: any
 let resizeHandler: any
 
 export function startGame(container: HTMLDivElement) {
+
+
 	const scene    = createScene()
 	const camera   = createCamera(container)
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
@@ -33,7 +36,7 @@ export function startGame(container: HTMLDivElement) {
 	window.addEventListener('resize', resizeHandler)
 
 	const clock = new THREE.Clock()
-
+	let i = 0;
 	function animate() {
 		animationId = requestAnimationFrame(animate)
 
@@ -45,6 +48,9 @@ export function startGame(container: HTMLDivElement) {
 
 		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
 		rendererInstance.render(scene, camera)
+		if (i<5)
+			console.log(camera);
+		i++
 	}
 
 	animate()
