@@ -39,7 +39,8 @@ function ChatWindow({
   }, [roomName]);
 
 
-  const sendMessage = () => {
+  const sendMessage = (event) => {
+    event.preventDefault();
     if (channel.current && channel.current.readyState === WebSocket.OPEN) {
       channel.current.send(JSON.stringify({ message: userMessage, username: user.username, user_id: user.id }));
       setUserMessage("");
@@ -72,17 +73,15 @@ function ChatWindow({
         ))}
       </div>
 
-      <div className="flex gap-2 border-t border-zinc-200 p-2">
+      <form className="flex gap-2 border-t border-zinc-200 p-2" onSubmit={sendMessage}>
         <Input
           placeholder="Type your message..."
           className="mr-2 grow border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
         />
-        <Button onClick={() => sendMessage()} className="basis-12">
-          &gt;
-        </Button>
-      </div>
+        <Button type="submit" className="basis-12">&gt;</Button>
+      </form>
     </DraggableWindow>
   );
 }
