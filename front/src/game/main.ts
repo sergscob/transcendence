@@ -6,7 +6,6 @@ import { createPlayer }  from './player'
 import { loadWorld }     from './world'
 import { createStateExchanger, IPlayerState } from './GameState'
 import { createRocketInstance }  from './rocket'
-import { createStateExchanger } from './GameState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -15,7 +14,8 @@ let resizeHandler: (() => void) | undefined
 
 export function startGame(container: HTMLDivElement) {
 
-	const stateExchager = createStateExchanger(1)
+	const user_id = 42;
+	const stateExchager = createStateExchanger(user_id)
 	const scene    = createScene()
 	const camera   = createCamera(container)
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
@@ -42,11 +42,11 @@ export function startGame(container: HTMLDivElement) {
 	const clock = new THREE.Clock()
 	let i = 0;
 
-	const currentState: IPlayerState = {
+	const prevState: IPlayerState = {
 		user_id: -1, x: 0, y: 0, z: 0
 	}
 	function stateHandler(state: IPlayerState) {
-		if (state.user_id === 1)
+		if (state.user_id === user_id)
 			return
 		console.log("Received state from user", state.user_id, ":", state);
 		// player.setPosition(state.x, state.y, state.z)
@@ -64,9 +64,9 @@ export function startGame(container: HTMLDivElement) {
 
 		player.update(delta, controlsInstance?.keys, controlsInstance?.getYaw(), worldOctree)
 		rendererInstance.render(scene, camera)
-		if (i<5)
-			console.log(camera);
-		i++
+		// if (i<5)
+		// 	console.log(camera);
+		// i++;
 		
 		camera.rotation.y = controlsInstance.getYaw()
 		camera.rotation.x = controlsInstance.getPitch()
@@ -75,6 +75,13 @@ export function startGame(container: HTMLDivElement) {
 		rocketInstance.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
 
 		rendererInstance.render(scene, camera)
+
+		stateExchager.sendState({
+			user_id, 
+			x: camera.position.x, 
+			y: camera.position.y, 
+			z: camera.position.z
+		})
 	}
 
 	animate()
