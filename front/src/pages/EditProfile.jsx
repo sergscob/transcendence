@@ -3,7 +3,7 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
 import Input from "../components/ui_int/Input";
-import OtpDialog from "../components/login/OtpDialog";
+import OtpDialog from "../components/pages/login/OtpDialog";
 
 function EditProfile() {
   const loadUser = useUserStore((s) => s.loadUser);
@@ -87,21 +87,23 @@ function EditProfile() {
   if (loading || !user) return <div>Loading...</div>;
 
   return (
-    <div>
-      <div>{user.username}</div>
-      {user.avatar && (
-          <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
-      )}
-      <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} /> Two Factor Authentication
-      <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
-        <input type="file" accept="image/*" ref={fileInputRef} />
-        <button type="submit">Upload Avatar</button>
-      </form>
-      <OtpDialog 
-          open={openOtpDialog} setOpen={setOpenOtpDialog} 
-          qrcode={qrcode}
-          onSuccess={(code) => onCodeEntered(code)}
-       />
+    <div className="w-screen h-screen flex justify-center items-center bg-gray-100">
+      <div>
+        <div>{user.username}</div>
+        {user.avatar && (
+            <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
+        )}
+        <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} /> Two Factor Authentication
+        <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
+          <input type="file" accept="image/*" ref={fileInputRef} />
+          <button type="submit">Upload Avatar</button>
+        </form>
+        <OtpDialog 
+            open={openOtpDialog} setOpen={setOpenOtpDialog} 
+            qrcode={qrcode}
+            onSuccess={(code) => onCodeEntered(code)}
+        />
+      </div>
     </div>
   );
 }

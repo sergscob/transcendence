@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import ChatWindow from "@/components/chat/ChatWindow";
+import MainMenu from "@/components/pages/Index/MainMenu";
+import FriendsPanel from "@/components/chat/FriendsPanel";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -12,15 +13,12 @@ export default function Index() {
   }
 
   return (
-    <div className="flex w-screen h-screen justify-center bg-gray-100">
-        <div>
-            <div className="mt-20">Main Page</div>
-            <div><Link className="simple-link" to="/editprofile">Edit profile</Link></div>
-            <div><Link className="simple-link" to="/editfriends">Friends</Link></div>
-            <div><Link className="simple-link" to="/game">Game</Link></div>
+    <div className="w-screen h-screen flex justify-center bg-gray-100">
+        <div className="flex justify-center items-center">
+          <MainMenu />
         </div>
-        <ChatWindow>  </ChatWindow>
-
+        <FriendsPanel />
+        {/* <ChatWindow>  </ChatWindow> */}
     </div>
   );
 }
