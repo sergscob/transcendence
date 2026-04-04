@@ -5,11 +5,13 @@ import { createControls } from './controls'
 import { createPlayer }  from './player'
 import { loadWorld }     from './world'
 import { createStateExchanger, IPlayerState } from './GameState'
+import { createRocketInstance }  from './rocket'
+import { createStateExchanger } from './GameState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
-let rendererInstance: any
-let resizeHandler: any
+let rendererInstance: THREE.WebGLRenderer | undefined
+let resizeHandler: (() => void) | undefined
 
 export function startGame(container: HTMLDivElement) {
 
@@ -20,6 +22,7 @@ export function startGame(container: HTMLDivElement) {
 	controlsInstance = createControls(container)
 	const player   = createPlayer(camera)
 	const worldOctree = loadWorld(scene)
+	const rocketInstance = createRocketInstance()
 
 
 	resizeHandler = () => {
@@ -65,6 +68,13 @@ export function startGame(container: HTMLDivElement) {
 			console.log(camera);
 		i++
 		
+		camera.rotation.y = controlsInstance.getYaw()
+		camera.rotation.x = controlsInstance.getPitch()
+
+		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
+		rocketInstance.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+
+		rendererInstance.render(scene, camera)
 	}
 
 	animate()
