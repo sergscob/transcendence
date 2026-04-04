@@ -31,6 +31,7 @@ export function createStateExchanger(user_id: number)
     const channel = new WebSocket(webSocketUrl);
  
     let handleRoomState: IStateHandler | null = null;
+    let pendingRoomStates: IPlayerState[] = [];
 	const prevState: IPlayerState = {
 		user_id: -1, x: -1, y: -1, z: -1
 	}
@@ -38,6 +39,10 @@ export function createStateExchanger(user_id: number)
 
     function subscribe(handler: IStateHandler) {
         handleRoomState = handler;
+        while (pendingRoomStates.length > 0) {
+            handleRoomState(pendingRoomStates.shift()!);
+        }
+        pendingRoomStates = [];
     }
     
     channel.onopen = () => {
@@ -47,14 +52,13 @@ export function createStateExchanger(user_id: number)
     channel.onmessage = (event) => {
         try {
             const payload = JSON.parse(event.data);
-            if (!payload || typeof payload !== 'object') {
+            if (!payload || typeof payload !== 'object' || !payload.state || !payload.user_id ) 
                 return;
-            }
-            if (payload.state === undefined || payload.user_id === undefined) {
-                return;
-            }
-            if (handleRoomState)
-                handleRoomState(payload);
+
+			if (handleRoomState)
+                handleRoomState(payload.state);
+			else
+				pendingRoomStates.push(payload.state);
         } catch (error) {
             console.error("Invalid WS message payload:", error);
         }
@@ -76,14 +80,13 @@ export function createStateExchanger(user_id: number)
             channel.send(JSON.stringify({ state, user_id }));
             console.log("Sent state:", state);
         } else {
-            console.error("WebSocket is not open. Unable to send message.");
+            console.error("WebSocket is not open");
         }
     }
 
     function close() {
-        if (channel && channel.readyState !== WebSocket.CLOSED) {
+        if (channel && channel.readyState !== WebSocket.CLOSED) 
             channel.close();
-        }
     }
 
     return {
