@@ -5,11 +5,20 @@ import { useUserStore } from "@/stores/userStore";
 export default function GameMain() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
-  const user = useUserStore((s) => s.user);
+  const user = useUserStore((s: any) => s.user);
+  const loading = useUserStore((s: any) => s.loading);
+  const loadUser = useUserStore((s: any) => s.loadUser);
 
   useEffect(() => {
-    if (containerRef.current)
-      startGame(containerRef.current, user?.id)
+    loadUser();
+  }, [loadUser]);
+
+  useEffect(() => {
+    if (!containerRef.current || !user?.id)
+      return
+
+    startGame(containerRef.current, user.id)
+
     const onPointerLockChange = () => {
       if (!document.pointerLockElement)
         setPaused(true)   // affiche le menu pause
@@ -23,9 +32,10 @@ export default function GameMain() {
       stopGame()
       document.removeEventListener('pointerlockchange', onPointerLockChange)
     }
-  }, [])
+  }, [user?.id])
 
-  if (!user) return <div>Loading...</div>;
+  if (loading || !user)
+    return <div>Loading...</div>;
 
 
   return (

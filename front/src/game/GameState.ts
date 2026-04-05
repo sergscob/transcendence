@@ -1,4 +1,5 @@
 import { useSettingsStore } from "@/stores/settingsStore";
+import { toast } from 'react-toastify'
 
 export interface IPlayerState {
     user_id: number;
@@ -69,6 +70,7 @@ export function createStateExchanger(user_id: number)
     };
 
     channel.onerror = (e) => {
+        toast.error("WebSocket error. Check the server connection and IP address in settings.");
         console.error("WebSocket error:", e);
     };
 
