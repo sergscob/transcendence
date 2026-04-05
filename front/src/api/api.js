@@ -1,9 +1,14 @@
 import axios from "axios";
 import { getToken, logout } from "../utils/auth";
-import { APIURL } from "/config"
+import React from 'react';
+import { toast } from 'react-toastify'
+import { useSettingsStore } from "@/stores/settingsStore";
+
+const serverIP = useSettingsStore.getState().serverIP;
+console.log("serverIP from store:", serverIP);
 
 const API = axios.create({
-  baseURL: APIURL,
+  baseURL: `http://${serverIP}/api/`
 });
 
 API.interceptors.request.use(config => {
