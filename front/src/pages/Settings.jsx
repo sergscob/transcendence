@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useSettingsStore } from "@/stores/settingsStore";
+import { useSettingsStore } from "@/stores/settingsStore.ts";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 
