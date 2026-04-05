@@ -3,19 +3,18 @@ import { useTranslation } from 'react-i18next';
 
 export default function LangSwitcher() {
   const { t, i18n } = useTranslation(); 
+
   function changeLang(value) {    
-    console.log(value)
     if (value)
         i18n.changeLanguage(value);
-  } 
+  }
 
   return (
-    
     <div className="">
         <ToggleGroup type="single" defaultValue="en" variant="outline" onValueChange={changeLang}>
-            <ToggleGroupItem value="en">EN</ToggleGroupItem>
-            <ToggleGroupItem value="fr">FR</ToggleGroupItem>
-            <ToggleGroupItem value="ru">RU</ToggleGroupItem>
+            <ToggleGroupItem value="en" className={i18n.language==='en' ? 'bg-gray-300 ' : ''}>EN</ToggleGroupItem>
+            <ToggleGroupItem value="fr" className={i18n.language==='fr' ? 'bg-gray-300 ' : ''}>FR</ToggleGroupItem>
+            <ToggleGroupItem value="ru" className={i18n.language==='ru' ? 'bg-gray-300 ' : ''}>RU</ToggleGroupItem>
         </ToggleGroup>
     </div>
   );

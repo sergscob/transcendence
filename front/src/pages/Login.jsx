@@ -104,8 +104,8 @@ export default function Login() {
           {login42Clicked ? <span>redirecting to 42 auth... <Spinner className="inline mb-1"/></span> : 'Login with 42'} 
         </a>
 
-        <div className="text-center text-sm mt-6">You don't have any account ? <a className="simple-link" href="/register" >Register here</a></div>
-        <div className="text-center text-sm">You forget your password ? <a className="simple-link" href="/restore" >Restore password</a></div>
+        <div className="text-center text-sm mt-6"> {t('login.dont_have_account')} </div>
+        <div className="text-center text-sm"> {t('login.forget_password')} </div>
       </form>
       <OtpDialog 
           open={openOtpDialog} setOpen={setOpenOtpDialog} 
