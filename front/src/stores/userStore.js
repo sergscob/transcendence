@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from 'react-toastify'
 import API from "../api/api";
 
 export const useUserStore = create((set, get) => ({
@@ -13,8 +14,13 @@ export const useUserStore = create((set, get) => ({
           return;
 
         set({ loading: true });
-        const res = await API.get("profile/");
-        set({ user: res.data, loading: false, loaded: true });
+        try {
+          const res = await API.get("profile/");
+          set({ user: res.data, loading: false, loaded: true });
+        } catch (error) {
+          set({ loading: false });
+          toast.error("Failed to load user profile.");
+        }
       },
       setUser: (user) => set({ user }),
  }));
