@@ -56,21 +56,24 @@ function EditFriends() {
             <ul className="overscroll-auto max-h-64 overflow-y-auto p-4 space-y-8 border border-gray-300 rounded-md">
             {allFriends.map(friend => (
                 <li key={friend.id}>
-                <FriendInfo friend={friend} className="my-2 text-[20px] gap-3 border-b border-gray-300 pb-2">
-                    {friend.accepted ? <span className="text-xs text-red-600"> ERROR! accepted</span> : ''}
-                    {friend.invitation_sent ?
-                        <span>
-                        <span className="text-xs text-green-600"> invitation sent </span>
-                        <a className="text-xs text-red-400" onClick={() => deleteInvitation(friend.id)}>
-                            delete invitation
-                        </a>
-                        </span>
-                    : <a title="Send friend request" onClick={() => sendInvitation(friend.id)}>
-                        <img src={addFriendIcon} alt="Send friend request" width="30" height="30"/>
-                        </a>
-                    }
-                </FriendInfo>
-                </li>
+				<div className="flex justify-between items-center border-b border-gray-300 pb-2">
+					<FriendInfo friend={friend} className="my-2 text-[20px] gap-3"/>
+					<div>
+						{friend.accepted ? <span className="text-xs text-red-600"> ERROR! accepted</span> : ''}
+						{friend.invitation_sent ?
+							<span>
+							<span className="text-xs text-green-600"> invitation sent </span>
+							<a className="text-xs text-red-400" onClick={() => deleteInvitation(friend.id)}>
+								delete invitation
+							</a>
+							</span>
+						: <a title="Send friend request" onClick={() => sendInvitation(friend.id)}>
+							<img src={addFriendIcon} alt="Send friend request" width="30" height="30"/>
+							</a>
+						}
+					</div>
+                </div>
+				</li>
             ))}
             </ul>
         </div>
