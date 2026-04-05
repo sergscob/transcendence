@@ -3,10 +3,13 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import FriendInfo from "../components/ui_int/FriendInfo";
 import addFriendIcon from "../assets/icons/addFriend.svg";
+import Loading from "../components/ui_int/Loading";
+import NotFound from "./NotFound";
 
 function EditFriends() {
   const user = useUserStore((s) => s.user);
   const loaded = useUserStore((s) => s.loaded);
+  const loading = useUserStore((s) => s.loading);
   const [allFriends, setAllFriends] = useState([]);
   const [friends, setFriends] = useState([]);
   const [waitingList, setWaitingList] = useState([]);
@@ -41,7 +44,8 @@ function EditFriends() {
     await fetchAllData();
   }
 
-  if (!user) return (<>loading</>)
+  if (loading) return <Loading />;
+  if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-fuchsia-200">
