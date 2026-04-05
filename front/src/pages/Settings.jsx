@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { useSettingsStore } from "@/stores/settingsStore.ts";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
+import ButtonClose from "../components/ui_int/ButtonClose";
 
 
 function RestorePassword() {
   const { serverIP, setServerIp } = useSettingsStore();
   const [form, setForm] = useState({ ip: serverIP });
+  const navigate = useNavigate();
+  const location = useLocation();
 
   async function changeForm(ip) {
     setForm({...form, ip})
@@ -23,8 +27,9 @@ function RestorePassword() {
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <form 
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md w-100"
+        className="bg-white p-6 rounded-2xl shadow-md w-100 relative"
       >
+        <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
         <h2 className="text-xl font-bold mb-4 text-center">Game server IP address</h2>
         <Input
             value={form.ip}
