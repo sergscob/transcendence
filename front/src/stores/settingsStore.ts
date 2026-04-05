@@ -9,7 +9,7 @@ type SettingsState = {
 export const useSettingsStore = create(
     persist(
         (set, get) => ({
-            serverIP: "localhost",
+            serverIP: "localhost:8000",
 
             setServerIp: (serverIp: string) =>set((state: SettingsState) => ({
                 serverIP: serverIp,
