@@ -1,56 +1,78 @@
-from channels.generic.websocket import AsyncJsonWebsocketConsumer 
+import asyncio
+from typing import Any, Dict
 
-ROOM_GAME_STATE = {}
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-class PlayerConsumer(AsyncJsonWebsocketConsumer ):
+ROOM_GROUP_NAME = 'game_1'
+
+ROOM_GAME_STATE: Dict[int, Dict[str, Any]] = {}
+ROOM_LOCK: asyncio.Lock = asyncio.Lock()
+ROOM_BROADCAST_TASK: asyncio.Task | None = None
+SEND_INTERVAL = 0.016
+
+async def _broadcast_room_state(channel_layer):
+    try:
+        while True:
+            await asyncio.sleep(SEND_INTERVAL)
+
+            async with ROOM_LOCK:
+                states = list(ROOM_GAME_STATE.values())
+
+            await channel_layer.group_send(
+                ROOM_GROUP_NAME,
+                {
+                    'type': 'room_state',
+                    'states': states,
+                },
+            )
+    except asyncio.CancelledError:
+        return
+
+
+class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'game_{self.room_name}'
+        self.room_group_name = ROOM_GROUP_NAME
         self.user_id = None
 
-        print ("Connecting to room:", self.room_name)
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+
+        global ROOM_BROADCAST_TASK
+        if ROOM_BROADCAST_TASK is None or ROOM_BROADCAST_TASK.done():
+            ROOM_BROADCAST_TASK = asyncio.create_task(_broadcast_room_state(self.channel_layer))
 
         await self.accept()
         await self.send_room_state()
 
     async def disconnect(self, close_code):
         if self.user_id is not None:
-            ROOM_GAME_STATE.pop(self.user_id, None)
+            async with ROOM_LOCK:
+                ROOM_GAME_STATE.pop(self.user_id, None)
+
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive_json(self, content, **kwargs):
-        print("Received state:", content['state'])
-        self.user_id = content['user_id']
+        # { user_id, state: {pos: [x,y,z], rockets: [{rocket_id, pos:[x,y,z]}]} }
+        user_id = content.get('user_id')
+        state = content.get('state')
+        if user_id is None:
+            return
+        self.user_id = user_id
 
-        user_event = {
-            'type': 'game_message',
-            'state': content['state'],
-            'user_id': content['user_id'],
-        }
-        self.update_game_state(user_event)
+        await self.update_game_state(user_id, state)
 
-        await self.channel_layer.group_send(self.room_group_name, user_event)
-
-    async def game_message(self, event):
-        print ("Game message:", event['state'])
-
-        await self.send_json({
-            'state': event['state'],
-            'user_id': event['user_id']
-        })
+    async def room_state(self, event):
+        await self.send_json(event.get('states', []))
 
     async def send_room_state(self):
-        states = list(ROOM_GAME_STATE.values())
-        for item in states:
-            await self.send_json({
-                'state': item['state'],
-                'user_id': item['user_id'],
-            })
+        async with ROOM_LOCK:
+            states = list(ROOM_GAME_STATE.values())
+        await self.send_json(states)
 
-    def update_game_state(self, event):
-        ROOM_GAME_STATE[event['user_id']] = {  
-            'state': event['state'],
-            'user_id': event['user_id'],
-        }
+    async def update_game_state(self, user_id: int, state: Any):
+        async with ROOM_LOCK:
+            if isinstance(state, dict):
+                merged = dict(state)
+                merged['user_id'] = user_id
+                ROOM_GAME_STATE[user_id] = merged
+                return
