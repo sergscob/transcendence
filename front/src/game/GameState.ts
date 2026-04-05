@@ -1,3 +1,5 @@
+import { useSettingsStore } from "@/stores/settingsStore";
+
 export interface IPlayerState {
     user_id: number;
     x: number;
@@ -27,7 +29,9 @@ export function copyState(a: IPlayerState, b: IPlayerState): void {
 
 export function createStateExchanger(user_id: number)
 {
-    const webSocketUrl = `ws://localhost:8000/ws/game/1/`;
+    const serverIP = useSettingsStore.getState().serverIP;
+    console.log("Using server IP:", serverIP);
+    const webSocketUrl = `ws://${serverIP}/ws/game/1/`;
     const channel = new WebSocket(webSocketUrl);
  
     let handleRoomState: IStateHandler | null = null;
