@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { toast } from 'react-toastify'
 import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
@@ -7,11 +9,10 @@ import Button from "../components/ui_int/Button";
 import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/pages/login/OtpDialog";
 import { useTranslation } from 'react-i18next';
-import { getAuthBaseUrl, useSettingsStore } from "@/stores/settingsStore";
+import { useSettingsStore } from "@/stores/settingsStore";
 
 export default function Login() {
   const { serverIP } = useSettingsStore();
-  const authBaseUrl = getAuthBaseUrl(serverIP);
   const { t, i18n } = useTranslation();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -71,7 +72,7 @@ export default function Login() {
 
   function onLogin42() {
     setLogin42Clicked(true);
-    window.location = authBaseUrl + 'auth/e42/'
+    window.location = serverIP + 'auth/e42/'
   }
 
 
@@ -95,17 +96,19 @@ export default function Login() {
           onChange={(e) => changeForm({ password: e.target.value })}
         />
         <div className="error-message">{errors.password}</div>
-        <div className="error-message">{errors.common}</div>
+        <div className="error-message text-center">{errors.common}</div>
         <Button loading={loading} className="">
           {t('login.title')}
         </Button>
-        <a className="simple-link block text-center mt-3" href={`${authBaseUrl}auth/google/`}>{t('login.login_with_google')}</a>
-        <a className="simple-link block text-center" onClick={onLogin42}>
+        <Link to="/auth/google" className="simple-link block text-center mt-3">
+          {t('login.login_with_google')}
+        </Link>
+        <Link to="/auth/42" className="simple-link block text-center" onClick={onLogin42}>
           {login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")} 
-        </a>
+        </Link>
 
-        <div className="text-center text-sm mt-6"> {t('login.dont_have_account')} </div>
-        <div className="text-center text-sm"> {t('login.forget_password')} </div>
+        <Link to="/register" className="simple-link block text-center mt-6"> {t('login.dont_have_account')} </Link>
+        <Link to="/restore" className="simple-link block text-center"> {t('login.forget_password')} </Link>
       </form>
       <OtpDialog 
           open={openOtpDialog} setOpen={setOpenOtpDialog} 

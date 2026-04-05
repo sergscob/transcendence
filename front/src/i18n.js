@@ -21,8 +21,9 @@ const resources = {
       "main_menu.settings": "Settings",
       "main_menu.start_game": "Start Game",
       
-      "settings.ip_address.title": "Game server IP address",
-      "settings.save": "Save"
+      "settings.ip_address.title": "Game server IP address or domain",
+      "settings.save": "Save",
+      "settings.ip_address.updated": "Server address updated."
     }
   },
   fr: {
@@ -41,8 +42,9 @@ const resources = {
       "main_menu.settings": "Paramètres",
       "main_menu.start_game": "Démarrer le jeu",
 
-      "settings.ip_address.title": "Adresse IP du serveur de jeu",
-      "settings.save": "Enregistrer"
+      "settings.ip_address.title": "Adresse IP du serveur de jeu ou domaine",
+      "settings.save": "Enregistrer",
+      "settings.ip_address.updated": "Adresse du serveur mise à jour."
     }
   },
   ru: {
@@ -61,8 +63,9 @@ const resources = {
       "main_menu.settings": "Настройки",
       "main_menu.start_game": "Начать игру",
 
-      "settings.ip_address.title": "IP адрес игрового сервера",
-      "settings.save": "Сохранить"
+      "settings.ip_address.title": "IP адрес или домен игрового сервера",
+      "settings.save": "Сохранить",
+      "settings.ip_address.updated": "Адрес сервера обновлен."
     }
   }
 

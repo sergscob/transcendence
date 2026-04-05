@@ -4,6 +4,7 @@ import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
+import { Link } from "react-router-dom";
 
 
 function RestorePassword() {
@@ -39,7 +40,10 @@ function RestorePassword() {
       >
         <h2 className="text-xl font-bold mb-4 text-center">Request Password Reset</h2>
         { succeded ? 
+          <>
           <h3 className="text-l mb-4 text-center">If email exists, reset link sent</h3>
+          <Link to="/login" className="text-center text-sm mt-6 block"> Login </Link>
+          </>
           :
           <>
             <Input
