@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useSettingsStore } from "@/stores/settingsStore.ts";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
@@ -15,11 +16,11 @@ function RestorePassword() {
   async function handleSubmit(e) {
     e.preventDefault()
     setServerIp(form.ip)
+    toast.success("IP address updated.");
   };
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
-      {JSON.stringify(form)}
       <form 
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-100"
@@ -30,7 +31,7 @@ function RestorePassword() {
             onChange={e => changeForm(e.target.value)}
             placeholder="Server IP"
         />
-        <Button disabled={form.ip === serverIP} className="mt-2">Save</Button>
+        <Button disabled={form.ip === serverIP} className="mt-6">Save</Button>
       </form>
     </div>
   );
