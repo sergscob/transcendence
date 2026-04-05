@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
+import { ToastContainer, toast } from 'react-toastify';
 
+import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
 import AuthLayout from "./components/layouts/AuthLayout";
 import MainLayout from "./components/layouts/MainLayout";
 import ProtectedRoute from "./components/util/ProtectedRoute";
@@ -40,6 +41,9 @@ export default function App() {
         <Route path="/admin" element={<RedirectToDjangoAdmin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer 
+        position="top-right"    
+      />
     </Router>
   );
 }
