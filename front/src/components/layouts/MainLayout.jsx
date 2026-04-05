@@ -28,15 +28,10 @@ export default function MainLayout() {
         </Link>
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer" onClick={()=>onLogout()}>
-        {
-          user 
-          ? <div className="flex items-center">
-            <span className="text-gray-500 mr-3">{user.username}</span> 
+          <div className="flex items-center">
+            <span className="text-gray-500 mr-3">{user?.username}</span> 
             <IoMdExit size={25}/>
             </div>
-          : ''  
-        } 
-        
       </div>
       <div className="relative z-0 h-screen w-full">
         <Outlet />
