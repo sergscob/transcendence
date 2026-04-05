@@ -6,10 +6,12 @@ import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/pages/login/OtpDialog";
+import { useTranslation } from 'react-i18next';
 
 import { APIURL } from "/config"
 
 export default function Login() {
+  const { t, i18n } = useTranslation();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -79,7 +81,7 @@ export default function Login() {
         onSubmit={onSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-100"
       >
-        <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+        <h2 className="text-xl font-bold mb-4 text-center">{t('login.title')}</h2>
         <Input
           placeholder="Username"
           value={form.username}

@@ -87,7 +87,7 @@ function FriendsPanel() {
     delWindowPosition(getRoomName(friendId));
   }
 
-  if (!user) return (<>loading</>)
+  if (!user) return (<></>)
 
   return (
     <>
