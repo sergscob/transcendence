@@ -7,17 +7,23 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
-      "login.title": "Login en"
+      "login.title": "Login",
+      "login.dont_have_account": "You don't have any account ?",
+      "login.forget_password": "You forget your password ?"
     }
   },
   fr: {
     translation: {
-      "login.title": "Login fr"
+      "login.title": "Connexion",
+      "login.dont_have_account": "Vous n'avez pas de compte ?",
+      "login.forget_password": "Vous avez oublié votre mot de passe ?"
     }
   },
   ru: {
     translation: {
-      "login.title": "VHOD"
+      "login.title": "Вход",
+      "login.dont_have_account": "У вас нет аккаунта ?",
+      "login.forget_password": "Вы забыли пароль ?"
     }
   }
 
