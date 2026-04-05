@@ -7,10 +7,11 @@ import Button from "../components/ui_int/Button";
 import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/pages/login/OtpDialog";
 import { useTranslation } from 'react-i18next';
-
-import { APIURL } from "/config"
+import { getAuthBaseUrl, useSettingsStore } from "@/stores/settingsStore";
 
 export default function Login() {
+  const { serverIP } = useSettingsStore();
+  const authBaseUrl = getAuthBaseUrl(serverIP);
   const { t, i18n } = useTranslation();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -50,7 +51,6 @@ export default function Login() {
 
     try {
       const res = await API.post("auth/login/", form);
-      console.log("Login response", res.data);
       if (res.data.requires_2fa)
       {
         setTmpUserId(res.data.user_id);
@@ -71,7 +71,7 @@ export default function Login() {
 
   function onLogin42() {
     setLogin42Clicked(true);
-    window.location = APIURL + 'auth/e42/'
+    window.location = authBaseUrl + 'auth/e42/'
   }
 
 
@@ -83,25 +83,25 @@ export default function Login() {
       >
         <h2 className="text-xl font-bold mb-4 text-center">{t('login.title')}</h2>
         <Input
-          placeholder="Username"
+          placeholder={t('login.username')} 
           value={form.username}
           onChange={(e) => changeForm({ username: e.target.value })}
         />
         <div className="error-message">{errors.username}</div>
         <Input
           type="password"
-          placeholder="Password"
+          placeholder={t('login.password')}
           value={form.password}
           onChange={(e) => changeForm({ password: e.target.value })}
         />
         <div className="error-message">{errors.password}</div>
         <div className="error-message">{errors.common}</div>
         <Button loading={loading} className="">
-          Login
+          {t('login.title')}
         </Button>
-        <a className="simple-link block text-center mt-3" href={`${APIURL}auth/google/`}>Login with Google</a>
+        <a className="simple-link block text-center mt-3" href={`${authBaseUrl}auth/google/`}>{t('login.login_with_google')}</a>
         <a className="simple-link block text-center" onClick={onLogin42}>
-          {login42Clicked ? <span>redirecting to 42 auth... <Spinner className="inline mb-1"/></span> : 'Login with 42'} 
+          {login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")} 
         </a>
 
         <div className="text-center text-sm mt-6"> {t('login.dont_have_account')} </div>
