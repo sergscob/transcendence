@@ -1,28 +1,31 @@
-import * as THREE from 'three'
-import { createScene }   from './scene'
-import { createCamera }  from './camera'
-import { createControls } from './controls'
-import { createPlayer }  from './player'
-import { loadWorld }     from './world'
-import { createRocketInstance }  from './rocket'
-import { createStateExchanger } from './GameState'
-import { createRoomStateInstance } from './roomState'
+import * as THREE 				from 'three'
+import {createScene}   			from './scene'
+import {createCamera}  			from './camera'
+import {createControls} 		from './controls'
+import {createPlayer}  			from './player'
+import {loadWorld}     			from './world'
+import {createRocketInstance}	from './rocket'
+import {createStateExchanger} 	from './stateExchanger'
+import {createRoomStateInstance}from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
 let rendererInstance: THREE.WebGLRenderer | undefined
 let resizeHandler: (() => void) | undefined
 
-export function startGame(container: HTMLDivElement) {
+export function startGame(container: HTMLDivElement, user_id: number) {
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
 	const scene    = createScene()
 	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
 	const player   = createPlayer(camera)
-	const rockets = createRocketInstance()
-	const roomState = createRoomStateInstance(scene)
-	// const stateExchanger = createStateExchanger(user.id, roomState.modifyRoomState)
+	const rockets = createRocketInstance(user_id)
+	const roomState = createRoomStateInstance(user_id, scene, rockets.createRocket)
+	const stateExchanger = createStateExchanger(user_id, roomState.modifyRoomState)
+	const SEND_INTERVAL = 0.016
+	let sendAccumulator = 0
+	const posBuffer: [number, number, number] = [0, 0, 0]
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -49,10 +52,19 @@ export function startGame(container: HTMLDivElement) {
 
 		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
 		rockets.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+		roomState.update(delta)
 
-		// stateExchanger.sendState(`{x: ${camera.position.x}, y: ${camera.position.y}, z: ${camera.position.z}, rockets: ${rockets.state()}}`)
-
-		console.log(`{x: ${camera.position.x}, y: ${camera.position.y}, z: ${camera.position.z}, rockets: ${rockets.state()}}`)
+		sendAccumulator += delta
+		if (sendAccumulator >= SEND_INTERVAL) {
+			sendAccumulator = 0
+			posBuffer[0] = camera.position.x
+			posBuffer[1] = camera.position.y
+			posBuffer[2] = camera.position.z
+			stateExchanger.sendState({
+				pos: posBuffer,
+				rockets: rockets.state(),
+			})
+		}
 
 		rendererInstance.render(scene, camera)
 	}
