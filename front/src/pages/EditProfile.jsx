@@ -3,6 +3,8 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
 import Input from "../components/ui_int/Input";
+import Loading from "../components/ui_int/Loading";
+import NotFound from "./NotFound";
 import OtpDialog from "../components/pages/login/OtpDialog";
 
 function EditProfile() {
@@ -84,7 +86,8 @@ function EditProfile() {
     }
   }
 
-  if (loading || !user) return <div>Loading...</div>;
+  if (loading) return <Loading />;
+  if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gray-100">

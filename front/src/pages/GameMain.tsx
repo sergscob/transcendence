@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { startGame, stopGame } from '../game/main'
 import { useUserStore } from "@/stores/userStore";
+import Loading from "../components/ui_int/Loading";
+import NotFound from "./NotFound";
 
 export default function GameMain() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -34,9 +36,8 @@ export default function GameMain() {
     }
   }, [user?.id])
 
-  if (loading || !user)
-    return <div>Loading...</div>;
-
+  if (loading) return <Loading />;
+  if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
