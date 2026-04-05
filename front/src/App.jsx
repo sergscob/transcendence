@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
+import { ToastContainer, toast } from 'react-toastify';
 
+import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
 import AuthLayout from "./components/layouts/AuthLayout";
 import MainLayout from "./components/layouts/MainLayout";
 import ProtectedRoute from "./components/util/ProtectedRoute";
@@ -15,6 +16,7 @@ import Index from "./pages/Index";
 import ViewProfile from "./pages/VIewProfile";
 import NotFound from "./pages/NotFound";
 import GameMain from "./pages/GameMain";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
@@ -32,12 +34,16 @@ export default function App() {
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/editfriends" element={<EditFriends />} />
             <Route path="/game" element={<GameMain />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/" element={<Index />} />
           </Route>
         </Route>
         <Route path="/admin" element={<RedirectToDjangoAdmin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer 
+        position="top-right"    
+      />
     </Router>
   );
 }

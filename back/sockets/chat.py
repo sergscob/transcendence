@@ -16,7 +16,6 @@ def get_room_history(room_name):
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer ):
-    print ("ChatConsumer initialized")
 
     async def connect(self):
         load_model()  

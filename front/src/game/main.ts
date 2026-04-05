@@ -4,19 +4,25 @@ import { createCamera }  from './camera'
 import { createControls } from './controls'
 import { createPlayer }  from './player'
 import { loadWorld }     from './world'
+import { createStateExchanger, IPlayerState } from './GameState'
+import { clearOtherPlayers, updateOtherPlayer } from '../game/others';
+import { createRocketInstance }  from './rocket'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
-let rendererInstance: any
-let resizeHandler: any
+let rendererInstance: THREE.WebGLRenderer | undefined
+let resizeHandler: (() => void) | undefined
 
-export function startGame(container: HTMLDivElement) {
+export function startGame(container: HTMLDivElement, user_id: number) {
+
+	const stateExchager = createStateExchanger(user_id)
 	const scene    = createScene()
 	const camera   = createCamera(container)
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
 	const player   = createPlayer(camera)
 	const worldOctree = loadWorld(scene)
+	const rocketInstance = createRocketInstance()
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -33,18 +39,43 @@ export function startGame(container: HTMLDivElement) {
 	window.addEventListener('resize', resizeHandler)
 
 	const clock = new THREE.Clock()
+	let i = 0;
+
+	const prevState: IPlayerState = {
+		user_id: -1, x: 0, y: 0, z: 0
+	}
+	function stateHandler(state: IPlayerState) {
+		if (state.user_id === user_id)
+			return
+		// console.log("Received state from user", state.user_id, ":", state);
+		updateOtherPlayer(state, scene);
+	}
+	stateExchager.subscribe(stateHandler)
 
 	function animate() {
 		animationId = requestAnimationFrame(animate)
 
 		const delta = Math.min(clock.getDelta(), 0.05)  // cap à 50ms pour éviter les bugs physique
+		const controls = controlsInstance
+		const renderer = rendererInstance
 
-		// Met à jour la rotation caméra
-		camera.rotation.y = controlsInstance.getYaw()
-		camera.rotation.x = controlsInstance.getPitch()
+		if (!controls || !renderer)
+			return
 
-		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
-		rendererInstance.render(scene, camera)
+		camera.rotation.y = controls.getYaw()
+		camera.rotation.x = controls.getPitch()
+
+		player.update(delta, controls.keys, controls.getYaw(), worldOctree)
+		rocketInstance.update(scene, camera, controls.getClick(), delta, worldOctree)
+
+		renderer.render(scene, camera)
+
+		stateExchager.sendState({
+			user_id, 
+			x: camera.position.x, 
+			y: camera.position.y, 
+			z: camera.position.z
+		})
 	}
 
 	animate()
@@ -58,6 +89,7 @@ export function stopGame() {
 
 	controlsInstance?.destroy()
 	cancelAnimationFrame(animationId)
+	clearOtherPlayers()
 
 	if (rendererInstance) {
 		rendererInstance.dispose()

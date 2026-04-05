@@ -2,15 +2,15 @@ import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
 
-const GRAVITY = 30
-const SPEED   = 10
+const GRAVITY = 40
+const SPEED   = 7
 const JUMP    = 15
 
 export function createPlayer(camera: THREE.PerspectiveCamera) {
 	const collider = new Capsule(
-		new THREE.Vector3(0, 0.35, 0),
-		new THREE.Vector3(0, 1.35, 0),
-		0.35
+		new THREE.Vector3(0, 0, 0),
+		new THREE.Vector3(0, 1, 0),
+		0.3
 	)
 
 	const velocity = new THREE.Vector3()
@@ -47,10 +47,9 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 		// Collision avec le monde
 		const result = worldOctree.capsuleIntersect(collider)
 		onFloor = false
-
 		if (result) {
 			onFloor = result.normal.y > 0
-			if (!onFloor)
+			if (onFloor)
 				velocity.y = 0
 			collider.translate(result.normal.multiplyScalar(result.depth))
 		}

@@ -1,13 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { startGame, stopGame } from '../game/main'
+import { useUserStore } from "@/stores/userStore";
 
 export default function GameMain() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
+  const user = useUserStore((s: any) => s.user);
+  const loading = useUserStore((s: any) => s.loading);
+  const loadUser = useUserStore((s: any) => s.loadUser);
 
   useEffect(() => {
-    if (containerRef.current)
-      startGame(containerRef.current)
+    loadUser();
+  }, [loadUser]);
+
+  useEffect(() => {
+    if (!containerRef.current || !user?.id)
+      return
+
+    startGame(containerRef.current, user.id)
 
     const onPointerLockChange = () => {
       if (!document.pointerLockElement)
@@ -22,7 +32,11 @@ export default function GameMain() {
       stopGame()
       document.removeEventListener('pointerlockchange', onPointerLockChange)
     }
-  }, [])
+  }, [user?.id])
+
+  if (loading || !user)
+    return <div>Loading...</div>;
+
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
