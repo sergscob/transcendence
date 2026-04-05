@@ -3,8 +3,15 @@ import { Octree } from 'three/addons/math/Octree.js'
 
 const ROCKET_SPEED = 30
 
-export function createRocketInstance() {
-	const rockets: Array<{mesh: THREE.Mesh, collider: THREE.Sphere}> = []
+
+export function createRocketInstance(user_id: number) {
+	const ROCKET_ID_STRIDE = 1000
+	let nextRocketNumber = 1
+	const rockets: Array<{rocket_id: number, mesh: THREE.Mesh, collider: THREE.Sphere}> = []
+
+	function generateRocketId() {
+		return user_id * ROCKET_ID_STRIDE + nextRocketNumber++
+	}
 
 	function createRocket(): THREE.Mesh {
 		const rocketGeometry = new THREE.CylinderGeometry(0.05, 0, 0.5, 3, 1);
@@ -31,6 +38,7 @@ export function createRocketInstance() {
 
 		if (click) {
 			const newRocket = createRocket()
+			const rocketId = generateRocketId()
 			
 			const camDir = new THREE.Vector3()
 			camera.getWorldDirection(camDir)
@@ -38,12 +46,19 @@ export function createRocketInstance() {
 			newRocket.position.copy(camera.position)
 			const target = newRocket.position.clone().add(camDir)
 			newRocket.lookAt(target)
-			const newCollider = new THREE.Sphere(newRocket.position, 0.5)
+			const newCollider = new THREE.Sphere(newRocket.position, 0.3)
 	
-			rockets.push({mesh: newRocket, collider: newCollider})
+			rockets.push({rocket_id: rocketId, mesh: newRocket, collider: newCollider})
 			scene.add(newRocket)
 		}
 	}
 
-	return {update}
+	function state(): Array<{ pos: Array<number>; rocket_id: number }> {
+		return rockets.map(({ rocket_id, mesh }) => ({
+			rocket_id,
+			pos: mesh.position.toArray(),
+		}))
+	}
+
+	return {update, state, createRocket}
 } 
