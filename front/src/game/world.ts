@@ -7,13 +7,6 @@ export function loadWorld(scene: THREE.Scene): Octree {
 
 	const loader = new GLTFLoader()
 	loader.load('/models/collision-world.glb', (gltf) => {
-		// const bigCube = new THREE.Mesh(
-		// 	new THREE.BoxGeometry(1, 1, 1),
-		// 	new THREE.MeshStandardMaterial({ color: 0xffd400 })
-		// )
-		// bigCube.position.set(3, -1, -7)
-		// gltf.scene.add(bigCube)
-
 		scene.add(gltf.scene)
 		worldOctree.fromGraphNode(gltf.scene)
 

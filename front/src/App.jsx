@@ -27,6 +27,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/restore" element={<RestorePassword />} />
           <Route path="/oauth" element={<OAuth />} />
+          <Route path="/settings-start" element={<Settings />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>

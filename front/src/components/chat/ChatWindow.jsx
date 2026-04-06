@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/userStore";
 import Button from "@/components/ui_int/Button"
 import Input from "@/components/ui_int/Input"
 import DraggableWindow from "@/components/ui_int/DraggableWindow";
+import { useTranslation } from "react-i18next";
 
 function ChatWindow({
   name,
@@ -12,6 +13,7 @@ function ChatWindow({
   defaultPosition,
   zIndex,
 }) {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [userMessage, setUserMessage] = useState("");
   const channel = useRef(null);
@@ -75,7 +77,7 @@ function ChatWindow({
 
       <form className="flex gap-2 border-t border-zinc-200 p-2" onSubmit={sendMessage}>
         <Input
-          placeholder="Type your message..."
+          placeholder={t("chat_window.type_message")}
           className="mr-2 grow border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
