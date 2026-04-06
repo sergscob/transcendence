@@ -1,10 +1,12 @@
 import { IPlayerState } from './roomState'
 
 type RoomStateCallback = (players: IPlayerState[]) => void
+import { useSettingsStore } from "@/stores/settingsStore";
 
 export function createStateExchanger(user_id: number, callbackRoomState: RoomStateCallback) {
-    const webSocketUrl = `ws://localhost:8000/ws/game/1/`;
-    const channel = new WebSocket(webSocketUrl);
+    const serverIP = useSettingsStore.getState().serverIP;
+    console.log("Game server:", serverIP);
+    const webSocketUrl = `ws://${serverIP}/ws/game/1/`;    const channel = new WebSocket(webSocketUrl);
 
     channel.onopen = () => {
         console.log("WebSocket connection established");
