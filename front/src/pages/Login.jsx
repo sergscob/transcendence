@@ -40,7 +40,7 @@ export default function Login() {
       localStorage.setItem("token", res.data.access);
       navigate("/")
     } catch (err) {
-      return err.response.data.error || "An error occurred";
+      return err.response.data.error || t("login.error_occurred");
     }
   }
 
@@ -100,15 +100,15 @@ export default function Login() {
         <Button loading={loading} className="">
           {t('login.title')}
         </Button>
-        <a href={`${getServerHttpUrl()}/api/auth/google/`} className="simple-link block text-center mt-3">
+        <a href={`${getServerHttpUrl()}/api/auth/google/`} className="simple-link block text-center mt-3 text-sm">
           {t('login.login_with_google')}
         </a>
-        <a className="simple-link block text-center" onClick={onLogin42}>
+        <a className="simple-link text-sm block text-center" onClick={onLogin42}>
           {login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")} 
         </a>
 
-        <Link to="/register" className="simple-link block text-center mt-6"> {t('login.dont_have_account')} </Link>
-        <Link to="/restore" className="simple-link block text-center"> {t('login.forget_password')} </Link>
+        <Link to="/register" className="simple-link text-sm block text-center mt-6"> {t('login.dont_have_account')} </Link>
+        <Link to="/restore" className="simple-link text-sm block text-center"> {t('login.forget_password')} </Link>
       </form>
       <OtpDialog 
           open={openOtpDialog} setOpen={setOpenOtpDialog} 
