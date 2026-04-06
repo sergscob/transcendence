@@ -6,8 +6,10 @@ import Input from "../components/ui_int/Input";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import OtpDialog from "../components/pages/login/OtpDialog";
+import { useTranslation } from "react-i18next";
 
 function EditProfile() {
+  const { t } = useTranslation();
   const loadUser = useUserStore((s) => s.loadUser);
   const setUser = useUserStore((s) => s.setUser);
   const user = useUserStore((s) => s.user);
@@ -82,12 +84,12 @@ function EditProfile() {
       loadUser(true);
       fileInputRef.current.value = "";
     } catch (err) {
-      alert("Failed to upload avatar");
+      alert(t("edit_profile.upload_avatar_failed"));
     }
   }
 
   if (loading) return <Loading />;
-  if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
+  if (!user) return <NotFound text={t("edit_profile.server_connection_error")} code={t("edit_profile.error_code")} />;
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gray-100">
@@ -96,10 +98,10 @@ function EditProfile() {
         {user.avatar && (
             <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
         )}
-        <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} /> Two Factor Authentication
+        <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} /> {t("edit_profile.two_factor_authentication")}
         <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
           <input type="file" accept="image/*" ref={fileInputRef} />
-          <button type="submit">Upload Avatar</button>
+          <button type="submit">{t("edit_profile.upload_avatar")}</button>
         </form>
         <OtpDialog 
             open={openOtpDialog} setOpen={setOpenOtpDialog} 

@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function OAuth() {
+  const { t } = useTranslation();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -20,5 +22,5 @@ export default function OAuth() {
     window.location.href = "/login";
   }, []);
 
-  return <div>Logging in...</div>;
+  return <div>{t("oauth.logging_in")}</div>;
 }

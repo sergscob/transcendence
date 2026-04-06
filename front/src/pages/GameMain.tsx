@@ -3,8 +3,10 @@ import { startGame, stopGame } from '../game/main'
 import { useUserStore } from "@/stores/userStore";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
+import { useTranslation } from 'react-i18next'
 
 export default function GameMain() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
   const user = useUserStore((s: any) => s.user);
@@ -37,9 +39,9 @@ export default function GameMain() {
   }, [user?.id])
 
   if (loading) return <Loading />;
-  if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
+  if (!user) return <NotFound text={t("game_main.server_connection_error")} code={t("game_main.error_code")} />;
 
-  if (!user) return <div>Loading...</div>;
+  if (!user) return <div>{t("game_main.loading")}</div>;
 
 
   return (
@@ -51,7 +53,7 @@ export default function GameMain() {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           background: 'rgba(53, 47, 47, 0.5)', color: 'white', fontSize: '2rem'
         }}>
-          PAUSE — Clique pour reprendre
+          {t("game_main.pause_click_resume")}
         </div>
       )}
     </div>
