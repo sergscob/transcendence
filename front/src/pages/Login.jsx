@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from "@/stores/settingsStore";
 
 export default function Login() {
-  const { serverIP } = useSettingsStore();
+  const { getServerHttpUrl } = useSettingsStore();
   const { t, i18n } = useTranslation();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -72,7 +72,7 @@ export default function Login() {
 
   function onLogin42() {
     setLogin42Clicked(true);
-    window.location = serverIP + 'auth/e42/'
+    window.location = getServerHttpUrl() + '/api/auth/e42/'
   }
 
 
@@ -100,12 +100,12 @@ export default function Login() {
         <Button loading={loading} className="">
           {t('login.title')}
         </Button>
-        <Link to="/auth/google" className="simple-link block text-center mt-3">
+        <a href={`${getServerHttpUrl()}/api/auth/google/`} className="simple-link block text-center mt-3">
           {t('login.login_with_google')}
-        </Link>
-        <Link to="/auth/42" className="simple-link block text-center" onClick={onLogin42}>
+        </a>
+        <a className="simple-link block text-center" onClick={onLogin42}>
           {login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")} 
-        </Link>
+        </a>
 
         <Link to="/register" className="simple-link block text-center mt-6"> {t('login.dont_have_account')} </Link>
         <Link to="/restore" className="simple-link block text-center"> {t('login.forget_password')} </Link>

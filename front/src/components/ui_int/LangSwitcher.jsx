@@ -10,11 +10,11 @@ export default function LangSwitcher() {
   }
 
   return (
-    <div className="">
+    <div>
         <ToggleGroup type="single" defaultValue="en" variant="outline" onValueChange={changeLang}>
-            <ToggleGroupItem value="en" className={i18n.language==='en' ? 'bg-gray-300 ' : ''}>EN</ToggleGroupItem>
-            <ToggleGroupItem value="fr" className={i18n.language==='fr' ? 'bg-gray-300 ' : ''}>FR</ToggleGroupItem>
-            <ToggleGroupItem value="ru" className={i18n.language==='ru' ? 'bg-gray-300 ' : ''}>RU</ToggleGroupItem>
+            <ToggleGroupItem value="en" className={i18n.language==='en' ? 'bg-gray-300 ' : 'cursor-pointer'}>EN</ToggleGroupItem>
+            <ToggleGroupItem value="fr" className={i18n.language==='fr' ? 'bg-gray-300 ' : 'cursor-pointer'}>FR</ToggleGroupItem>
+            <ToggleGroupItem value="ru" className={i18n.language==='ru' ? 'bg-gray-300 ' : 'cursor-pointer'}>RU</ToggleGroupItem>
         </ToggleGroup>
     </div>
   );

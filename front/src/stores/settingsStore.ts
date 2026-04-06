@@ -14,9 +14,25 @@ export const useSettingsStore = create(
             setServerIp: (serverIp: string) =>set((state: SettingsState) => ({
                 serverIP: serverIp,
             })),
+
+            getServerHttpUrl: () => {
+                const serverIP = get().serverIP;
+                if (!serverIP.startsWith("http://") && !serverIP.startsWith("https://")) {
+                    return "http://" + serverIP;
+                }
+                return serverIP;
+            },
+            getServerWsUrl: () => {
+                const serverIP = get().serverIP;
+                if (serverIP.startsWith("http://")) {
+                    return "ws://" + serverIP.slice(7);
+                } else if (serverIP.startsWith("https://")) {
+                    return "wss://" + serverIP.slice(8);
+                } 
+                return "ws://" + serverIP;
+            }
         }),
         { name: "settings-storage" },
     )
 );
 
-export const useUserDraggableStore = useSettingsStore;
