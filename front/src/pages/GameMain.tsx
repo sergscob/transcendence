@@ -39,6 +39,9 @@ export default function GameMain() {
   if (loading) return <Loading />;
   if (!user) return <NotFound text="Check server connection. Server address in settings." code="Error" />;
 
+  if (!user) return <div>Loading...</div>;
+
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
