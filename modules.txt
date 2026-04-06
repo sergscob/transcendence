@@ -34,6 +34,14 @@ Major: Remote players — Enable two players on separate computers to play the s
     ◦ Provide a smooth user experience for remote gameplay.
     ◦ Implement reconnection logic.
 
+Major: Multiplayer game (more than two players).
+    ◦ Support for three or more players simultaneously.
+    ◦ Fair gameplay mechanics for all participants.
+    ◦ Proper synchronization across all clients
+
+
+
+
 
 
 
@@ -47,7 +55,3 @@ Minor: Support for additional browsers.
     ◦ Document any browser-specific limitations.
     ◦ Consistent UI/UX across all supported browsers.
 
-Major: Multiplayer game (more than two players).
-    ◦ Support for three or more players simultaneously.
-    ◦ Fair gameplay mechanics for all participants.
-    ◦ Proper synchronization across all clients
