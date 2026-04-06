@@ -3,8 +3,10 @@ import API from "../api/api";
 import Avatar from "@/components/ui_int/Avatar";
 import { useParams } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
+import { useTranslation } from "react-i18next";
 
 function ViewProfile() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [ user, setUser ] = useState(null);
   const [ loading, setLoading ] = useState(true);
@@ -23,8 +25,8 @@ function ViewProfile() {
     loadUser();
   }, []);
 
-  if (loading ) return <div>Loading...</div>;
-  if (!user) return <NotFound text="User not found" />;
+  if (loading ) return <div>{t("view_profile.loading")}</div>;
+  if (!user) return <NotFound text={t("view_profile.user_not_found")} />;
 
 
   return (

@@ -7,8 +7,10 @@ import { useDraggableStore } from "@/stores/draggableStore";
 import ChatWindow from "@/components/chat/ChatWindow";
 import { Link } from "react-router-dom";
 import IconChat from "@/assets/icons/chat.svg?react";
+import { useTranslation } from "react-i18next";
 
 function FriendsPanel() {
+  const { t } = useTranslation();
   const user = useUserStore((s) => s.user);
   const loaded = useUserStore((s) => s.loaded);
   const [friends, setFriends] = useState([]);
@@ -87,13 +89,13 @@ function FriendsPanel() {
     delWindowPosition(getRoomName(friendId));
   }
 
-  if (!user) return (<>loading</>)
+  if (!user) return (<></>)
 
   return (
     <>
       <DraggableWindow
         name="friends-panel"
-        title="Friends"
+        title={t("friends_panel.title")}
         defaultPosition={{ x: 40, y: 120 }}
         headerClassName="bg-amber-50"
         className="w-[320px] max-w-[calc(100vw-2rem)]"
@@ -113,13 +115,13 @@ function FriendsPanel() {
             ))}
           </ul>
         ) : (
-          <div>No friends</div>
+          <div>{t("friends_panel.no_friends")}</div>
         )}
         <Link
           to="/editfriends"
           className="mt-4 inline-block rounded-md border border-slate-300 px-3 py-1 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900"
         >
-          Edit Friends
+          {t("friends_panel.edit_friends")}
         </Link>
       </DraggableWindow>
 

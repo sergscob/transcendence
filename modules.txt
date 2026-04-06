@@ -1,6 +1,6 @@
 1. Minor: Use a frontend framework (React)
 2. Minor: Use a backend framework (Django)
-3? Minor: Use an ORM for the database.  
+3. Minor: Use an ORM for the database.  
 4. Minor: Implement remote authentication with OAuth 2.0 (Google, GitHub, 42, etc.).
 5. Minor: Implement a complete 2FA (Two-Factor Authentication) system for the users.
 7. Major: Standard user management and authentication.
@@ -13,26 +13,15 @@
     ◦ A basic chat system (send/receive messages between users).
     ◦ A profile system (view user information).
     ◦ A friends system (add/remove friends, see friends list)
-
-
-
-Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).    
-
-Minor: Implement advanced search functionality with filters, sorting, and pagination
-
-Minor: Support for multiple languages (at least 3 languages).
+12. Minor: Support for multiple languages (at least 3 languages).
     ◦ Implement i18n (internationalization) system.
     ◦ At least 3 complete language translations.
     ◦ Language switcher in the UI.
     ◦ All user-facing text must be translatable.    
-
-Minor: Support for additional browsers.
-    ◦ Full compatibility with at least 2 additional browsers (Firefox, Safari, Edge,etc.).
-    ◦ Test and fix all features in each browser.
-    ◦ Document any browser-specific limitations.
-    ◦ Consistent UI/UX across all supported browsers.
-
-
+14. Major: Implement advanced 3D graphics using a library like Three.js or Baby-lon.js.
+    ◦ Create an immersive 3D environment.
+    ◦ Implement advanced rendering techniques.
+    ◦ Ensure smooth performance and user interaction.    
 
 
 Major: Implement a complete web-based game where users can play against each other.
@@ -44,11 +33,25 @@ Major: Remote players — Enable two players on separate computers to play the s
     ◦ Handle network latency and disconnections gracefully.
     ◦ Provide a smooth user experience for remote gameplay.
     ◦ Implement reconnection logic.
+
 Major: Multiplayer game (more than two players).
     ◦ Support for three or more players simultaneously.
     ◦ Fair gameplay mechanics for all participants.
     ◦ Proper synchronization across all clients
-Major: Implement advanced 3D graphics using a library like Three.js or Baby-lon.js.
-    ◦ Create an immersive 3D environment.
-    ◦ Implement advanced rendering techniques.
-    ◦ Ensure smooth performance and user interaction.    
+
+
+
+
+
+
+
+Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).    
+
+Minor: Implement advanced search functionality with filters, sorting, and pagination
+
+Minor: Support for additional browsers.
+    ◦ Full compatibility with at least 2 additional browsers (Firefox, Safari, Edge,etc.).
+    ◦ Test and fix all features in each browser.
+    ◦ Document any browser-specific limitations.
+    ◦ Consistent UI/UX across all supported browsers.
+

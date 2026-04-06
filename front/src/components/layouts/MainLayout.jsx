@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import { IoMdExit } from "react-icons/io";
 import IconMenu from "@/assets/icons/menu.svg?react";
-
+import LangSwitcher from "@/components/ui_int/LangSwitcher"
 
 export default function MainLayout() {
   const navigate = useNavigate()
@@ -27,16 +27,12 @@ export default function MainLayout() {
           <IconMenu className="absolute top-2 left-2 mb-4 h-6 w-6 text-slate-900"/>
         </Link>
       </div>
-      <div className="absolute top-2 right-2 z-30 cursor-pointer" onClick={()=>onLogout()}>
-        {
-          user 
-          ? <div className="flex items-center">
-            <span className="text-gray-500 mr-3">{user.username}</span> 
-            <IoMdExit size={25}/>
+      <div className="absolute top-2 right-2 z-30 cursor-pointer">
+          <div className="flex items-center">
+            <span className="text-gray-500 mr-3">{user?.username}</span> 
+            <LangSwitcher className="mr-3"/>
+            <IoMdExit size={25} className="ml-3" onClick={()=>onLogout()} />
             </div>
-          : ''  
-        } 
-        
       </div>
       <div className="relative z-0 h-screen w-full">
         <Outlet />

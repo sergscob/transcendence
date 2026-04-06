@@ -1,12 +1,13 @@
 import Button from "@/components/ui_int/Button"
-import API from "@/api/api";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import { useTranslation } from "react-i18next";
 
 
 
 export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
+  const { t } = useTranslation();
   const [code, setcode] = useState("");
   const [error, setError] = useState("");
   const [okEnabled, setOkEnabled] = useState(false);
@@ -29,7 +30,7 @@ export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
         {qrcode && (
           <>
             <h2 className="text-lg font-semibold text-center">
-                Scan QR Code by Google Authenticator
+                {t("otp_dialog.scan_qr")}
             </h2>
             <div className="flex items-center">
                 <img src={`data:image/png;base64,${qrcode}`} />
@@ -37,7 +38,7 @@ export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
           </>
         )}
         <h2 className="text-lg font-semibold text-center">
-          Open Google Authenticator and enter the code: 
+          {t("otp_dialog.open_authenticator_enter_code")}
         </h2>
         <div className="flex items-center justify-center">
             <InputOTP maxLength={6} defaultValue="" onChange={(value) => setcode(value)} >
@@ -57,7 +58,7 @@ export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
        
         <DialogFooter className="sm:justify-start">
             <Button disabled={!okEnabled} type="button" onClick={() => OnClickOk()}>
-               OK
+               {t("otp_dialog.ok")}
             </Button>
         </DialogFooter>
       </DialogContent>

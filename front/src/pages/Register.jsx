@@ -4,9 +4,11 @@ import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
+import { useTranslation } from "react-i18next";
 
 
 function Register() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -40,26 +42,26 @@ function Register() {
     <div className="flex h-screen items-center justify-center bg-gray-100">
       { registered ? 
       <div>
-      <h3 className="text-l mb-4 text-center">Registration succeeded !</h3>
-      <Button className="" onClick={toLogin}>Go to login</Button>
+      <h3 className="text-l mb-4 text-center">{t("register.registration_succeeded")}</h3>
+      <Button className="" onClick={toLogin}>{t("register.go_to_login")}</Button>
       </div>
       :
       <form 
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-100"
       >
-        <h2 className="text-xl font-bold mb-4 text-center">Register</h2>
+        <h2 className="text-xl font-bold mb-4 text-center">{t("register.title")}</h2>
         <Input
           value={form.username}
           onChange={e => changeForm({ username: e.target.value })}
-          placeholder="Username"
+          placeholder={t("register.username")}
         />
         <div className="error-message">{errors.username}</div>
         
         <Input
           value={form.email}
           onChange={e => changeForm({ email: e.target.value })}
-          placeholder="Email"
+          placeholder={t("register.email")}
         />
         <div className="error-message">{errors.email}</div>
 
@@ -67,12 +69,12 @@ function Register() {
           type="password"
           value={form.password}
           onChange={e => changeForm({ password: e.target.value })}
-          placeholder="Password"
+          placeholder={t("register.password")}
         />
         <div className="error-message">{errors.password}</div>
         <div className="error-message">{errors.common}</div>
-        <Button className="" loading={loading}>Register</Button>
-        <div className="text-sm mt-6 text-center">You have an account ? <a className="simple-link" href="/login">Login here</a></div>
+        <Button className="" loading={loading}>{t("register.title")}</Button>
+        <div className="text-sm mt-6 text-center">{t("register.have_account")} <a className="simple-link" href="/login">{t("register.login_here")}</a></div>
 
       </form>
       }
