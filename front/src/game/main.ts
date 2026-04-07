@@ -66,6 +66,12 @@ export function startGame(
 			else
 				launchRocket = false
 		}
+		const hitGroundDamage = player.getHitGroundDamage()
+		if (hitGroundDamage > 0) {
+			const matchState = getMatchState()
+			matchState.current_player.health -= hitGroundDamage
+			setMatchState(matchState)
+		}
 
 		rockets.update(scene, camera, launchRocket, delta, worldOctree)
 		roomState.update(delta)
