@@ -1,5 +1,6 @@
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from .models import Match, MatchPlayer, MatchStatus
 
 
@@ -23,11 +24,11 @@ def get_count_players(match, player):
 @transaction.atomic
 def match_join(match, player):
     if match.status != MatchStatus.WAITING:
-        raise ValueError("Cannot join a match that is not waiting for players.")
+        raise ValueError(_("Cannot join a match that is not waiting for players."))
     if MatchPlayer.objects.filter(match=match, user=player).exists():
-        raise ValueError("Player has already joined this match.")
+        raise ValueError(_("Player has already joined this match."))
     if match.mode == "duel" and match.players.count() >= 2:
-        raise ValueError("Duel mode matches can only have 2 players.")
+        raise ValueError(_("Duel mode matches can only have 2 players."))
 
     MatchPlayer.objects.create(match=match, user=player)
 
