@@ -7,6 +7,7 @@ import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import OtpDialog from "../components/pages/login/OtpDialog";
 import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify'
 
 function EditProfile() {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ function EditProfile() {
         setOpenOtpDialog(true);
       } catch (err) {
         console.error(err);  
+        toast.error(t("edit_profile.enable_2fa_failed"));
       }
     }
     else 
@@ -84,7 +86,9 @@ function EditProfile() {
       loadUser(true);
       fileInputRef.current.value = "";
     } catch (err) {
-      alert(t("edit_profile.upload_avatar_failed"));
+      // alert(t("edit_profile.upload_avatar_failed"));
+      console.log("Error uploading avatar:" );
+      toast.error(err.response?.data?.error || err.response?.data?.avatar.join() || t("edit_profile.upload_avatar_failed"));
     }
   }
 
