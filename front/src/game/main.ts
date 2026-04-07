@@ -7,19 +7,25 @@ import {loadWorld}     			from './world'
 import {createRocketInstance}	from './rocket'
 import {createStateExchanger} 	from './stateExchanger'
 import {createRoomStateInstance}from './roomState'
+import { IMatchState } from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
 let rendererInstance: THREE.WebGLRenderer | undefined
 let resizeHandler: (() => void) | undefined
 
-export function startGame(container: HTMLDivElement, user_id: number) {
+export function startGame(
+	container: HTMLDivElement,
+	user_id: number,
+	getMatchState: () => IMatchState,
+	setMatchState: (state: IMatchState) => void,
+) {
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
 	const scene    = createScene()
 	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
-	const player   = createPlayer(camera)
+	const player = createPlayer(camera)
 	const rockets = createRocketInstance(user_id)
 	const roomState = createRoomStateInstance(user_id, scene, rockets.createRocket)
 	const stateExchanger = createStateExchanger(user_id, roomState.modifyRoomState)
@@ -48,7 +54,20 @@ export function startGame(container: HTMLDivElement, user_id: number) {
 		const delta = Math.min(clock.getDelta(), 0.05)  // cap à 50ms pour éviter les bugs physique
 
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
-		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree)
+
+		let launchRocket = controlsInstance?.getClick() ?? false
+		if (launchRocket) {
+			const matchState = getMatchState()
+			const armsLeft = matchState.current_player.arms_left
+			if (armsLeft > 0) {
+				matchState.current_player.arms_left -= 1
+				setMatchState(matchState)
+			}
+			else
+				launchRocket = false
+		}
+
+		rockets.update(scene, camera, launchRocket, delta, worldOctree)
 		roomState.update(delta)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0
