@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, parsers
+from django.utils.translation import gettext_lazy as _
 from .serializers import FriendSerializer
 from django.contrib.auth import get_user_model
 from users.models import User
@@ -70,13 +71,13 @@ class FriendView(UpdateLastSeenMixin, APIView):
         friend_id = request.data.get('friend_id', None)
         user = request.user
         if not friend_id:
-            return Response({'error': 'friend_id in URL is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(_("friend_id in URL is required"))}, status=status.HTTP_400_BAD_REQUEST)
         try:
             friend = User.objects.get(id=friend_id)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': str(_("User not found"))}, status=status.HTTP_404_NOT_FOUND)
         if Friend.objects.filter(user=user, friend=friend).exists():
-            return Response({'error': 'Friend request already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(_("Friend request already exists"))}, status=status.HTTP_400_BAD_REQUEST)
 
         # if there is a reverse request, accept it 
         reverse_request = Friend.objects.filter(user=friend, friend=user, accepted=False).first()
@@ -99,16 +100,16 @@ class FriendView(UpdateLastSeenMixin, APIView):
         user = request.user
         accepted = request.data.get('accepted')
         if friend_id is None or accepted is None:
-            return Response({'error': 'friend_id (in URL) and accepted are required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(_("friend_id (in URL) and accepted are required"))}, status=status.HTTP_400_BAD_REQUEST)
         try:
             friend = User.objects.get(id=friend_id)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': str(_("User not found"))}, status=status.HTTP_404_NOT_FOUND)
         
         try:
             rec = Friend.objects.get(user=friend, friend=user)
         except Friend.DoesNotExist:
-            return Response({'error': 'Friendship not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': str(_("Friendship not found"))}, status=status.HTTP_404_NOT_FOUND)
 
         if str(accepted).lower() in ['true', '1', 'yes']:
             rec.accepted = True
@@ -122,15 +123,15 @@ class FriendView(UpdateLastSeenMixin, APIView):
     def delete(self, request, friend_id=None):
         user = request.user
         if friend_id is None:
-            return Response({'error': 'friend_id is required in URL'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(_("friend_id is required in URL"))}, status=status.HTTP_400_BAD_REQUEST)
         try:
             friend = User.objects.get(id=friend_id)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': str(_("User not found"))}, status=status.HTTP_404_NOT_FOUND)
 
         deleted_count, _ = Friend.objects.filter(
             (models.Q(user=user, friend=friend) | models.Q(user=friend, friend=user))
         ).delete()
         if deleted_count == 0:
-            return Response({'error': 'No friendship found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': str(_("No friendship found"))}, status=status.HTTP_404_NOT_FOUND)
         return Response({'success': 'Friendship deleted'}, status=status.HTTP_200_OK)

@@ -82,7 +82,7 @@ function ChatWindow({
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
         />
-        <Button type="submit" className="basis-12">&gt;</Button>
+        <Button type="submit" disabled={!userMessage.trim()} className="basis-12">&gt;</Button>
       </form>
     </DraggableWindow>
   );

@@ -1,5 +1,6 @@
 import secrets
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.conf import settings
 from datetime import timedelta
@@ -51,10 +52,10 @@ def reset_password(request):
     try:
         user = User.objects.get(reset_token=token)
     except User.DoesNotExist:
-        return Response({"error": "Invalid token"}, status=400)
+        return Response({"error": str(_("Invalid token"))}, status=400)
 
     if timezone.now() - user.reset_token_created_at > timedelta(minutes=60):
-        return Response({"error": "Token expired"}, status=400)
+        return Response({"error": str(_("Token expired"))}, status=400)
 
     user.set_password(new_password)
     user.is_2fa_enabled = False
