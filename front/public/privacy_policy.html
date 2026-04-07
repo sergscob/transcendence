@@ -1,13 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy</title>
-</head>
-<body>
-    <div class="container">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - Transcendence</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --line: #e2e8f0;
+        --accent: #0f766e;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 35%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 32px 16px 64px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 24px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+      }
+
+      h1 { margin: 0 0 8px; font-size: 2rem; }
+      h2 { margin-top: 28px; margin-bottom: 8px; font-size: 1.2rem; }
+      p, li { color: var(--muted); }
+      ul { margin-top: 8px; }
+
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 18px;
+      }
+
+      .notice {
+        background: #ecfeff;
+        color: #0f172a;
+        border: 1px solid #99f6e4;
+        border-radius: 10px;
+        padding: 12px 14px;
+      }
+
+      a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card">
         <h1>Privacy Policy</h1>
-    </div>  
-</body>
-</html> 
+        <p class="meta">Project: Transcendence (42 school project) | Last updated: April 7, 2026</p>
+
+        <p class="notice">
+          This project is an educational student project developed in the context of 42 Paris. It is not a
+          commercial service. This document is provided for transparency and project compliance purposes.
+        </p>
+
+        <h2>1. Who We Are</h2>
+        <p>
+          Transcendence is a web application created by students as part of the 42 curriculum. If you use this
+          instance, your data is processed only for educational and technical operation of the platform.
+        </p>
+
+        <h2>2. Data We Collect</h2>
+        <ul>
+          <li>Account data: username, email, password hash.</li>
+          <li>Authentication data: login tokens and optional 2FA related data.</li>
+          <li>OAuth data: identifiers returned by Google or 42 OAuth providers.</li>
+          <li>Profile data: avatar, biography/description, and other profile fields you provide.</li>
+          <li>Social/game data: friends, invitations, gameplay state, and related metadata.</li>
+          <li>Chat data: messages exchanged in chat features.</li>
+          <li>Technical data: logs required for debugging, security, and maintenance.</li>
+        </ul>
+
+        <h2>3. How We Use Data</h2>
+        <ul>
+          <li>To create and manage user accounts.</li>
+          <li>To authenticate users and secure access.</li>
+          <li>To provide game, chat, profile, and social features.</li>
+          <li>To detect abuse and maintain platform integrity.</li>
+          <li>To debug and improve the project in an educational context.</li>
+        </ul>
+
+        <h2>4. Local Storage and Cookies</h2>
+        <p>
+          The frontend may store technical values such as auth token, language preference, and server settings in
+          browser storage (for example localStorage) to keep your session and preferences.
+        </p>
+
+        <h2>5. Data Sharing</h2>
+        <p>
+          We do not sell personal data. Data may be processed by third-party providers only when needed for
+          authentication or infrastructure used by this project (for example Google OAuth or 42 OAuth).
+        </p>
+
+        <h2>6. Data Retention</h2>
+        <p>
+          Data is kept as long as needed for the project operation, evaluation, and maintenance, or until deletion is
+          requested and technically feasible in this educational setup.
+        </p>
+
+        <h2>7. Your Rights</h2>
+        <p>Depending on applicable law, you may request access, correction, or deletion of your personal data.</p>
+
+        <h2>8. Security</h2>
+        <p>
+          We apply reasonable technical and organizational measures for an educational project. However, no internet
+          service can guarantee absolute security.
+        </p>
+
+        <h2>9. Minors</h2>
+        <p>
+          This project is intended for educational use by students and evaluators. If you are a minor, use should be
+          under school and legal guardian guidance where required.
+        </p>
+
+        <h2>10. Changes to This Policy</h2>
+        <p>
+          This Privacy Policy may be updated during the project lifecycle. The latest version is the one published on
+          this page.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+          For privacy requests, contact the project maintainers/team operating this specific instance.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
