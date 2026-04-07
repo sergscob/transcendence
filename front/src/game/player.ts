@@ -14,10 +14,10 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 
 	const velocity = new THREE.Vector3()
 	let onFloor = false
+	let lastLandingSpeed = 0
+	const HARD_LANDING_SPEED = 7
 
-	function update
-		(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
-
+	function update(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
 		if (collider.end.length() > GAME_CONFIG.PLAYER.resetDistance) {
 			const resetEnd = getPlayerSpawnEnd()
 			collider.set(
@@ -54,12 +54,18 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 		collider.translate(new THREE.Vector3(0, velocity.y * delta, 0))
 
 		// Collision avec le monde
+		const wasOnFloor = onFloor
 		const result = worldOctree.capsuleIntersect(collider)
 		onFloor = false
 		if (result) {
 			onFloor = result.normal.y > 0
-			if (onFloor)
+			if (onFloor) {
+				if (!wasOnFloor && -velocity.y >= HARD_LANDING_SPEED) {
+					lastLandingSpeed = -velocity.y
+					console.log('Hard landing, speed', lastLandingSpeed)
+				}
 				velocity.y = 0
+			}
 			collider.translate(result.normal.multiplyScalar(result.depth))
 		}
 
@@ -67,5 +73,14 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 		camera.position.copy(collider.end)
 	}
 
-	return {update}
+	function getHitGroundDamage(): number {
+		if (lastLandingSpeed < HARD_LANDING_SPEED) return 0
+		const hit = lastLandingSpeed / HARD_LANDING_SPEED 
+		console.log('hit ', hit)
+
+		lastLandingSpeed = 0
+		return hit
+	}
+
+	return { update, getHitGroundDamage }
 }
