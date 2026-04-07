@@ -9,6 +9,7 @@ import OtpDialog from "../components/pages/login/OtpDialog";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify'
 import Rain from "../components/ui/rain.tsx";
+import addFileIcon from "../assets/icons/addFile.svg";
 
 function EditProfile() {
   const { t } = useTranslation();
@@ -99,22 +100,32 @@ function EditProfile() {
   return (
     <div className="relative w-screen h-screen flex justify-center items-center bg-gray-100">
       <Rain className="absolute inset-0 -z-10" />
-      <div className="relative z-10 border border-black rounded-lg p-10 shadow-lg bg-gray-500">
+      <div className="relative z-10 flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500">
 		<div className="text-lg text-[40px] font-bold text-white text-center">{t("edit_profile.edit_profile")}</div>
-        <div className="text-[30px] font-bold text-white">{user.username}</div>
-        {user.avatar && (
-            <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
-        )}
-        <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} /> {t("edit_profile.two_factor_authentication")}
-        <form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded">
-          <input type="file" accept="image/*" ref={fileInputRef} />
-          <button type="submit">{t("edit_profile.upload_avatar")}</button>
-        </form>
-        <OtpDialog
-            open={openOtpDialog} setOpen={setOpenOtpDialog}
-            qrcode={qrcode}
-            onSuccess={(code) => onCodeEntered(code)}
-        />
+		<div className="flex flex-col items-center gap-4">
+			<div className="text-[30px] font-bold text-white">{user.username}</div>
+			{user.avatar && (
+				<img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
+			)}
+		</div>
+		<div className="flex flex-col items-left gap-8 mt-10">
+			<div>
+				<div className="text-lg text-[20px] font-bold text-white">{t("edit_profile.ask_two_factor_authentication")}</div>
+				<input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} className="size-5"/> {t("edit_profile.two_factor_authentication")}
+			</div>
+			<div>
+				<div className="text-lg text-[20px] font-bold text-white">{t("edit_profile.ask_upload_avatar")}</div>
+				<form onSubmit={uploadAvatar} className="ma-4 border-2 p-4 rounded bg-white mt-2">
+					<input type="file" accept="image/*" ref={fileInputRef} />
+					<button type="submit">{t("edit_profile.upload_avatar")}</button>
+				</form>
+				<OtpDialog
+					open={openOtpDialog} setOpen={setOpenOtpDialog}
+					qrcode={qrcode}
+					onSuccess={(code) => onCodeEntered(code)}
+				/>
+			</div>
+		</div>
       </div>
     </div>
   );
