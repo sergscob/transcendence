@@ -32,7 +32,9 @@ function RestorePassword() {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-120 relative"
       >
-        <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
+        { location.pathname == "/settings-start" && 
+          <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> }
+        
         <h2 className="text-xl font-bold mb-4 text-center">{t("settings.ip_address.title")}</h2>
         <Input
             value={form.ip}

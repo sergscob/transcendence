@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Politique de confidentialite - Transcendence</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --line: #e2e8f0;
+        --accent: #0f766e;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 35%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      main { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 24px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+      }
+      h1 { margin: 0 0 8px; font-size: 2rem; }
+      h2 { margin-top: 28px; margin-bottom: 8px; font-size: 1.2rem; }
+      p, li { color: var(--muted); }
+      ul { margin-top: 8px; }
+      .meta { color: var(--muted); font-size: 0.95rem; margin-bottom: 18px; }
+      .notice {
+        background: #ecfeff;
+        color: #0f172a;
+        border: 1px solid #99f6e4;
+        border-radius: 10px;
+        padding: 12px 14px;
+      }
+      a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="card">
+        <h1>Politique de confidentialite</h1>
+        <p class="meta">Projet : Transcendence (projet scolaire 42) | Derniere mise a jour : 7 avril 2026</p>
+
+        <p class="notice">
+          Ce projet est un projet etudiant realise dans le cadre de 42 Paris. Il ne s'agit pas d'un service
+          commercial. Ce document est fourni a des fins de transparence et de conformite du projet.
+        </p>
+
+        <h2>1. Qui sommes-nous</h2>
+        <p>
+          Transcendence est une application web realisee par des etudiants dans le cadre du cursus 42.
+          Si vous utilisez cette instance, vos donnees sont traitees uniquement pour le fonctionnement
+          educatif et technique de la plateforme.
+        </p>
+
+        <h2>2. Donnees collectees</h2>
+        <ul>
+          <li>Donnees de compte : nom d'utilisateur, email, hash de mot de passe.</li>
+          <li>Donnees d'authentification : tokens de connexion et donnees liees a la 2FA si activee.</li>
+          <li>Donnees OAuth : identifiants fournis par Google ou 42 OAuth.</li>
+          <li>Donnees de profil : avatar, bio/description et autres champs saisis.</li>
+          <li>Donnees sociales et de jeu : amis, invitations, etat de jeu et metadonnees associees.</li>
+          <li>Donnees de chat : messages echanges via les fonctionnalites de chat.</li>
+          <li>Donnees techniques : journaux necessaires au debug, a la securite et a la maintenance.</li>
+        </ul>
+
+        <h2>3. Utilisation des donnees</h2>
+        <ul>
+          <li>Creer et gerer les comptes utilisateur.</li>
+          <li>Authentifier les utilisateurs et securiser l'acces.</li>
+          <li>Fournir les fonctionnalites de jeu, chat, profil et social.</li>
+          <li>Detecter les abus et proteger l'integrite de la plateforme.</li>
+          <li>Corriger et ameliorer le projet dans un contexte pedagogique.</li>
+        </ul>
+
+        <h2>4. Local storage et cookies</h2>
+        <p>
+          Le frontend peut stocker des valeurs techniques (token auth, langue, configuration serveur) dans le
+          navigateur (exemple : localStorage) afin de conserver votre session et vos preferences.
+        </p>
+
+        <h2>5. Partage des donnees</h2>
+        <p>
+          Nous ne vendons pas de donnees personnelles. Des donnees peuvent etre traitees par des fournisseurs tiers
+          uniquement lorsque cela est necessaire a l'authentification ou a l'infrastructure du projet
+          (par exemple Google OAuth ou 42 OAuth).
+        </p>
+
+        <h2>6. Conservation des donnees</h2>
+        <p>
+          Les donnees sont conservees aussi longtemps que necessaire pour le fonctionnement, l'evaluation et
+          la maintenance du projet, ou jusqu'a une demande de suppression lorsque cela est techniquement possible.
+        </p>
+
+        <h2>7. Vos droits</h2>
+        <p>Selon la loi applicable, vous pouvez demander l'acces, la correction ou la suppression de vos donnees personnelles.</p>
+
+        <h2>8. Securite</h2>
+        <p>
+          Nous appliquons des mesures techniques et organisationnelles raisonnables pour un projet educatif.
+          Toutefois, aucun service internet ne peut garantir une securite absolue.
+        </p>
+
+        <h2>9. Mineurs</h2>
+        <p>
+          Ce projet est destine a un usage pedagogique par des etudiants et des evaluateurs.
+          Si vous etes mineur, l'utilisation doit se faire selon les exigences legales applicables.
+        </p>
+
+        <h2>10. Modifications de cette politique</h2>
+        <p>
+          Cette politique de confidentialite peut etre mise a jour pendant le cycle de vie du projet.
+          La version la plus recente est celle publiee sur cette page.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+          Pour toute demande relative a la confidentialite, contactez l'equipe qui maintient cette instance.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

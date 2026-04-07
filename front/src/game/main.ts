@@ -47,12 +47,12 @@ export function startGame(container: HTMLDivElement, user_id: number) {
 
 		const delta = Math.min(clock.getDelta(), 0.05)  // cap à 50ms pour éviter les bugs physique
 
-		player.update(delta, controlsInstance.keys, controlsInstance.getYaw(), worldOctree)
-		rockets.update(scene, camera, controlsInstance.getClick(), delta, worldOctree)
+		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
+		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree)
 		roomState.update(delta)
 
-		camera.rotation.y = controlsInstance.getYaw()
-		camera.rotation.x = controlsInstance.getPitch()
+		camera.rotation.y = controlsInstance?.getYaw() ?? 0
+		camera.rotation.x = controlsInstance?.getPitch() ?? 0
 
 		sendAccumulator += delta
 		if (sendAccumulator >= SEND_INTERVAL) {
@@ -66,7 +66,7 @@ export function startGame(container: HTMLDivElement, user_id: number) {
 			})
 		}
 
-		rendererInstance.render(scene, camera)
+		rendererInstance?.render(scene, camera)
 	}
 
 	animate()

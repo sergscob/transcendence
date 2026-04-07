@@ -6,7 +6,19 @@ export function loadWorld(scene: THREE.Scene): Octree {
 	const worldOctree = new Octree()
 
 	const loader = new GLTFLoader()
-	loader.load('/models/collision-world.glb', (gltf) => {
+	loader.load('/models/dm-turbine_-_ut_multiplayer_map.glb', (gltf) => {
+		gltf.scene.scale.set(1, 1, 1)
+
+		const box = new THREE.Box3().setFromObject(gltf.scene)
+		if (!box.isEmpty()) {
+			const center = box.getCenter(new THREE.Vector3())
+			const min = box.min.clone()
+			gltf.scene.position.x -= center.x
+			gltf.scene.position.z -= center.z
+			gltf.scene.position.y -= min.y
+			gltf.scene.updateMatrixWorld(true)
+		}
+
 		scene.add(gltf.scene)
 		worldOctree.fromGraphNode(gltf.scene)
 
@@ -18,6 +30,8 @@ export function loadWorld(scene: THREE.Scene): Octree {
 					child.material.map.anisotropy = 4
 			}
 		})
+	}, undefined, (err) => {
+		console.error('Failed to load world GLB:', err)
 	})
 
 	return worldOctree

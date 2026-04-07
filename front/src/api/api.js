@@ -9,9 +9,15 @@ const API = axios.create({
 
 API.interceptors.request.use(config => {
   const serverIP = useSettingsStore.getState().serverIP;
+  const lang = useSettingsStore.getState().language;
+
   config.baseURL = `http://${serverIP}/api/`;
   const token = getToken();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token) 
+    config.headers.Authorization = `Bearer ${token}`;
+  if (lang)
+    config.headers["Accept-Language"] = lang;
+
   return config;
 });
 
