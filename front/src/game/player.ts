@@ -2,15 +2,14 @@ import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
 
-const GRAVITY = 40
-const SPEED   = 7
-const JUMP    = 15
+import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
 export function createPlayer(camera: THREE.PerspectiveCamera) {
+	const spawnEnd = getPlayerSpawnEnd()
 	const collider = new Capsule(
-		new THREE.Vector3(0, 0, 0),
-		new THREE.Vector3(0, 1, 0),
-		0.3
+		getPlayerCapsuleStartFromEnd(spawnEnd),
+		spawnEnd.clone(),
+		GAME_CONFIG.PLAYER.capsule.radius,
 	)
 
 	const velocity = new THREE.Vector3()
@@ -18,16 +17,26 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 
 	function update
 		(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
+
+		if (collider.end.length() > GAME_CONFIG.PLAYER.resetDistance) {
+			const resetEnd = getPlayerSpawnEnd()
+			collider.set(
+				getPlayerCapsuleStartFromEnd(resetEnd),
+				resetEnd,
+				GAME_CONFIG.PLAYER.capsule.radius,
+			)
+		}
+
 		const damping = Math.exp(-4 * delta) - 1
 		if (!onFloor) {
-			velocity.y -= GRAVITY * delta
+			velocity.y -= GAME_CONFIG.PLAYER.gravity * delta
 			velocity.addScaledVector(velocity, damping)
 		} else {
 			velocity.addScaledVector(velocity, damping)
 		}
 
 		if (keys['Space'] && onFloor) {
-			velocity.y += JUMP
+			velocity.y += GAME_CONFIG.PLAYER.jumpImpulse
 		}
 
 		// Déplacement
@@ -39,7 +48,7 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 
 		direction.normalize()
 		direction.applyEuler(new THREE.Euler(0, yaw, 0))
-		direction.multiplyScalar(SPEED * delta)
+		direction.multiplyScalar(GAME_CONFIG.PLAYER.speed * delta)
 
 		collider.translate(direction)
 		collider.translate(new THREE.Vector3(0, velocity.y * delta, 0))
