@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.tokens import RefreshToken
 import pyotp
 import qrcode
@@ -53,7 +54,7 @@ def confirm_2fa(request):
         request.user.save()
         return Response({"status": "2FA enabled"})
     
-    return Response({"error": "Invalid code"}, status=400)    
+    return Response({"error": str(_("Invalid code"))}, status=400)    
 
 
 @api_view(['POST'])
@@ -71,7 +72,7 @@ def verify_otp(request):
             "access": tokens["access"],
             "refresh": tokens["refresh"]
         })
-    return Response({"error": "Invalid code"}, status=400)
+    return Response({"error": str(_("Invalid code"))}, status=400)
 
 
 @api_view(['POST'])
@@ -79,10 +80,10 @@ def login_view(request):
     error = {}
     username = request.data.get("username")
     if not username:
-        error["username"] = "This field is required."
+        error["username"] = str(_("This field is required."))
     password = request.data.get("password")
     if not password:
-        error["password"] = "This field is required."
+        error["password"] = str(_("This field is required."))
     if error:
         return Response(error, status=400)    
 

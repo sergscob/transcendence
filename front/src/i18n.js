@@ -120,7 +120,10 @@ const resources = {
 
       // VIewProfile
       "view_profile.loading": "Loading...",
-      "view_profile.user_not_found": "User not found"
+      "view_profile.user_not_found": "User not found",
+
+      "footer.privacy_policy": "Privacy Policy",
+      "footer.terms_of_service": "Terms of Service"
     }
   },
   fr: {
@@ -222,7 +225,10 @@ const resources = {
 
       // VIewProfile 
       "view_profile.loading": "Chargement...",
-      "view_profile.user_not_found": "Utilisateur introuvable"
+      "view_profile.user_not_found": "Utilisateur introuvable",
+
+      "footer.privacy_policy": "Politique de confidentialité",
+      "footer.terms_of_service": "Conditions d'utilisation"
     }
   },
   ru: {
@@ -324,7 +330,10 @@ const resources = {
 
       // VIewProfile 
       "view_profile.loading": "Загрузка...",
-      "view_profile.user_not_found": "Пользователь не найден"
+      "view_profile.user_not_found": "Пользователь не найден",
+
+      "footer.privacy_policy": "Политика конфиденциальности",
+      "footer.terms_of_service": "Условия использования"
     }
   }
 
