@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 
-const ROCKET_SPEED = 30
+import { GAME_CONFIG } from './gameConfig'
 
 
 export function createRocketInstance(user_id: number) {
-	const ROCKET_ID_STRIDE = 1000
+	const ROCKET_ID_STRIDE = GAME_CONFIG.ROCKET.idStride
 	let nextRocketNumber = 1
 	const rockets: Array<{rocket_id: number, mesh: THREE.Mesh, collider: THREE.Sphere}> = []
 
@@ -14,8 +14,15 @@ export function createRocketInstance(user_id: number) {
 	}
 
 	function createRocket(): THREE.Mesh {
-		const rocketGeometry = new THREE.CylinderGeometry(0.05, 0, 0.5, 3, 1);
-		const rocketMaterial = new THREE.MeshLambertMaterial({color : 0x006633})
+		const g = GAME_CONFIG.ROCKET.geometry
+		const rocketGeometry = new THREE.CylinderGeometry(
+			g.radiusTop,
+			g.radiusBottom,
+			g.height,
+			g.radialSegments,
+			g.heightSegments,
+		)
+		const rocketMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.ROCKET.materialColor })
 		const rocket = new THREE.Mesh(rocketGeometry, rocketMaterial)
 		rocket.geometry.rotateX(-Math.PI / 2)
 
@@ -28,9 +35,9 @@ export function createRocketInstance(user_id: number) {
 			const rocketCollider = rockets[i].collider
 			const direction = new THREE.Vector3()
 			rocketMesh.getWorldDirection(direction)
-			rocketMesh.position.addScaledVector(direction, ROCKET_SPEED * delta)
+			rocketMesh.position.addScaledVector(direction, GAME_CONFIG.ROCKET.speed * delta)
 			
-			if (rocketMesh.position.length() > 100 || worldOctree.sphereIntersect(rocketCollider)) {
+			if (rocketMesh.position.length() > GAME_CONFIG.ROCKET.maxDistance || worldOctree.sphereIntersect(rocketCollider)) {
 				scene.remove(rocketMesh)
 				rockets.splice(i, 1)
 			}
@@ -46,7 +53,7 @@ export function createRocketInstance(user_id: number) {
 			newRocket.position.copy(camera.position)
 			const target = newRocket.position.clone().add(camDir)
 			newRocket.lookAt(target)
-			const newCollider = new THREE.Sphere(newRocket.position, 0.3)
+			const newCollider = new THREE.Sphere(newRocket.position, GAME_CONFIG.ROCKET.colliderRadius)
 	
 			rockets.push({rocket_id: rocketId, mesh: newRocket, collider: newCollider})
 			scene.add(newRocket)

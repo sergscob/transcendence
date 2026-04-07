@@ -3,6 +3,7 @@ from .models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
+from django.utils.translation import gettext_lazy as _
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -16,16 +17,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         try:
             email_validator(value)
         except ValidationError:
-            raise serializers.ValidationError("Invalid email format.")
+            raise serializers.ValidationError(_("Invalid email format."))
         
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Email already registered.")
+            raise serializers.ValidationError(_("Email already registered."))
         
         return value
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("Username already taken.")
+            raise serializers.ValidationError(_("Username already taken."))
         
         return value
 
@@ -40,9 +41,9 @@ class UserSerializer(serializers.ModelSerializer):
         valid_types = ["image/jpeg", "image/png"]
         if value:
             if value.size > max_size:
-                raise serializers.ValidationError("Max file size is 200 KB.")
+                raise serializers.ValidationError(_("Max file size is 200 KB."))
             if hasattr(value, 'content_type') and value.content_type not in valid_types:
-                raise serializers.ValidationError("Only JPEG and PNG images are allowed.")
+                raise serializers.ValidationError(_("Only JPEG and PNG images are allowed."))
         return value
 
     avatar = serializers.ImageField(required=False, allow_null=True, use_url=True)
