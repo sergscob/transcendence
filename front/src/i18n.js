@@ -86,7 +86,9 @@ const resources = {
 	  "edit_profile.edit_profile": "Edit Profile:",
       "edit_profile.server_connection_error": "Check server connection. Server address in settings.",
       "edit_profile.error_code": "Error",
+	  "edit_profile.ask_two_factor_authentication": "Add Two Factor Authentication?",
       "edit_profile.two_factor_authentication": "Two Factor Authentication",
+	  "edit_profile.ask_upload_avatar": "Upload Avatar?",
       "edit_profile.upload_avatar": "Upload Avatar",
       "edit_profile.upload_avatar_failed": "Failed to upload avatar",
 
@@ -192,9 +194,11 @@ const resources = {
 	  "edit_profile.edit_profile": "Modifier le profil :",
       "edit_profile.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
       "edit_profile.error_code": "Erreur",
+	  "edit_profile.ask_two_factor_authentication": "Ajouter l'authentification a deux facteurs ?",
       "edit_profile.two_factor_authentication": "Authentification a deux facteurs",
-      "edit_profile.upload_avatar": "Televerser l'avatar",
-      "edit_profile.upload_avatar_failed": "Echec du televersement de l'avatar",
+	  "edit_profile.ask_upload_avatar": "Téléverser un avatar ?",
+      "edit_profile.upload_avatar": "Téléverser l'avatar",
+      "edit_profile.upload_avatar_failed": "Échec du téléversement de l'avatar",
 
       // EditFriends
       "edit_friends.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
@@ -298,7 +302,9 @@ const resources = {
 	  "edit_profile.edit_profile": "Редактировать профиль:",
       "edit_profile.server_connection_error": "Проверьте подключение к серверу. Адрес сервера указан в настройках.",
       "edit_profile.error_code": "Ошибка",
+	  "edit_profile.ask_two_factor_authentication": "Добавить двухфакторную аутентификацию ?",
       "edit_profile.two_factor_authentication": "Двухфакторная аутентификация",
+	  "edit_profile.ask_upload_avatar": "Загрузить аватар ?",
       "edit_profile.upload_avatar": "Загрузить аватар",
       "edit_profile.upload_avatar_failed": "Не удалось загрузить аватар",
 
