@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import OtpDialog from "../components/pages/login/OtpDialog";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify'
+import Rain from "../components/ui/rain.tsx";
 
 function EditProfile() {
   const { t } = useTranslation();
@@ -24,28 +25,28 @@ function EditProfile() {
     e.preventDefault();
     user.is_2fa_enabled = e.target.checked;
     // console.log("user after change", user);
-    if (user.is_2fa_enabled) 
+    if (user.is_2fa_enabled)
     {
       try {
-        const res = await API.post("/auth/enable-2fa/") 
-        console.log("formData in EditProfile.jsx", res.data);  
+        const res = await API.post("/auth/enable-2fa/")
+        console.log("formData in EditProfile.jsx", res.data);
         setQrcode(res.data.qr);
         setOpenOtpDialog(true);
       } catch (err) {
-        console.error(err);  
+        console.error(err);
         toast.error(t("edit_profile.enable_2fa_failed"));
       }
     }
-    else 
+    else
     {
       try {
-        const res = await API.patch("profile/update/", { 
-          id: user.id, 
-          is_2fa_enabled: false 
+        const res = await API.patch("profile/update/", {
+          id: user.id,
+          is_2fa_enabled: false
         });
         setUser(res.data);
       } catch (err) {
-        console.error(err);  
+        console.error(err);
       }
     }
   }
@@ -96,9 +97,11 @@ function EditProfile() {
   if (!user) return <NotFound text={t("edit_profile.server_connection_error")} code={t("edit_profile.error_code")} />;
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center bg-gray-100">
-      <div>
-        <div>{user.username}</div>
+    <div className="relative w-screen h-screen flex justify-center items-center bg-gray-100">
+      <Rain className="absolute inset-0 -z-10" />
+      <div className="relative z-10 border border-black rounded-lg p-10 shadow-lg bg-gray-500">
+		<div className="text-lg text-[40px] font-bold text-white text-center">{t("edit_profile.edit_profile")}</div>
+        <div className="text-[30px] font-bold text-white">{user.username}</div>
         {user.avatar && (
             <img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
         )}
@@ -107,8 +110,8 @@ function EditProfile() {
           <input type="file" accept="image/*" ref={fileInputRef} />
           <button type="submit">{t("edit_profile.upload_avatar")}</button>
         </form>
-        <OtpDialog 
-            open={openOtpDialog} setOpen={setOpenOtpDialog} 
+        <OtpDialog
+            open={openOtpDialog} setOpen={setOpenOtpDialog}
             qrcode={qrcode}
             onSuccess={(code) => onCodeEntered(code)}
         />
