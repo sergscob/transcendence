@@ -12,8 +12,11 @@ const defaultMatchState: IMatchState = {
     health: 100,
     arms_left: 50,
     score: 0,
+    is_ready: false,
+    position: [0, 0, 0],
   },
   players_count: 1,
+  match_status: "waiting",
   time_left: "00:00",
 };
 
@@ -82,20 +85,25 @@ export default function GameMain() {
       )}
 
       <div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl ">
-        <div className={`font-display  whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
+        <div className={`ml-2 font-display whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
           HEALTH: {matchState?.current_player?.health.toFixed(0)}%
         </div>
         <div className={`ml-10 font-display whitespace-nowrap ${matchState?.current_player.arms_left < 2 ? "text-red-500/50" : "text-white/50"}`}>
           ARMS: {matchState.current_player.arms_left}
         </div>
-        <div className="ml-10 font-display whitespace-nowrap text-green-500/50 text-3xl">
+        <div className="ml-10 font-display whitespace-nowrap text-green-500/50">
           SCORE: {matchState?.current_player?.score}
         </div>
-        <div className="ml-10 font-display whitespace-nowrap text-yellow-500/50 text-3xl">
+        <div className="ml-10 font-display whitespace-nowrap text-yellow-500/50">
           TIME LEFT: {matchState?.time_left}
         </div>
-        <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 text-3xl">
+        <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
           PLAYERS: {matchState?.players_count}
+        </div>
+      </div>
+      <div className="absolute w-screen bottom-10 bg-black/20 flex pt-2 text-sm">
+        <div className="ml-2 font-display whitespace-nowrap text-purple-500/50 ">
+          POS: {matchState?.current_player?.position.map(c => c.toFixed(4)).join(', ')}
         </div>
       </div>
     </div>

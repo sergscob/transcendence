@@ -85,6 +85,11 @@ export function startGame(
 			posBuffer[0] = camera.position.x
 			posBuffer[1] = camera.position.y
 			posBuffer[2] = camera.position.z
+			const matchState = getMatchState()
+			matchState.current_player.position[0] = camera.position.x
+			matchState.current_player.position[1] = camera.position.y
+			matchState.current_player.position[2] = camera.position.z
+			setMatchState(matchState)
 			stateExchanger.sendState({
 				pos: posBuffer,
 				rockets: rockets.state(),

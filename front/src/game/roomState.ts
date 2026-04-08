@@ -15,12 +15,15 @@ export interface ICurrentPlayerState {
 	health: number;
 	arms_left: number;
 	score: number;
+	is_ready: boolean;
+	position: [number, number, number];
 }
 
 export interface IMatchState {
 	current_player: ICurrentPlayerState;
 	players_count: number;
 	time_left: string;
+	match_status: string;
 }
 
 type CreateRocketCallback = () => THREE.Mesh
