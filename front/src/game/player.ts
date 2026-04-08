@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
+import { remotePlayersArr, IMatchState }from './roomState'
 
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
@@ -15,7 +16,7 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 	const velocity = new THREE.Vector3()
 	let onFloor = false
 	let lastLandingSpeed = 0
-	const HARD_LANDING_SPEED = 7
+	const HARD_LANDING_SPEED = 9
 
 	function update(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
 		if (collider.end.length() > GAME_CONFIG.PLAYER.resetDistance) {
@@ -39,7 +40,6 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 			velocity.y += GAME_CONFIG.PLAYER.jumpImpulse
 		}
 
-		// Déplacement
 		const direction = new THREE.Vector3()
 		if (keys['KeyW']) direction.z -= 1
 		if (keys['KeyS']) direction.z += 1
@@ -69,7 +69,6 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 			collider.translate(result.normal.multiplyScalar(result.depth))
 		}
 
-		// La caméra suit le haut de la capsule
 		camera.position.copy(collider.end)
 	}
 

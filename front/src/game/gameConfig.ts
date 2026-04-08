@@ -8,7 +8,7 @@ export const GAME_CONFIG = {
 		resetDistance: 50,
 
 		capsule: {
-			radius: 0.4,
+			radius: 0.2,
 			height: 1,
 		},
 
@@ -18,7 +18,7 @@ export const GAME_CONFIG = {
 	ROCKET: {
 		speed: 40,
 		maxDistance: 100,
-		colliderRadius: 0.1,
+		colliderSize: [0.2, 0.2, 1.0],
 		idStride: 1000,
 
 		geometry: {
@@ -32,7 +32,7 @@ export const GAME_CONFIG = {
 	},
 
 	REMOTE: {
-		smoothing: 50,
+		smoothing: 60,
 		playerMeshColor: 0x715947,
 	},
 } as const
