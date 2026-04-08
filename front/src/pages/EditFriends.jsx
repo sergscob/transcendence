@@ -57,9 +57,9 @@ function EditFriends() {
   return (
     <div className="relative w-screen min-h-screen flex justify-center items-center">
       <Rain className="absolute inset-0 -z-10" />
-      <div className="flex flex-col md:flex-row gap-10 lg:gap-30 relative z-10">
+      <div className="flex flex-col md:flex-row gap-10 lg:gap-30 relative z-10 ">
 
-        <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500">
+        <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100">
           <h2 className="mr-10 text-lg font-bold text-[40px] text-white">{t("edit_friends.all_users")}</h2>
             <input
                 className="placeholder:text-black placeholder:italic rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
