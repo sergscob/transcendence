@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import FriendInfo from "../components/ui_int/FriendInfo";
-import addFriendIcon from "../assets/icons/addFriend.svg";
+import AddFriendIcon from "../assets/icons/addFriend.svg?react";
 import waitApprouveIcon from "../assets/icons/waitApprouvalFriend.svg";
 import cancelRequestIcon from "../assets/icons/cancelFriendRequest.svg";
 import acceptFriendIcon from "../assets/icons/acceptFriend.svg";
@@ -86,7 +86,8 @@ function EditFriends() {
 								</a>
 							</span>
     						: <a title={t("edit_friends.send_friend_request")} onClick={() => sendInvitation(friend.id)}>
-    							<img src={addFriendIcon} alt={t("edit_friends.send_friend_request")} width="30" height="30"/>
+                  <AddFriendIcon className="w-7 h-7 stroke-green-500 " />
+    							{/* <img src={addFriendIcon} alt={t("edit_friends.send_friend_request")} width="30" height="30"/> */}
 							</a>
 						}
 					</div>
