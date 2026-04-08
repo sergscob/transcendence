@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.exceptions import NotFound
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.utils.translation import gettext_lazy as _
 from .models import Match, MatchPlayer, MatchStatus
 from . import services
@@ -15,13 +15,17 @@ class MatchListViewAvailable(APIView):
     def get(self, request):
         qs = (
             Match.objects.filter(status=MatchStatus.WAITING)
-            .annotate(num_players=Count("players"))
+            .annotate(
+                num_players=Count("players", distinct=True),
+                ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+            )
             .filter(num_players__lt=F("players_maxcount"))
             .exclude(players__user=request.user)
             .distinct()
         )
         serializer = MatchSerializer(qs, many=True)
         return Response(serializer.data)
+
 
 class MatchListViewMy(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -31,10 +35,16 @@ class MatchListViewMy(APIView):
         return Response({"id": str(match.id)}, status=status.HTTP_201_CREATED)
 
     def get(self, request):
-        qs = Match.objects.filter(players__user=request.user).distinct()
+        qs = (
+            Match.objects.filter(players__user=request.user)
+            .annotate(
+                num_players=Count("players", distinct=True),
+                ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+            )
+            .distinct()
+        )
         serializer = MatchSerializer(qs, many=True)
         return Response(serializer.data)
-
 
 
 class MatchActionView(APIView):
@@ -42,7 +52,10 @@ class MatchActionView(APIView):
 
     def _get_match(self, match_id):
         try:
-            return Match.objects.get(id=match_id)
+            return Match.objects.annotate(
+                num_players=Count("players", distinct=True),
+                ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+            ).get(id=match_id)
         except Match.DoesNotExist as exc:
             raise NotFound(_("Match not found")) from exc
 
@@ -59,8 +72,7 @@ class MatchActionView(APIView):
         elif path.endswith("/ready/"):
             services.set_ready(match, request.user, True)
         elif path.endswith("/finish/"):
-            # services.finish_match(...) если есть
-            pass
+            print("finish match")
         return Response({"ok": True})
 
     def delete(self, request, match_id):

@@ -55,8 +55,8 @@ def set_ready(match, user, ready=True):
     p.is_ready = ready
     p.save(update_fields=["is_ready"])
 
-    participants = MatchPlayer.objects.select_for_update().filter(match=match)
-    if participants.exists() and all(x.is_ready for x in participants) and match.status == MatchStatus.WAITING:
+    players = MatchPlayer.objects.select_for_update().filter(match=match)
+    if players.exists() and all(x.is_ready for x in players) and match.status == MatchStatus.WAITING:
         match.status = MatchStatus.LIVE
         match.started_at = timezone.now()
         match.save(update_fields=["status", "started_at"])
