@@ -5,7 +5,7 @@ import { IMAGES_DIR } from "/config";
 import Input from "../components/ui_int/Input";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
-import OtpDialog from "../components/pages/login/OtpDialog";
+import OtpDialog from "../components/login/OtpDialog";
 import { useTranslation } from "react-i18next";
 import { toast } from 'react-toastify'
 
