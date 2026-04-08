@@ -32,6 +32,7 @@ export function startGame(
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
 	const posBuffer: [number, number, number] = [0, 0, 0]
+	const rotationBuffer: [number, number, number] = [0, 0, 0]
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -66,6 +67,7 @@ export function startGame(
 			else
 				launchRocket = false
 		}
+
 		const hitGroundDamage = player.getHitGroundDamage()
 		if (hitGroundDamage > 0) {
 			const matchState = getMatchState()
@@ -85,8 +87,12 @@ export function startGame(
 			posBuffer[0] = camera.position.x
 			posBuffer[1] = camera.position.y
 			posBuffer[2] = camera.position.z
+			rotationBuffer[0] = camera.rotation.x
+			rotationBuffer[1] = camera.rotation.y
+			rotationBuffer[2] = camera.rotation.z
 			stateExchanger.sendState({
 				pos: posBuffer,
+				rotation: rotationBuffer,
 				rockets: rockets.state(),
 			})
 		}
