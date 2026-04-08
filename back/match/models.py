@@ -60,4 +60,4 @@ class MatchPlayer(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.match_id} | {self.user.username}"
+        return f"{self.match_id} | {self.user.username} | ready: {self.is_ready}"

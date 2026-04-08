@@ -70,7 +70,7 @@ function OpenMatches() {
                 className="bg-red-500 hover:bg-red-700 text-white"
                 onClick={() => deleteMyMatch(myList[0].id)}
               >
-                {t("matches.delete_my_match")}
+                {user.id === myList[0].created_by ? t("matches.delete_my_match") : t("matches.leave_match")}
               </Button>
             </div>
           )}
