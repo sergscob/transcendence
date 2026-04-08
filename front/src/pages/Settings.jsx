@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { useSettingsStore } from "@/stores/settingsStore.ts";
 import { useTranslation } from 'react-i18next';
+import Rain from "../components/ui/rain.tsx";
 
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
@@ -27,14 +28,15 @@ function RestorePassword() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <form 
+    <div className="relative flex h-screen items-center justify-center bg-gray-100">
+      <Rain className="absolute inset-0 -z-10" />
+      <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-2xl shadow-md w-120 relative"
       >
-        { location.pathname == "/settings-start" && 
+        { location.pathname == "/settings-start" &&
           <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> }
-        
+
         <h2 className="text-xl font-bold mb-4 text-center">{t("settings.ip_address.title")}</h2>
         <Input
             value={form.ip}
