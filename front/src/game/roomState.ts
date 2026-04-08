@@ -6,8 +6,21 @@ import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './
 
 export interface IPlayerState {
     user_id: number;
-	pos: [number, number, number]
+	pos: [number, number, number];
 	rockets?: Array<{ pos: [number, number, number]; rocket_id: number }>;
+}
+
+export interface ICurrentPlayerState {
+	user_id: number;
+	health: number;
+	arms_left: number;
+	score: number;
+}
+
+export interface IMatchState {
+	current_player: ICurrentPlayerState;
+	players_count: number;
+	time_left: string;
 }
 
 type CreateRocketCallback = () => THREE.Mesh
