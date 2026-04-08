@@ -45,7 +45,7 @@ function Register() {
 	  <div className="relative z-10">
 		{ registered ?
 		<div>
-		<h3 className="text-l mb-4 text-center">{t("register.registration_succeeded")}</h3>
+		<h3 className="text-l text-white mb-4 text-center">{t("register.registration_succeeded")}</h3>
 		<Button className="" onClick={toLogin}>{t("register.go_to_login")}</Button>
 		</div>
 		:
