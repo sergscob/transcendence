@@ -10,6 +10,7 @@ import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/login/OtpDialog";
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from "@/stores/settingsStore";
+import Rain from "../components/ui/rain.tsx";
 
 export default function Login() {
   const { getServerHttpUrl } = useSettingsStore();
@@ -21,7 +22,7 @@ export default function Login() {
   const [openOtpDialog, setOpenOtpDialog] = useState(false);
   const [tmpUserId, setTmpUserId] = useState(null);
   const navigate = useNavigate()
-  
+
 
   async function changeForm(field) {
     setErrors({})
@@ -30,7 +31,7 @@ export default function Login() {
 
 
   async function onCodeEntered(code) {
-    try 
+    try
     {
       const res = await API.post("/auth/verify-otp/", {
         user_id: tmpUserId,
@@ -56,8 +57,8 @@ export default function Login() {
       {
         setTmpUserId(res.data.user_id);
         setOpenOtpDialog(true);
-      } 
-      else 
+      }
+      else
       {
         localStorage.setItem("token", res.data.access);
         navigate("/")
@@ -77,41 +78,44 @@ export default function Login() {
 
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <form
-        onSubmit={onSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md w-100"
-      >
-        <h2 className="text-xl font-bold mb-4 text-center">{t('login.title')}</h2>
-        <Input
-          placeholder={t('login.username')} 
-          value={form.username}
-          onChange={(e) => changeForm({ username: e.target.value })}
-        />
-        <div className="error-message">{errors.username}</div>
-        <Input
-          type="password"
-          placeholder={t('login.password')}
-          value={form.password}
-          onChange={(e) => changeForm({ password: e.target.value })}
-        />
-        <div className="error-message">{errors.password}</div>
-        <div className="error-message text-center">{errors.common}</div>
-        <Button loading={loading} className="">
-          {t('login.title')}
-        </Button>
-        <a href={`${getServerHttpUrl()}/api/auth/google/`} className="simple-link block text-center mt-3 text-sm">
-          {t('login.login_with_google')}
-        </a>
-        <a className="simple-link text-sm block text-center" onClick={onLogin42}>
-          {login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")} 
-        </a>
+    <div className="relative flex h-screen items-center justify-center bg-gray-100">
+      <Rain className="absolute inset-0 -z-10 pointer-events-none w-full h-full" />
+	  <div className="relative z-10">
+		<form
+			onSubmit={onSubmit}
+			className="bg-white p-6 rounded-2xl shadow-md w-100"
+		>
+			<h2 className="text-xl font-bold mb-4 text-center">{t('login.title')}</h2>
+			<Input
+			placeholder={t('login.username')}
+			value={form.username}
+			onChange={(e) => changeForm({ username: e.target.value })}
+			/>
+			<div className="error-message">{errors.username}</div>
+			<Input
+			type="password"
+			placeholder={t('login.password')}
+			value={form.password}
+			onChange={(e) => changeForm({ password: e.target.value })}
+			/>
+			<div className="error-message">{errors.password}</div>
+			<div className="error-message text-center">{errors.common}</div>
+			<Button loading={loading} className="">
+			{t('login.title')}
+			</Button>
+			<a href={`${getServerHttpUrl()}/api/auth/google/`} className="simple-link block text-center mt-3 text-sm">
+			{t('login.login_with_google')}
+			</a>
+			<a className="simple-link text-sm block text-center" onClick={onLogin42}>
+			{login42Clicked ? <span>{t('login.redirecting_to_42')} <Spinner className="inline mb-1"/></span> : t("login.login_with_42")}
+			</a>
 
-        <Link to="/register" className="simple-link text-sm block text-center mt-6"> {t('login.dont_have_account')} </Link>
-        <Link to="/restore" className="simple-link text-sm block text-center"> {t('login.forget_password')} </Link>
-      </form>
-      <OtpDialog 
-          open={openOtpDialog} setOpen={setOpenOtpDialog} 
+			<Link to="/register" className="simple-link text-sm block text-center mt-6"> {t('login.dont_have_account')} </Link>
+			<Link to="/restore" className="simple-link text-sm block text-center"> {t('login.forget_password')} </Link>
+		</form>
+	  </div>
+      <OtpDialog
+          open={openOtpDialog} setOpen={setOpenOtpDialog}
           onSuccess={(code) => onCodeEntered(code)}
        />
 
