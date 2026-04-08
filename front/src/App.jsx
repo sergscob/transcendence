@@ -17,6 +17,7 @@ import ViewProfile from "./pages/VIewProfile";
 import NotFound from "./pages/NotFound";
 import GameMain from "./pages/GameMain";
 import Settings from "./pages/Settings";
+import OpenMatches from "./pages/OpenMatches";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/editfriends" element={<EditFriends />} />
             <Route path="/game" element={<GameMain />} />
+            <Route path="/matches" element={<OpenMatches />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/" element={<Index />} />
           </Route>

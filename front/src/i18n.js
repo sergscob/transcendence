@@ -122,6 +122,15 @@ const resources = {
       "view_profile.loading": "Loading...",
       "view_profile.user_not_found": "User not found",
 
+      // Matches
+      "matches.open_matches": "Open matches",
+      "matches.my_match": "My match",
+      "matches.create_match": "Create match",
+      "matches.players_maxcount": "Max players",
+      "matches.time_limit": "Time limit",
+      "matches.create_match_error": "Failed to create match",
+      "matches.delete_my_match": "Delete my match",
+
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
     }
@@ -227,6 +236,15 @@ const resources = {
       "view_profile.loading": "Chargement...",
       "view_profile.user_not_found": "Utilisateur introuvable",
 
+      // Matches
+      "matches.open_matches": "Matchs ouverts",
+      "matches.my_match": "Mon match",
+      "matches.create_match": "Creer un match",
+      "matches.players_maxcount": "Nombre max de joueurs",
+      "matches.time_limit": "Limite de temps",
+      "matches.create_match_error": "Echec de la creation du match",
+      "matches.delete_my_match": "Supprimer mon match",
+
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
     }
@@ -331,6 +349,15 @@ const resources = {
       // VIewProfile 
       "view_profile.loading": "Загрузка...",
       "view_profile.user_not_found": "Пользователь не найден",
+
+      // Matches
+      "matches.open_matches": "Открытые матчи",
+      "matches.my_match": "Мой матч",
+      "matches.create_match": "Создать матч",
+      "matches.players_maxcount": "Максимум игроков",
+      "matches.time_limit": "Лимит времени",
+      "matches.create_match_error": "Не удалось создать матч",
+      "matches.delete_my_match": "Удалить мой матч",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"
