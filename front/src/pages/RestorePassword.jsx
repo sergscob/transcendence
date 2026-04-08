@@ -6,6 +6,7 @@ import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Rain from "../components/ui/rain.tsx";
 
 
 function RestorePassword() {
@@ -35,31 +36,34 @@ function RestorePassword() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <form 
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md w-100"
-      >
-        <h2 className="text-xl font-bold mb-4 text-center">{t("restore_password.title")}</h2>
-        { succeded ? 
-          <>
-          <h3 className="text-l mb-4 text-center">{t("restore_password.reset_link_sent")}</h3>
-          <Link to="/login" className="text-center text-sm mt-6 block"> {t("restore_password.login")}</Link>
-          </>
-          :
-          <>
-            <Input
-                value={form.email}
-                onChange={e => changeForm({ email: e.target.value })}
-                placeholder={t("restore_password.email")}
-            />
-            <div className="error-message text-center mt-2">{errors.common}</div>
-            <Button className="mt-2" loading={loading}>{t("restore_password.send_link")}</Button>
-            <div className="text-sm mt-6 text-center">{t("restore_password.have_account")} <a className="simple-link" href="/login">{t("restore_password.login_here")}</a></div>
-            <div className="text-sm text-center">{t("restore_password.no_account")} <a className="simple-link" href="/register">{t("restore_password.register_here")}</a></div>
-          </>
-        }
-      </form>
+    <div className="relative flex h-screen items-center justify-center bg-gray-100">
+		<Rain className="absolute inset-0 z-10"/>
+		<div className="relative z-10">
+			<form
+				onSubmit={handleSubmit}
+				className="bg-white p-6 rounded-2xl shadow-md w-100"
+			>
+				<h2 className="text-xl font-bold mb-4 text-center">{t("restore_password.title")}</h2>
+				{ succeded ?
+				<>
+				<h3 className="text-l mb-4 text-center">{t("restore_password.reset_link_sent")}</h3>
+				<Link to="/login" className="text-center text-sm mt-6 block"> {t("restore_password.login")}</Link>
+				</>
+				:
+				<>
+					<Input
+						value={form.email}
+						onChange={e => changeForm({ email: e.target.value })}
+						placeholder={t("restore_password.email")}
+					/>
+					<div className="error-message text-center mt-2">{errors.common}</div>
+					<Button className="mt-2" loading={loading}>{t("restore_password.send_link")}</Button>
+					<div className="text-sm mt-6 text-center">{t("restore_password.have_account")} <a className="simple-link" href="/login">{t("restore_password.login_here")}</a></div>
+					<div className="text-sm text-center">{t("restore_password.no_account")} <a className="simple-link" href="/register">{t("restore_password.register_here")}</a></div>
+				</>
+				}
+			</form>
+		</div>
     </div>
   );
 }
