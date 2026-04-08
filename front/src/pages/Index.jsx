@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import MainMenu from "@/components/pages/Index/MainMenu";
+import MainMenu from "@/components/common/MainMenu";
 import FriendsPanel from "@/components/chat/FriendsPanel";
 import { Link } from "react-router-dom";
 
