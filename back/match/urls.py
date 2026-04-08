@@ -7,15 +7,20 @@
 
 from django.urls import path, include
 from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView
+from .views_stat import StatsUserView, StatsTotalView
 
     
 urlpatterns = [
     path("api/matches/", MatchListViewMy.as_view()),                 # POST create, GET my
 
     path("api/matches/available/", MatchListViewAvailable.as_view()),   # GET available matches
-    
+
     path("api/matches/<uuid:match_id>/", MatchActionView.as_view()),     # GET detail
     path("api/matches/<uuid:match_id>/join/", MatchActionView.as_view()),
     path("api/matches/<uuid:match_id>/ready/", MatchActionView.as_view()),
     path("api/matches/<uuid:match_id>/finish/", MatchActionView.as_view()),
+
+    path("api/stats/<int:user_id>/", StatsUserView.as_view()),
+    path("api/stats/", StatsTotalView.as_view()),
+
 ]

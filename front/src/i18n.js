@@ -124,6 +124,19 @@ const resources = {
       // VIewProfile
       "view_profile.loading": "Loading...",
       "view_profile.user_not_found": "User not found",
+      "view_profile.total_matches": "Total matches",
+      "view_profile.wins": "Wins",
+      "view_profile.losses": "Losses",
+      "view_profile.score": "Score",
+
+      // TotalStat
+      "total_stat.title": "Total stats",
+      "total_stat.place": "Place",
+      "total_stat.player": "Player",
+      "total_stat.total_matches": "Total matches",
+      "total_stat.wins": "Wins",
+      "total_stat.score": "Score",
+      "total_stat.load_more": "Load more",
 
       // Matches
       "matches.open_matches": "Open matches",
@@ -241,6 +254,19 @@ const resources = {
       // VIewProfile
       "view_profile.loading": "Chargement...",
       "view_profile.user_not_found": "Utilisateur introuvable",
+      "view_profile.total_matches": "Matchs joues",
+      "view_profile.wins": "Victoires",
+      "view_profile.losses": "Defaites",
+      "view_profile.score": "Score",
+
+      // TotalStat
+      "total_stat.title": "Statistiques totales",
+      "total_stat.place": "Place",
+      "total_stat.player": "Joueur",
+      "total_stat.total_matches": "Matchs joues",
+      "total_stat.wins": "Victoires",
+      "total_stat.score": "Score",
+      "total_stat.load_more": "Charger plus",
 
       // Matches
       "matches.open_matches": "Matchs ouverts",
@@ -358,6 +384,19 @@ const resources = {
       // VIewProfile
       "view_profile.loading": "Загрузка...",
       "view_profile.user_not_found": "Пользователь не найден",
+      "view_profile.total_matches": "Всего матчей",
+      "view_profile.wins": "Победы",
+      "view_profile.losses": "Поражения",
+      "view_profile.score": "Очки",
+
+      // TotalStat
+      "total_stat.title": "Общая статистика",
+      "total_stat.place": "Место",
+      "total_stat.player": "Игрок",
+      "total_stat.total_matches": "Всего матчей",
+      "total_stat.wins": "Победы",
+      "total_stat.score": "Очки",
+      "total_stat.load_more": "Загрузить еще",
 
       // Matches
       "matches.open_matches": "Открытые матчи",
