@@ -64,6 +64,7 @@ export function createRocketInstance(user_id: number) {
 		return rockets.map(({ rocket_id, mesh }) => ({
 			rocket_id,
 			pos: mesh.position.toArray(),
+			rotation: mesh.rotation.toArray()
 		}))
 	}
 
