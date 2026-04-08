@@ -99,6 +99,26 @@ msgstr "Мест нет."
 msgid "You are already a participant in another match."
 msgstr "Вы уже участвуете в другом матче."
 
+#: match/views.py:49
+msgid "Match not found"
+msgstr "Матч не найден"
+
+#: match/views.py:72
+msgid "Only waiting matches can be canceled or left."
+msgstr "Только ожидающие матчи можно отменить или покинуть."
+
+#: match/views.py:81
+msgid "You are not a participant of this match."
+msgstr "Вы не участник этого матча."
+
+#: match/views.py:87
+msgid "Match deleted."
+msgstr "Матч удален."
+
+#: match/views.py:90
+msgid "You left the match."
+msgstr "Вы покинули матч."
+
 #: users/serializers.py:20
 #, fuzzy
 #| msgid "Enter a valid email address."

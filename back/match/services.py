@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError
 from .models import Match, MatchPlayer, MatchStatus
 
 def is_participant_of_open_match(user):
@@ -15,7 +16,7 @@ def get_count_players(match, player):
 def match_create_and_join(creator, players_maxcount=2, map_name="default", score_limit=5, time_limit=120):
 
     if is_participant_of_open_match(creator):
-        raise ValueError(_("You are already a participant in another match."))
+        raise ValidationError({"detail": _("You are already a participant in another match.")})
 
     match = Match.objects.create(
         created_by=creator,
@@ -33,20 +34,24 @@ def match_create_and_join(creator, players_maxcount=2, map_name="default", score
 @transaction.atomic
 def match_join(match, player):
     if match.status != MatchStatus.WAITING:
-        raise ValueError(_("Cannot join a match that is not waiting for players."))
+        raise ValidationError({"detail": _("Cannot join a match that is not waiting for players.")})
     if MatchPlayer.objects.filter(match=match, user=player).exists():
-        raise ValueError(_("Player has already joined this match."))
+        raise ValidationError({"detail": _("Player has already joined this match.")})
     if match.players.count() >= match.players_maxcount:
-        raise ValueError(_("Match is already full."))
+        raise ValidationError({"detail": _("Match is already full.")})
     if is_participant_of_open_match(player):
-        raise ValueError(_("You are already a participant in another match."))
+        raise ValidationError({"detail": _("You are already a participant in another match.")})
 
     MatchPlayer.objects.create(match=match, user=player)
 
 
 @transaction.atomic
 def set_ready(match, user, ready=True):
-    p = MatchPlayer.objects.select_for_update().get(match=match, user=user)
+    try:
+        p = MatchPlayer.objects.select_for_update().get(match=match, user=user)
+    except MatchPlayer.DoesNotExist as exc:
+        raise ValidationError({"detail": _("Player is not a participant of this match.")}) from exc
+
     p.is_ready = ready
     p.save(update_fields=["is_ready"])
 
