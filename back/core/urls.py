@@ -37,6 +37,7 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path("", include("users.urls")),
     path("", include("friends.urls")),
+    path("", include("match.urls")),
     # Serve media files in development
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
