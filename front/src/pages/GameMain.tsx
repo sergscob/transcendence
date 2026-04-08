@@ -95,7 +95,7 @@ export default function GameMain() {
           SCORE: {matchState?.current_player?.score}
         </div>
         <div className="ml-10 font-display whitespace-nowrap text-yellow-500/50">
-          TIME LEFT: {matchState?.time_left}
+          TIME: {matchState?.time_left}
         </div>
         <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
           PLAYERS: {matchState?.players_count}

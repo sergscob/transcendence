@@ -77,6 +77,10 @@ class MatchActionView(APIView):
             services.set_ready(match, request.user, True)
         elif path.endswith("/finish/"):
             print("finish match")
+            match.status = MatchStatus.FINISHED
+            match.finished_at = timezone.now()
+            match.save(update_fields=["status", "finished_at"])
+            
         return Response({"ok": True})
 
     def delete(self, request, match_id):
