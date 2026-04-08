@@ -92,8 +92,12 @@ msgid "Player has already joined this match."
 msgstr "Игрок уже присоединился к этому матчу."
 
 #: match/services.py:31
-msgid "Duel mode matches can only have 2 players."
-msgstr "Матчи в режиме дуэли могут иметь только 2 игроков."
+msgid "Match is already full."
+msgstr "Мест нет."
+
+#: match/services.py:18
+msgid "You are already a participant in another match."
+msgstr "Вы уже участвуете в другом матче."
 
 #: users/serializers.py:20
 #, fuzzy
