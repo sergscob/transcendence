@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.exceptions import NotFound
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, Q, Exists, OuterRef
 from django.utils.translation import gettext_lazy as _
 from .models import Match, MatchPlayer, MatchStatus
 from . import services
@@ -18,6 +18,7 @@ class MatchListViewAvailable(APIView):
             .annotate(
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+                created_by_name=F("created_by__username"),
             )
             .filter(num_players__lt=F("players_maxcount"))
             .exclude(players__user=request.user)
@@ -36,12 +37,14 @@ class MatchListViewMy(APIView):
 
     def get(self, request):
         qs = (
-            Match.objects.filter(players__user=request.user)
+            Match.objects.filter(
+                Exists(MatchPlayer.objects.filter(match_id=OuterRef('pk'), user=request.user))
+            )
             .annotate(
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+                created_by_name=F("created_by__username")
             )
-            .distinct()
         )
         serializer = MatchSerializer(qs, many=True)
         return Response(serializer.data)
@@ -55,6 +58,7 @@ class MatchActionView(APIView):
             return Match.objects.annotate(
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
+                created_by_name=F("created_by__username"),
             ).get(id=match_id)
         except Match.DoesNotExist as exc:
             raise NotFound(_("Match not found")) from exc

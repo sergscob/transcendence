@@ -42,7 +42,7 @@ def match_join(match, player):
     if is_participant_of_open_match(player):
         raise ValidationError({"detail": _("You are already a participant in another match.")})
 
-    MatchPlayer.objects.create(match=match, user=player)
+    MatchPlayer.objects.create(match=match, user=player, is_ready=True, is_joined=True)
 
 
 @transaction.atomic

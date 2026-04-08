@@ -32,7 +32,7 @@ export function RainBackground({
   intensity = 1,
   angle = 15,
   color = "rgba(174, 194, 224, 0.5)",
-  lightning = true,
+  lightning = false,
 }: RainBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
