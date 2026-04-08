@@ -50,15 +50,15 @@ export function startGame(
 
 	const clock = new THREE.Clock()
 	function animate() {
+		const matchState = getMatchState()
 		animationId = requestAnimationFrame(animate)
 
-		const delta = Math.min(clock.getDelta(), 0.05)  // cap à 50ms pour éviter les bugs physique
+		const delta = Math.min(clock.getDelta(), 0.05)
 
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 
 		let launchRocket = controlsInstance?.getClick() ?? false
 		if (launchRocket) {
-			const matchState = getMatchState()
 			const armsLeft = matchState.current_player.arms_left
 			if (armsLeft > 0) {
 				matchState.current_player.arms_left -= 1
@@ -70,13 +70,16 @@ export function startGame(
 
 		const hitGroundDamage = player.getHitGroundDamage()
 		if (hitGroundDamage > 0) {
-			const matchState = getMatchState()
 			matchState.current_player.health -= hitGroundDamage
 			setMatchState(matchState)
 		}
 
-		rockets.update(scene, camera, launchRocket, delta, worldOctree)
 		roomState.update(delta)
+		rockets.update(scene, camera, launchRocket, delta, worldOctree, roomState.players, setMatchState, matchState)
+
+		matchState.players_count = Object.keys(roomState.players).length
+		// matchState.time_left = clock.getElapsedTime()
+		setMatchState(matchState)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0
 		camera.rotation.x = controlsInstance?.getPitch() ?? 0

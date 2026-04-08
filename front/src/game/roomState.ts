@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Capsule } from 'three/addons/math/Capsule.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
 export interface IPlayerState {
@@ -25,10 +24,12 @@ export interface IMatchState {
 }
 
 type CreateRocketCallback = () => THREE.Mesh
+export type remotePlayersArr = Record<number, {mesh: THREE.Object3D; collider: Capsule; target: [number, number, number]; rotation: [number, number, number]}>
 
 export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene, createRocket: CreateRocketCallback) {
-	const players: Record<number, {mesh: THREE.Object3D; collider: Capsule; target: [number, number, number]; rotation: [number, number, number]}> = {}
-	const rockets: Record<number, {user_id: number; mesh: THREE.Mesh; collider: THREE.Sphere; target: [number, number, number]; rotation: [number, number, number]}> = {}
+	const players: remotePlayersArr = {}
+	const rockets: Record<number, {user_id: number; mesh: THREE.Mesh; collider: THREE.Box3; localBox: THREE.Box3; target: [number, number, number]; rotation: [number, number, number]}> = {}
+	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 
 	const SMOOTHING = GAME_CONFIG.REMOTE.smoothing
 
@@ -115,13 +116,13 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 
 		const barrelMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.REMOTE.playerMeshColor })
 		const barrelMesh = new THREE.Mesh(barrelGeometry, barrelMaterial)
-		barrelMesh.position.set(center.x, center.y + 1.95, box.min.z - barrelLength / 2 - barrelRadius * 0.5 + 0.4)
+		barrelMesh.position.set(center.x, center.y + 1.95, box.min.z - barrelLength / 2 - barrelRadius * 0.5 + 0.5)
 
 		const mountSize = barrelRadius * 2.2
 		const mountGeometry = new THREE.BoxGeometry(mountSize, mountSize, mountSize)
 		const mountMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.REMOTE.playerMeshColor })
 		const mountMesh = new THREE.Mesh(mountGeometry, mountMaterial)
-		mountMesh.position.set(center.x, center.y + 1.95, box.min.z + mountSize * 0.2 + 0.4)
+		mountMesh.position.set(center.x, center.y + 1.95, box.min.z + mountSize * 0.2 + 0.5)
 
 		const weapon = new THREE.Group()
 		weapon.add(mountMesh)
@@ -140,7 +141,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 					return
 				}
 				const clone = model.clone(true)
-				clone.position.set(0, 0, 0.3)
+				clone.position.set(0, 0, 0)
 				clone.scale.setScalar(0.8)
 				clone.rotateY(Math.PI)
 
@@ -263,11 +264,14 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 							rocketState.rotation?.[1] ?? 0,
 							rocketState.rotation?.[2] ?? 0,
 						)
-						const colliderRocket = new THREE.Sphere(meshRocket.position.clone(), GAME_CONFIG.ROCKET.colliderRadius)
+						const localBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderSize)
+						meshRocket.updateMatrixWorld(true)
+						const colliderRocket = localBox.clone().applyMatrix4(meshRocket.matrixWorld)
 						rockets[rocketId] = {
 							user_id: playerState.user_id,
 							mesh: meshRocket,
 							collider: colliderRocket,
+							localBox,
 							target: [meshRocket.position.x, meshRocket.position.y, meshRocket.position.z],
 							rotation: [meshRocket.rotation.x, meshRocket.rotation.y, meshRocket.rotation.z]
 						}
@@ -329,9 +333,10 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 				continue
 			}
 			smoothMove(entry.mesh, entry.target, entry.rotation, delta)
-			entry.collider.center.copy(entry.mesh.position)
+			entry.mesh.updateMatrixWorld(true)
+			entry.collider.copy(entry.localBox).applyMatrix4(entry.mesh.matrixWorld)
 		}
 	}
 
-	return { modifyRoomState, update }
+	return { modifyRoomState, update, players }
 }
