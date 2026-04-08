@@ -6,7 +6,7 @@ export default function Index() {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className="w-90 flex flex-col justify-center bg-gray-100 gap-5">
+    <div className="w-90 flex flex-col justify-center gap-5">
         {/* <BigButton text="Main page" url="/" className="bg-red-500 hover:bg-red-700 border-red-700"/> */}
         <BigButton text={t('main_menu.edit_profile')} url="/editprofile" className="bg-blue-500 hover:bg-blue-700 border-blue-700"/>
         <BigButton text={t('main_menu.friends')} url="/editfriends" className="bg-green-500 hover:bg-green-700 border-green-700"/>
@@ -15,4 +15,3 @@ export default function Index() {
     </div>
   );
 }
- 
