@@ -17,22 +17,28 @@ function OpenMatches() {
   const loaded = useUserStore((s) => s.loaded);
   const loading = useUserStore((s) => s.loading);
   const [waitingList, setWaitingList] = useState([]);
-  const [MyList, setMyList] = useState([]);
+  const [myList, setMyList] = useState([]);
 
-  async function fetchAvailableMatches() {
-    const res = await API.get("matches/available/")
+  async function fetchAll() {
+    let res = await API.get("matches/available/")
     setWaitingList(res.data);
-  }
-
-  async function fetchMyMatch() {
-    const res = await API.get("matches/")
+    res = await API.get("matches/")
     setMyList(res.data);
   }
 
-  async function handleDeleteMyMatch(matchId) {
+  async function deleteMyMatch(matchId) {
     try {
       await API.delete(`matches/${matchId}/`);
-      await Promise.all([fetchAvailableMatches(), fetchMyMatch()]);
+      await fetchAll();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function joinMatch(matchId) {
+    try {
+      await API.post(`matches/${matchId}/join/`);
+      await fetchAll();
     } catch (err) {
       console.error(err);
     }
@@ -40,8 +46,7 @@ function OpenMatches() {
 
   useEffect(() => {
     if (loaded && user) {
-      fetchAvailableMatches();
-      fetchMyMatch();
+      fetchAll();
     }
   }, [user]);
 
@@ -53,14 +58,17 @@ function OpenMatches() {
     <div className="w-screen h-screen flex justify-center items-center">
       
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-white min-w-150" >
-          {MyList.length > 0 && (
+          {myList.length > 0 && (
             <div className="flex items-center gap-3">
-              <Link to={`/matches/${MyList[0].id}`} className="text-center mt-4 p-2 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
+              <Link to={`/matches/${myList[0].id}`} className="text-center mt-4 p-2 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
                   {t("matches.my_match")}
               </Link>
+              <div className="w-160">
+                {JSON.stringify(myList)}
+              </div>
               <Button
                 className="bg-red-500 hover:bg-red-700 text-white"
-                onClick={() => handleDeleteMyMatch(MyList[0].id)}
+                onClick={() => deleteMyMatch(myList[0].id)}
               >
                 {t("matches.delete_my_match")}
               </Button>
@@ -86,7 +94,10 @@ function OpenMatches() {
                     <TableCell>{match.status}</TableCell>
                     <TableCell>{match.num_players}/{match.players_maxcount}</TableCell>
                     <TableCell className="text-right">
-                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <Button className="bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-500"
+                          disabled={myList.length > 0}
+                          onClick={() => joinMatch(match.id)}
+                          >
                             Join
                         </Button>
                         </TableCell>
@@ -95,7 +106,9 @@ function OpenMatches() {
 
             </TableBody>
             </Table>
-            <Button className="max-w-50 bg-green-500 hover:bg-green-700 text-white " onClick={() => setOpenCreateDialog(true)} disabled={MyList.length > 0}>
+            <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 " 
+                onClick={() => setOpenCreateDialog(true)} 
+                disabled={myList.length > 0}>
                 {t("matches.create_match")}
             </Button>
             <CreateMatch 

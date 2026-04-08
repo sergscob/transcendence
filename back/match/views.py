@@ -6,6 +6,7 @@ from django.db.models import Count, F
 from django.utils.translation import gettext_lazy as _
 from .models import Match, MatchPlayer, MatchStatus
 from . import services
+from .serializers import MatchSerializer
 
 
 class MatchListViewAvailable(APIView):
@@ -19,13 +20,8 @@ class MatchListViewAvailable(APIView):
             .exclude(players__user=request.user)
             .distinct()
         )
-        return Response([{"id": str(m.id), 
-            "status": m.status, 
-            "num_players": m.num_players, 
-            "created_by": m.created_by.username if m.created_by else None,
-            "players_maxcount": m.players_maxcount
-        } for m in qs])
-
+        serializer = MatchSerializer(qs, many=True)
+        return Response(serializer.data)
 
 class MatchListViewMy(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -36,7 +32,8 @@ class MatchListViewMy(APIView):
 
     def get(self, request):
         qs = Match.objects.filter(players__user=request.user).distinct()
-        return Response([{"id": str(match.id), "status": match.status} for match in qs])
+        serializer = MatchSerializer(qs, many=True)
+        return Response(serializer.data)
 
 
 
@@ -51,7 +48,8 @@ class MatchActionView(APIView):
 
     def get(self, request, match_id):
         match = self._get_match(match_id)
-        return Response({"id": str(match.id), "status": match.status})
+        serializer = MatchSerializer(match)
+        return Response(serializer.data)
 
     def post(self, request, match_id):
         match = self._get_match(match_id)
