@@ -14,7 +14,7 @@ let controlsInstance: ReturnType<typeof createControls> | undefined
 let rendererInstance: THREE.WebGLRenderer | undefined
 let removeResizeInstance: {removeRisizeEvent: () => void} | undefined
 
-export function startGame(container: HTMLDivElement, user_id: number,
+export function startGame(container: HTMLDivElement, user_id: number, matchId: string | undefined,
 	getMatchState: () => IMatchState, setMatchState: (state: IMatchState) => void) {
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)

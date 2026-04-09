@@ -5,6 +5,8 @@ import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import { useTranslation } from 'react-i18next'
 import { IMatchState } from '@/game/roomState';  
+import { useParams } from "react-router-dom";
+
 
 const defaultMatchState: IMatchState = {
   current_player: {
@@ -21,7 +23,7 @@ const defaultMatchState: IMatchState = {
 };
 
 export default function GameMain() {
-
+  const { id: matchId } = useParams();
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
@@ -50,6 +52,7 @@ export default function GameMain() {
     startGame(
       containerRef.current,
       user.id,
+      matchId,
       () => matchStateRef.current,
       updateMatchState,
     )
