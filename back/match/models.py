@@ -10,13 +10,7 @@ class MatchStatus(models.TextChoices):
     FINISHED = "finished"
     CANCELED = "canceled"
 
-
-class MatchMode(models.TextChoices):
-    DUEL = "duel"
-    TOURNAMENT = "tournament"
-
-
-class ParticipantResult(models.TextChoices):
+class PlayerResult(models.TextChoices):
     NONE = "none"
     WIN = "win"
     LOSS = "loss"
@@ -28,9 +22,9 @@ class Match(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_matches', on_delete=models.SET_NULL, null=True, blank=True)
-    mode = models.CharField(max_length=20, choices=MatchMode.choices, default=MatchMode.DUEL)
     status = models.CharField(max_length=20, choices=MatchStatus.choices, default=MatchStatus.WAITING)
     
+    players_maxcount = models.PositiveIntegerField(default=2)
     map_name = models.CharField(max_length=64, default="default")
     score_limit = models.PositiveIntegerField(default=5)
     time_limit = models.PositiveIntegerField(default=120)
@@ -50,7 +44,7 @@ class MatchPlayer(models.Model):
     match = models.ForeignKey(Match, related_name='players', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    result = models.CharField(max_length=20, choices=ParticipantResult.choices, default=ParticipantResult.NONE)
+    result = models.CharField(max_length=20, choices=PlayerResult.choices, default=PlayerResult.NONE)
     is_ready = models.BooleanField(default=False)
     is_joined = models.BooleanField(default=False)
     health = models.IntegerField(default=100)
@@ -66,4 +60,4 @@ class MatchPlayer(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.match_id} | {self.user.username}"
+        return f"{self.match_id} | {self.user.username} | ready: {self.is_ready}"

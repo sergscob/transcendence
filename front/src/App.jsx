@@ -5,6 +5,7 @@ import RedirectToDjangoAdmin from "./components/util/RedirectToDjangoAdmin";
 import AuthLayout from "./components/layouts/AuthLayout";
 import MainLayout from "./components/layouts/MainLayout";
 import ProtectedRoute from "./components/util/ProtectedRoute";
+import GameLayout from "./components/layouts/GameLayout";
 
 import OAuth from "./pages/OAuth";
 import Login from "./pages/Login";
@@ -17,6 +18,9 @@ import ViewProfile from "./pages/VIewProfile";
 import NotFound from "./pages/NotFound";
 import GameMain from "./pages/GameMain";
 import Settings from "./pages/Settings";
+import OpenMatches from "./pages/OpenMatches";
+import TotalStat from "./pages/TotalStat";
+
 
 export default function App() {
   return (
@@ -34,9 +38,15 @@ export default function App() {
             <Route path="/profile/:id" element={<ViewProfile />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/editfriends" element={<EditFriends />} />
-            <Route path="/game" element={<GameMain />} />
+            <Route path="/stats" element={<TotalStat />} />
+            <Route path="/matches" element={<OpenMatches />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/" element={<Index />} />
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route element={<GameLayout />}>
+            <Route path="/game" element={<GameMain />} />
           </Route>
         </Route>
         <Route path="/admin" element={<RedirectToDjangoAdmin />} />

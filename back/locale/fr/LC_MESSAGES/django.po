@@ -76,8 +76,32 @@ msgid "Player has already joined this match."
 msgstr "Le joueur a déjà rejoint ce match."
 
 #: match/services.py:31
-msgid "Duel mode matches can only have 2 players."
-msgstr "Les matchs en mode duel ne peuvent avoir que 2 joueurs."
+msgid "Match is already full."
+msgstr "Match est rempli."
+
+#: match/services.py:18
+msgid "You are already a participant in another match."
+msgstr "Vous participez déjà à un autre match."
+
+#: match/views.py:49
+msgid "Match not found"
+msgstr "Match introuvable"
+
+#: match/views.py:72
+msgid "Only waiting matches can be canceled or left."
+msgstr "Seuls les matchs en attente peuvent être annulés ou quittés."
+
+#: match/views.py:81
+msgid "You are not a participant of this match."
+msgstr "Vous n'êtes pas participant de ce match."
+
+#: match/views.py:87
+msgid "Match deleted."
+msgstr "Match supprimé."
+
+#: match/views.py:90
+msgid "You left the match."
+msgstr "Vous avez quitté le match."
 
 #: users/serializers.py:20
 #, fuzzy
