@@ -40,8 +40,6 @@ export default function MainLayout() {
         <Outlet />
       </div>
 
-      { location.pathname !== '/game' && <Footer /> } 
-
     </div>
   );
 }
