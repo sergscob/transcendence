@@ -6,6 +6,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+body {
+    font-family: "Black Ops One", system-ui, sans-serif;
+    letter-spacing: 0.1em;
+}
+
 .error-message {
     color: red;
     height: 22px;
