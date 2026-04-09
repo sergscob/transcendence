@@ -6,6 +6,8 @@ export const GAME_CONFIG = {
 		speed: 7,
 		jumpImpulse: 15,
 		resetDistance: 50,
+		fallDAmage: 25,
+		landingSpeedToTakeDamage: 10,
 
 		capsule: {
 			radius: 0.2,
