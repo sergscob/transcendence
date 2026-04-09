@@ -24,11 +24,24 @@ export interface IMatchState {
 }
 
 type CreateRocketCallback = () => THREE.Mesh
-export type remotePlayersArr = Record<number, {mesh: THREE.Object3D; collider: Capsule; target: [number, number, number]; rotation: [number, number, number]}>
+export type remotePlayersArr = Record<number, {
+	mesh: THREE.Object3D;
+	collider: Capsule;
+	target: [number, number, number];
+	rotation: [number, number, number]
+}>
+export type remoteRocketsArr = Record<number, {
+	user_id: number;
+	mesh: THREE.Mesh;
+	collider: THREE.Box3;
+	localBox: THREE.Box3;
+	target: [number, number, number];
+	rotation: [number, number, number]
+}>
 
 export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene, createRocket: CreateRocketCallback) {
 	const players: remotePlayersArr = {}
-	const rockets: Record<number, {user_id: number; mesh: THREE.Mesh; collider: THREE.Box3; localBox: THREE.Box3; target: [number, number, number]; rotation: [number, number, number]}> = {}
+	const rockets: remoteRocketsArr = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 
 	const SMOOTHING = GAME_CONFIG.REMOTE.smoothing
@@ -116,13 +129,13 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 
 		const barrelMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.REMOTE.playerMeshColor })
 		const barrelMesh = new THREE.Mesh(barrelGeometry, barrelMaterial)
-		barrelMesh.position.set(center.x, center.y + 1.95, box.min.z - barrelLength / 2 - barrelRadius * 0.5 + 0.5)
+		barrelMesh.position.set(center.x, center.y + 1.95, box.min.z - barrelLength / 2 - barrelRadius * 0.5 + 0.7)
 
 		const mountSize = barrelRadius * 2.2
 		const mountGeometry = new THREE.BoxGeometry(mountSize, mountSize, mountSize)
 		const mountMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.REMOTE.playerMeshColor })
 		const mountMesh = new THREE.Mesh(mountGeometry, mountMaterial)
-		mountMesh.position.set(center.x, center.y + 1.95, box.min.z + mountSize * 0.2 + 0.5)
+		mountMesh.position.set(center.x, center.y + 1.95, box.min.z + mountSize * 0.2 + 0.7)
 
 		const weapon = new THREE.Group()
 		weapon.add(mountMesh)

@@ -28,7 +28,6 @@ async def _broadcast_room_state(channel_layer):
     except asyncio.CancelledError:
         return
 
-
 class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):

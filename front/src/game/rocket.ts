@@ -68,6 +68,7 @@ export function createRocketInstance(user_id: number) {
 			camera.getWorldDirection(camDir)
 
 			newRocket.position.copy(camera.position)
+			// newRocket.position.add.setX()
 			const target = newRocket.position.clone().add(camDir)
 			newRocket.lookAt(target)
 
