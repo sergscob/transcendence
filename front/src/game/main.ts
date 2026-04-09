@@ -42,7 +42,7 @@ export function startGame(container: HTMLDivElement, user_id: number,
 		roomState.update(delta)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
 
-		matchState.players_count = Object.keys(roomState.players).length
+		matchState.players_count = Array(roomState.players).length
 		// matchState.time_left = clock.getElapsedTime()
 		setMatchState(matchState)
 

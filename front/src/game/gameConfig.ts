@@ -7,20 +7,20 @@ export const GAME_CONFIG = {
 		jumpImpulse: 15,
 		resetDistance: 50,
 		fallDAmage: 25,
-		landingSpeedToTakeDamage: 10,
+		landingSpeedToTakeDamage: 8,
 
 		capsule: {
 			radius: 0.2,
 			height: 1,
 		},
 
-		spawnEnd: [3, 5, -5],
+		spawnEnd: [2, 2, -5],
 	},
 
 	ROCKET: {
 		speed: 40,
 		maxDistance: 100,
-		colliderSize: [0.2, 0.2, 1.0],
+		colliderSize: [0.1, 0.1, 1.0],
 		idStride: 1000,
 
 		geometry: {
