@@ -3,7 +3,6 @@ import { Octree } from 'three/addons/math/Octree.js'
 import { GAME_CONFIG } from './gameConfig'
 import { remotePlayersArr, IMatchState }from './roomState'
 
-
 export function createRocketInstance(user_id: number) {
 	const ROCKET_ID_STRIDE = GAME_CONFIG.ROCKET.idStride
 	let nextRocketNumber = 1
@@ -32,7 +31,7 @@ export function createRocketInstance(user_id: number) {
 	}
 
 	function update(scene: THREE.Scene, camera: THREE.PerspectiveCamera, click: boolean, delta: number, worldOctree: Octree,
-		players: remotePlayersArr, PlayerSetState :(state: IMatchState) => void, PlayerGetState: IMatchState) {
+		players: remotePlayersArr, PlayerGetState: IMatchState) {
 		for (let i = rockets.length - 1; i >= 0; i--) {
 			const rocketMesh = rockets[i].mesh
 			const rocketCollider = rockets[i].collider
@@ -56,12 +55,12 @@ export function createRocketInstance(user_id: number) {
 					scene.remove(rocketMesh)
 					rockets.splice(i, 1)
 					PlayerGetState.current_player.score += 100
-					PlayerSetState(PlayerGetState)
 				}
 			}
 		}
 
-		if (click) {
+		if (click && PlayerGetState.current_player.arms_left > 0) {
+			PlayerGetState.current_player.arms_left--
 			const newRocket = createRocket()
 			const rocketId = generateRocketId()
 			
@@ -72,7 +71,6 @@ export function createRocketInstance(user_id: number) {
 			const target = newRocket.position.clone().add(camDir)
 			newRocket.lookAt(target)
 
-			// Local collider centered on rocket origin, then transformed to world AABB.
 			const localBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderSize)
 			newRocket.updateMatrixWorld(true)
 			const newCollider = localBox.clone().applyMatrix4(newRocket.matrixWorld)

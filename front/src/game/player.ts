@@ -1,9 +1,8 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
-import { remotePlayersArr, IMatchState }from './roomState'
-
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
+import { IMatchState }from './roomState'
 
 export function createPlayer(camera: THREE.PerspectiveCamera) {
 	const spawnEnd = getPlayerSpawnEnd()
@@ -15,10 +14,8 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 
 	const velocity = new THREE.Vector3()
 	let onFloor = false
-	let lastLandingSpeed = 0
-	const HARD_LANDING_SPEED = 9
 
-	function update(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
+	function update(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree, PlayerGetState: IMatchState) {
 		if (collider.end.length() > GAME_CONFIG.PLAYER.resetDistance) {
 			const resetEnd = getPlayerSpawnEnd()
 			collider.set(
@@ -53,16 +50,14 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 		collider.translate(direction)
 		collider.translate(new THREE.Vector3(0, velocity.y * delta, 0))
 
-		// Collision avec le monde
 		const wasOnFloor = onFloor
 		const result = worldOctree.capsuleIntersect(collider)
 		onFloor = false
 		if (result) {
 			onFloor = result.normal.y > 0
 			if (onFloor) {
-				if (!wasOnFloor && -velocity.y >= HARD_LANDING_SPEED) {
-					lastLandingSpeed = -velocity.y
-					console.log('Hard landing, speed', lastLandingSpeed)
+				if (!wasOnFloor && -velocity.y > GAME_CONFIG.PLAYER.landingSpeedToTakeDamage) {
+					PlayerGetState.current_player.health -= GAME_CONFIG.PLAYER.fallDAmage
 				}
 				velocity.y = 0
 			}
@@ -72,14 +67,5 @@ export function createPlayer(camera: THREE.PerspectiveCamera) {
 		camera.position.copy(collider.end)
 	}
 
-	function getHitGroundDamage(): number {
-		if (lastLandingSpeed < HARD_LANDING_SPEED) return 0
-		const hit = lastLandingSpeed / HARD_LANDING_SPEED 
-		console.log('hit ', hit)
-
-		lastLandingSpeed = 0
-		return hit
-	}
-
-	return { update, getHitGroundDamage }
+	return { update }
 }
