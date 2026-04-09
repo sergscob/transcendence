@@ -4,7 +4,6 @@ import Avatar from "@/components/ui_int/Avatar";
 import { useParams } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
 import { useTranslation } from "react-i18next";
-import Rain from "../components/ui/rain.tsx";
 
 function ViewProfile() {
   const { t } = useTranslation();
@@ -34,9 +33,8 @@ function ViewProfile() {
 
 
   return (
-	<div className="relative w-screen h-screen flex justify-center items-center">
-		<Rain className="absolute inset-0 -z-10" />
-		<div className="flex flex-col gap-2 relative z-10 items-center border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500">
+	<div className="w-screen h-screen flex justify-center items-center">
+		<div className="flex flex-col gap-2 items-center border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500">
 			<Avatar user={user} size="250" />
 			<div className="text-[30px] font-bold text-white">{user.username}</div>
 			<div className="">

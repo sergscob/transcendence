@@ -9,7 +9,6 @@ import acceptFriendIcon from "../assets/icons/acceptFriend.svg";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import { useTranslation } from "react-i18next";
-import Rain from "../components/ui/rain.tsx";
 
 function EditFriends() {
   const { t } = useTranslation();
@@ -55,9 +54,8 @@ function EditFriends() {
   if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
 
   return (
-    <div className="relative w-screen min-h-screen flex justify-center items-center">
-      <Rain className="absolute inset-0 -z-10" />
-      <div className="flex flex-col md:flex-row gap-10 lg:gap-30 relative z-10 ">
+    <div className="w-screen min-h-screen flex justify-center items-center">
+      <div className="flex flex-col md:flex-row gap-10 lg:gap-30 relative ">
 
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100">
           <h2 className="mr-10 text-lg font-bold text-[40px] text-white">{t("edit_friends.all_users")}</h2>

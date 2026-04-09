@@ -10,7 +10,6 @@ import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/login/OtpDialog";
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from "@/stores/settingsStore";
-import Rain from "../components/ui/rain.tsx";
 
 export default function Login() {
   const { getServerHttpUrl } = useSettingsStore();
@@ -78,9 +77,7 @@ export default function Login() {
 
 
   return (
-    <div className="relative flex h-screen items-center justify-center bg-gray-100">
-      <Rain className="absolute inset-0 -z-10 pointer-events-none w-full h-full" />
-	  <div className="relative z-10">
+    <div className="flex h-screen items-center justify-center">
 		<form
 			onSubmit={onSubmit}
 			className="bg-white p-6 rounded-2xl shadow-md w-100"
@@ -113,7 +110,6 @@ export default function Login() {
 			<Link to="/register" className="simple-link text-sm block text-center mt-6"> {t('login.dont_have_account')} </Link>
 			<Link to="/restore" className="simple-link text-sm block text-center"> {t('login.forget_password')} </Link>
 		</form>
-	  </div>
       <OtpDialog
           open={openOtpDialog} setOpen={setOpenOtpDialog}
           onSuccess={(code) => onCodeEntered(code)}
