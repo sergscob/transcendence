@@ -6,7 +6,7 @@ function Button({ children, className="", loading=false, disabled=false, ...prop
     <button
       {...props}
       disabled={loading || disabled}
-      className={`w-full bg-black text-white p-2 rounded-lg disabled:opacity-80  
+      className={`bg-black text-white py-2 px-6 rounded-lg disabled:opacity-80  
         ${className} 
         ${loading ? 'flex items-center justify-center' : (disabled ? '' : 'cursor-pointer hover:bg-gray-800')}
         ${disabled ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-500' : ''}

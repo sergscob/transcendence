@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import API from "../api/api";
 import Avatar from "@/components/ui_int/Avatar";
-import { useParams } from "react-router-dom";
 import NotFound from "@/pages/NotFound";
-import { useTranslation } from "react-i18next";
 import Rain from "../components/ui/rain.tsx";
 
 function ViewProfile() {

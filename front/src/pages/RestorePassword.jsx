@@ -41,7 +41,7 @@ function RestorePassword() {
 		<div className="relative z-10">
 			<form
 				onSubmit={handleSubmit}
-				className="bg-white p-6 rounded-2xl shadow-md w-100"
+				className="bg-white p-6 rounded-2xl shadow-md w-120"
 			>
 				<h2 className="text-xl font-bold mb-4 text-center">{t("restore_password.title")}</h2>
 				{ succeded ?
@@ -57,9 +57,15 @@ function RestorePassword() {
 						placeholder={t("restore_password.email")}
 					/>
 					<div className="error-message text-center mt-2">{errors.common}</div>
-					<Button className="mt-2" loading={loading}>{t("restore_password.send_link")}</Button>
-					<div className="text-sm mt-6 text-center">{t("restore_password.have_account")} <a className="simple-link" href="/login">{t("restore_password.login_here")}</a></div>
-					<div className="text-sm text-center">{t("restore_password.no_account")} <a className="simple-link" href="/register">{t("restore_password.register_here")}</a></div>
+					<Button className="mt-2 w-full" loading={loading}>{t("restore_password.send_link")}</Button>
+					<div className="text-sm mt-6 text-center">
+						{t("restore_password.have_account")} 
+						<Link className="simple-link ml-2" to="/login">{t("restore_password.login_here")}</Link>
+					</div>
+					<div className="text-sm text-center">
+						{t("restore_password.no_account")} 
+						<Link className="simple-link ml-2" to="/register">{t("restore_password.register_here")}</Link>
+					</div>
 				</>
 				}
 			</form>
