@@ -6,7 +6,6 @@ import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Rain from "../components/ui/rain.tsx";
 
 
 function RestorePassword() {
@@ -36,9 +35,7 @@ function RestorePassword() {
   };
 
   return (
-    <div className="relative flex h-screen items-center justify-center bg-gray-100">
-		<Rain className="absolute inset-0 z-10"/>
-		<div className="relative z-10">
+    <div className="flex h-screen items-center justify-center bg-gray-100">
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white p-6 rounded-2xl shadow-md w-100"
@@ -64,7 +61,6 @@ function RestorePassword() {
 				}
 			</form>
 		</div>
-    </div>
   );
 }
 

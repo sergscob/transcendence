@@ -5,7 +5,6 @@ import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { useTranslation } from "react-i18next";
-import Rain from "../components/ui/rain.tsx";
 
 
 function Register() {
@@ -40,9 +39,7 @@ function Register() {
   }
 
   return (
-    <div className="relative flex h-screen items-center justify-center bg-gray-100">
-      <Rain className="absolute inset-0 z-10"/>
-	  <div className="relative z-10">
+    <div className="flex h-screen items-center justify-center bg-gray-100">
 		{ registered ?
 		<div>
 		<h3 className="text-l text-white mb-4 text-center">{t("register.registration_succeeded")}</h3>
@@ -82,7 +79,6 @@ function Register() {
 		</form>
 		}
 	  </div>
-    </div>
   );
 }
 

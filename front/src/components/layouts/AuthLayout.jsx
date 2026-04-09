@@ -2,6 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import LangSwitcher from "@/components/common/LangSwitcher"
 import { useTranslation } from 'react-i18next';
 import Footer from "../common/Footer";
+import { toast } from 'react-toastify'
 
 export default function AuthLayout() {
   const { t, i18n } = useTranslation();
@@ -13,7 +14,7 @@ export default function AuthLayout() {
         <div className="absolute top-[10px] right-[10px] flex items-end flex-col">
           <LangSwitcher />
           <Link to="/settings-start">{t('main_menu.settings')}</Link>
-        
+
         </div>
         <Outlet />
         <Footer />

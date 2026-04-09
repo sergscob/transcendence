@@ -14,7 +14,7 @@ export default function MainLayout() {
   const loadUser = useUserStore((s) => s.loadUser);
   const user = useUserStore((s) => s.user);
   useEffect(() => {
-    loadUser(); 
+    loadUser();
   }, [loadUser]);
 
   function onLogout() {
@@ -25,13 +25,13 @@ export default function MainLayout() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="relative z-30">
-        <Link to="/"> 
+        <Link to="/">
           <IconMenu className="absolute top-2 left-4 mb-4 h-6 w-6 text-slate-500"/>
         </Link>
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
           <div className="flex items-center">
-            <Link to={`/profile/${user?.id}`}> 
+            <Link to={`/profile/${user?.id}`}>
               <span className="text-gray-500 mr-3">{user?.username}</span>
             </Link>
             <LangSwitcher className="mr-3"/>
@@ -42,7 +42,7 @@ export default function MainLayout() {
         <Outlet />
       </div>
 
-      { location.pathname !== '/game' && <Footer /> } 
+      { location.pathname !== '/game' && <Footer /> }
 
     </div>
   );
