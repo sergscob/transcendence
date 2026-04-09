@@ -23,7 +23,7 @@ function getInitialLanguage() {
 const resources = {
   en: {
     translation: {
-      // Login 
+      // Login
       "login.title": "Login",
       "login.login_with_google": "Login with Google",
       "login.login_with_42": "Login with 42",
@@ -61,15 +61,15 @@ const resources = {
       "main_menu.settings": "Settings",
       "main_menu.start_game": "Start Game",
 
-      // FriendsPanel 
+      // FriendsPanel
       "friends_panel.title": "Friends",
       "friends_panel.no_friends": "No friends",
       "friends_panel.edit_friends": "Edit Friends",
 
-      // ChatWindow 
+      // ChatWindow
       "chat_window.type_message": "Type your message...",
 
-      // OtpDialog 
+      // OtpDialog
       "otp_dialog.scan_qr": "Scan QR Code by Google Authenticator",
       "otp_dialog.open_authenticator_enter_code": "Open Google Authenticator and enter the code:",
       "otp_dialog.ok": "OK",
@@ -77,15 +77,18 @@ const resources = {
       // components
       "dialog.close": "Close",
 
-      // Settings 
+      // Settings
       "settings.ip_address.title": "Game server IP address or domain",
       "settings.save": "Save",
       "settings.ip_address.updated": "Server address updated.",
 
-      // EditProfile 
+      // EditProfile
+	  "edit_profile.edit_profile": "Edit Profile:",
       "edit_profile.server_connection_error": "Check server connection. Server address in settings.",
       "edit_profile.error_code": "Error",
+	  "edit_profile.ask_two_factor_authentication": "Add Two Factor Authentication?",
       "edit_profile.two_factor_authentication": "Two Factor Authentication",
+	  "edit_profile.ask_upload_avatar": "Upload Avatar?",
       "edit_profile.upload_avatar": "Upload Avatar",
       "edit_profile.upload_avatar_failed": "Failed to upload avatar",
 
@@ -100,27 +103,49 @@ const resources = {
       "edit_friends.send_friend_request": "Send friend request",
       "edit_friends.friends": "Friends:",
       "edit_friends.delete_friend": "delete friend",
-      "edit_friends.add_some_friends": "Add some friends from from All Users !",
+      "edit_friends.add_some_friends": "Add some friends from All Users !",
       "edit_friends.waiting_for_approval": "Waiting for Approval:",
       "edit_friends.accept_invitation": "accept invitation",
       "edit_friends.friendship_requests_here": "Friendship requests will appear here",
 
-      // GameMain 
+      // GameMain
       "game_main.server_connection_error": "Check server connection. Server address in settings.",
       "game_main.error_code": "Error",
       "game_main.loading": "Loading...",
       "game_main.pause_click_resume": "PAUSE - Click to resume",
 
-      // NotFound 
+      // NotFound
       "not_found.page_not_found": "Page not found",
       "not_found.to_main_page": "To main page",
 
-      // OAuth 
+      // OAuth
       "oauth.logging_in": "Logging in...",
 
       // VIewProfile
       "view_profile.loading": "Loading...",
       "view_profile.user_not_found": "User not found",
+      "view_profile.total_matches": "Total matches",
+      "view_profile.wins": "Wins",
+      "view_profile.losses": "Losses",
+      "view_profile.score": "Score",
+
+      // TotalStat
+      "total_stat.title": "Total stats",
+      "total_stat.place": "Place",
+      "total_stat.player": "Player",
+      "total_stat.total_matches": "Total matches",
+      "total_stat.wins": "Wins",
+      "total_stat.score": "Score",
+      "total_stat.load_more": "Load more",
+
+      // Matches
+      "matches.open_matches": "Open matches",
+      "matches.my_match": "My match",
+      "matches.create_match": "Create match",
+      "matches.players_maxcount": "Max players",
+      "matches.time_limit": "Time limit",
+      "matches.create_match_error": "Failed to create match",
+      "matches.delete_my_match": "Delete my match",
 
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
@@ -128,7 +153,7 @@ const resources = {
   },
   fr: {
     translation: {
-      // Login 
+      // Login
       "login.title": "Connexion",
       "login.login_with_google": "Se connecter avec Google",
       "login.dont_have_account": "Vous n'avez pas de compte ?",
@@ -149,7 +174,7 @@ const resources = {
       "register.have_account": "Vous avez un compte ?",
       "register.login_here": "Connectez-vous ici",
 
-      // RestorePassword 
+      // RestorePassword
       "restore_password.title": "Demander la reinitialisation du mot de passe",
       "restore_password.reset_link_sent": "Si l'email existe, le lien de reinitialisation a ete envoye",
       "restore_password.login": "Connexion",
@@ -166,15 +191,15 @@ const resources = {
       "main_menu.settings": "Paramètres",
       "main_menu.start_game": "Démarrer le jeu",
 
-      // FriendsPanel 
+      // FriendsPanel
       "friends_panel.title": "Amis",
       "friends_panel.no_friends": "Aucun ami",
       "friends_panel.edit_friends": "Modifier les amis",
 
-      // ChatWindow 
+      // ChatWindow
       "chat_window.type_message": "Ecrivez votre message...",
 
-      // OtpDialog 
+      // OtpDialog
       "otp_dialog.scan_qr": "Scannez le QR code avec Google Authenticator",
       "otp_dialog.open_authenticator_enter_code": "Ouvrez Google Authenticator et saisissez le code :",
       "otp_dialog.ok": "OK",
@@ -182,19 +207,22 @@ const resources = {
       // Shared components
       "dialog.close": "Fermer",
 
-      // Settings 
+      // Settings
       "settings.ip_address.title": "Adresse IP du serveur de jeu ou domaine",
       "settings.save": "Enregistrer",
       "settings.ip_address.updated": "Adresse du serveur mise a jour.",
 
-      // EditProfile 
+      // EditProfile
+	  "edit_profile.edit_profile": "Modifier le profil :",
       "edit_profile.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
       "edit_profile.error_code": "Erreur",
+	  "edit_profile.ask_two_factor_authentication": "Ajouter l'authentification a deux facteurs ?",
       "edit_profile.two_factor_authentication": "Authentification a deux facteurs",
-      "edit_profile.upload_avatar": "Televerser l'avatar",
-      "edit_profile.upload_avatar_failed": "Echec du televersement de l'avatar",
+	  "edit_profile.ask_upload_avatar": "Téléverser un avatar ?",
+      "edit_profile.upload_avatar": "Téléverser l'avatar",
+      "edit_profile.upload_avatar_failed": "Échec du téléversement de l'avatar",
 
-      // EditFriends 
+      // EditFriends
       "edit_friends.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
       "edit_friends.error_code": "Erreur",
       "edit_friends.all_users": "Tous les utilisateurs :",
@@ -210,22 +238,44 @@ const resources = {
       "edit_friends.accept_invitation": "accepter l'invitation",
       "edit_friends.friendship_requests_here": "Les demandes d'amitie apparaitront ici",
 
-      // GameMain 
+      // GameMain
       "game_main.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
       "game_main.error_code": "Erreur",
       "game_main.loading": "Chargement...",
       "game_main.pause_click_resume": "PAUSE - Cliquez pour reprendre",
 
-      // NotFound 
+      // NotFound
       "not_found.page_not_found": "Page introuvable",
       "not_found.to_main_page": "Vers la page principale",
 
-      // OAuth 
+      // OAuth
       "oauth.logging_in": "Connexion en cours...",
 
-      // VIewProfile 
+      // VIewProfile
       "view_profile.loading": "Chargement...",
       "view_profile.user_not_found": "Utilisateur introuvable",
+      "view_profile.total_matches": "Matchs joues",
+      "view_profile.wins": "Victoires",
+      "view_profile.losses": "Defaites",
+      "view_profile.score": "Score",
+
+      // TotalStat
+      "total_stat.title": "Statistiques totales",
+      "total_stat.place": "Place",
+      "total_stat.player": "Joueur",
+      "total_stat.total_matches": "Matchs joues",
+      "total_stat.wins": "Victoires",
+      "total_stat.score": "Score",
+      "total_stat.load_more": "Charger plus",
+
+      // Matches
+      "matches.open_matches": "Matchs ouverts",
+      "matches.my_match": "Mon match",
+      "matches.create_match": "Creer un match",
+      "matches.players_maxcount": "Nombre max de joueurs",
+      "matches.time_limit": "Limite de temps",
+      "matches.create_match_error": "Echec de la creation du match",
+      "matches.delete_my_match": "Supprimer mon match",
 
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
@@ -233,7 +283,7 @@ const resources = {
   },
   ru: {
     translation: {
-      // Login 
+      // Login
       "login.title": "Вход",
       "login.login_with_google": "Войти с помощью Google",
       "login.login_with_42": "Войти с помощью 42",
@@ -244,7 +294,7 @@ const resources = {
       "login.password": "Пароль",
       "login.error_occurred": "Произошла ошибка",
 
-      // Register 
+      // Register
       "register.title": "Регистрация",
       "register.registration_succeeded": "Регистрация прошла успешно !",
       "register.go_to_login": "Перейти ко входу",
@@ -254,7 +304,7 @@ const resources = {
       "register.have_account": "У вас есть аккаунт ?",
       "register.login_here": "Войти здесь",
 
-      // RestorePassword 
+      // RestorePassword
       "restore_password.title": "Запрос восстановления пароля",
       "restore_password.reset_link_sent": "Если email существует, ссылка отправлена",
       "restore_password.login": "Вход",
@@ -271,15 +321,15 @@ const resources = {
       "main_menu.settings": "Настройки",
       "main_menu.start_game": "Начать игру",
 
-      // FriendsPanel 
+      // FriendsPanel
       "friends_panel.title": "Друзья",
       "friends_panel.no_friends": "Нет друзей",
       "friends_panel.edit_friends": "Редактировать друзей",
 
-      // ChatWindow 
+      // ChatWindow
       "chat_window.type_message": "Введите сообщение...",
 
-      // OtpDialog 
+      // OtpDialog
       "otp_dialog.scan_qr": "Сканируйте QR-код в Google Authenticator",
       "otp_dialog.open_authenticator_enter_code": "Откройте Google Authenticator и введите код:",
       "otp_dialog.ok": "OK",
@@ -287,19 +337,22 @@ const resources = {
       // Shared  components
       "dialog.close": "Закрыть",
 
-      // Settings 
+      // Settings
       "settings.ip_address.title": "IP адрес или домен игрового сервера",
       "settings.save": "Сохранить",
       "settings.ip_address.updated": "Адрес сервера обновлен.",
 
-      // EditProfile 
+      // EditProfile
+	  "edit_profile.edit_profile": "Редактировать профиль:",
       "edit_profile.server_connection_error": "Проверьте подключение к серверу. Адрес сервера указан в настройках.",
       "edit_profile.error_code": "Ошибка",
+	  "edit_profile.ask_two_factor_authentication": "Добавить двухфакторную аутентификацию ?",
       "edit_profile.two_factor_authentication": "Двухфакторная аутентификация",
+	  "edit_profile.ask_upload_avatar": "Загрузить аватар ?",
       "edit_profile.upload_avatar": "Загрузить аватар",
       "edit_profile.upload_avatar_failed": "Не удалось загрузить аватар",
 
-      // EditFriends 
+      // EditFriends
       "edit_friends.server_connection_error": "Проверьте подключение к серверу. Адрес сервера указан в настройках.",
       "edit_friends.error_code": "Ошибка",
       "edit_friends.all_users": "Все пользователи:",
@@ -315,22 +368,44 @@ const resources = {
       "edit_friends.accept_invitation": "принять приглашение",
       "edit_friends.friendship_requests_here": "Запросы в друзья появятся здесь",
 
-      // GameMain 
+      // GameMain
       "game_main.server_connection_error": "Проверьте подключение к серверу. Адрес сервера указан в настройках.",
       "game_main.error_code": "Ошибка",
       "game_main.loading": "Загрузка...",
       "game_main.pause_click_resume": "ПАУЗА - Нажмите, чтобы продолжить",
 
-      // NotFound 
+      // NotFound
       "not_found.page_not_found": "Страница не найдена",
       "not_found.to_main_page": "На главную страницу",
 
-      // OAuth 
+      // OAuth
       "oauth.logging_in": "Вход...",
 
-      // VIewProfile 
+      // VIewProfile
       "view_profile.loading": "Загрузка...",
       "view_profile.user_not_found": "Пользователь не найден",
+      "view_profile.total_matches": "Всего матчей",
+      "view_profile.wins": "Победы",
+      "view_profile.losses": "Поражения",
+      "view_profile.score": "Очки",
+
+      // TotalStat
+      "total_stat.title": "Общая статистика",
+      "total_stat.place": "Место",
+      "total_stat.player": "Игрок",
+      "total_stat.total_matches": "Всего матчей",
+      "total_stat.wins": "Победы",
+      "total_stat.score": "Очки",
+      "total_stat.load_more": "Загрузить еще",
+
+      // Matches
+      "matches.open_matches": "Открытые матчи",
+      "matches.my_match": "Мой матч",
+      "matches.create_match": "Создать матч",
+      "matches.players_maxcount": "Максимум игроков",
+      "matches.time_limit": "Лимит времени",
+      "matches.create_match_error": "Не удалось создать матч",
+      "matches.delete_my_match": "Удалить мой матч",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"

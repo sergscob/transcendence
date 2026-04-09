@@ -26,16 +26,14 @@ export default function MainLayout() {
     <div className="relative min-h-screen overflow-hidden">
       <div className="relative z-30">
         <Link to="/"> 
-          <IconMenu className="absolute top-2 left-4 mb-4 h-6 w-6 text-slate-300"/>
+          <IconMenu className="absolute top-2 left-4 mb-4 h-6 w-6 text-slate-500"/>
         </Link>
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
           <div className="flex items-center">
-            <Link to={`/profile/${user?.id}`}> 
-              <span className="text-gray-500 mr-3">{user?.username}</span>
-            </Link>
+            <span className="text-gray-500 mr-3">{user?.username}</span> 
             <LangSwitcher className="mr-3"/>
-            <IconExit className="w-6 h-6 ml-3 stroke-slate-200 " onClick={()=>onLogout()} />
+            <IconExit className="w-6 h-6 ml-3" onClick={()=>onLogout()} />
             </div>
       </div>
       <div className="relative z-0 h-screen w-full">

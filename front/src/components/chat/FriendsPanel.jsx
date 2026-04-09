@@ -51,7 +51,7 @@ function FriendsPanel() {
     const restoredChats = Object.keys(positions)
       .map((roomName) => {
         const friendId = getFriendIdFromRoomName(roomName);
-        if (!friendId) 
+        if (!friendId)
           return null;
 
         return friends.find((friend) => String(friend.id) === String(friendId)) ?? null;
@@ -97,9 +97,9 @@ function FriendsPanel() {
         name="friends-panel"
         title={t("friends_panel.title")}
         defaultPosition={{ x: 40, y: 120 }}
-        headerClassName="bg-amber-50"
+        headerClassName="bg-gray-500 text-bold text-white"
         className="w-[320px] max-w-[calc(100vw-2rem)]"
-        bodyClassName="max-h-[60vh] overflow-y-auto bg-amber-20 px-3 py-2"
+        bodyClassName="max-h-[60vh] overflow-y-auto bg-gray-300 px-3 py-2"
       >
         {friends.length ? (
           <ul>
@@ -119,7 +119,7 @@ function FriendsPanel() {
         )}
         <Link
           to="/editfriends"
-          className="mt-4 inline-block rounded-md border border-slate-300 px-3 py-1 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-900"
+          className="mt-4 inline-block rounded-md bg-gray-200 border border-gray-400 px-3 py-1 text-sm font-semibold text-slate-700 transition hover:bg-white hover:text-slate-900"
         >
           {t("friends_panel.edit_friends")}
         </Link>
