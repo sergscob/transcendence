@@ -40,6 +40,7 @@ class MatchListViewMy(APIView):
             Match.objects.filter(
                 Exists(MatchPlayer.objects.filter(match_id=OuterRef('pk'), user=request.user))
             )
+            .exclude(status=MatchStatus.FINISHED)
             .annotate(
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
