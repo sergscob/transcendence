@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import API from "@/api/api";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/stores/userStore";
@@ -11,6 +12,7 @@ import CreateMatch from "@/components/match/CreateMatch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 
+const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
 function OpenMatches() {
     const { t } = useTranslation();
@@ -79,7 +81,7 @@ function OpenMatches() {
                 {myList.length > 0 && (
             <div className="flex items-center gap-1 flex-col">
               {t("matches.you_are_in_a_match")}
-              <Link to={`/game/${myList[0].id}`} className="text-center mt-4 p-2 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
+              <Link to={`/game/${myList[0].id}`} className="text-center mt-4 py-2 px-6 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
                   {t("matches.go_to_match")}
               </Link>
               
@@ -93,10 +95,10 @@ function OpenMatches() {
                 {t("matches.status")}: {getStatusLabel(myList[0].status)}
                 </div>
                 <div>
-                {t("matches.created_at")}: {myList[0].created_at}
+                {t("matches.created_at")}: {dayjs(myList[0].created_at).format(DATE_FORMAT)}
                 </div>
                 <div>
-                {t("matches.started_at")}: {myList[0].started_at}
+                {t("matches.started_at")}: {myList[0].started_at ? dayjs(myList[0].started_at).format(DATE_FORMAT) : t("matches.not_started")}
               </div>
               <Button
                 className="bg-red-500 hover:bg-red-700 text-white"
@@ -123,10 +125,10 @@ function OpenMatches() {
                 <TableBody>
                     {waitingList.map(match => (
                         <TableRow key={match.id}>
-                            <TableCell className="font-medium">{match.created_by}</TableCell>
+                            <TableCell className="font-medium">{match.created_by_name}</TableCell>
                             <TableCell>{getStatusLabel(match.status)}</TableCell>
                             <TableCell>{match.num_players}/{match.players_maxcount}</TableCell>
-                            <TableCell>{match.created_at}</TableCell>
+                            <TableCell>{ dayjs(match.created_at).format(DATE_FORMAT)   }</TableCell>
                             <TableCell className="text-right">
                                 <Button className="bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-500"
                                     disabled={myList.length > 0}
