@@ -35,6 +35,8 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
                 if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
                     continue
                 }
+                console.log(user_id, raw.user_id)
+
 
                 const posArr = raw.pos
                 const pos: [number, number, number] = Array.isArray(posArr)
@@ -96,6 +98,15 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
             console.error("WebSocket is not open. Unable to send message.");
         }
     }
+
+    function sendShot(shot: any) {
+        if (channel && channel.readyState === WebSocket.OPEN) {
+            channel.send(JSON.stringify({ type: 'shot', user_id, match_id: matchId }));
+        } else {
+            console.error("WebSocket is not open. Unable to send message.");
+        }
+    }
+
 
     function close() {
         if (channel && channel.readyState !== WebSocket.CLOSED) {

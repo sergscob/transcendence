@@ -24,6 +24,8 @@ export interface IMatchState {
 	players_count: number;
 	time_left: string;
 	match_status: string;
+	online_players: number;
+	max_players: number;
 }
 
 type CreateRocketCallback = () => THREE.Mesh
