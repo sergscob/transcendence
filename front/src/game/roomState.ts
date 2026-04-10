@@ -3,13 +3,7 @@ import { Capsule } from 'three/addons/math/Capsule.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 import { createRocket } from './rocket'
-
-export interface IPlayerState {
-    user_id: number;
-	pos: [number, number, number];
-	rotation: [number, number, number];
-	rockets?: Array<{ pos: [number, number, number]; rotation: [number, number, number]; rocket_id: number }>;
-}
+import { getPlayersFromMessage, getMatchState, IMatchState, IPlayerState } from './socketMessage'
 
 export interface ICurrentPlayerState {
 	user_id: number;
@@ -17,10 +11,9 @@ export interface ICurrentPlayerState {
 	arms_left: number;
 	score: number;
 	is_ready: boolean;
-	position: [number, number, number];
 }
 
-export interface IMatchState {
+export interface ICurrentMatchState {
 	current_player: ICurrentPlayerState;
 	players_count: number;
 	time_left: string;
@@ -35,6 +28,7 @@ export type remotePlayersArr = Record<number, {
 	target: [number, number, number];
 	rotation: [number, number, number]
 }>
+
 export type remoteRocketsArr = Record<number, {
 	user_id: number;
 	mesh: THREE.Mesh;
@@ -48,6 +42,22 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 	const players: remotePlayersArr = {}
 	const rockets: remoteRocketsArr = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
+	let matchState: IMatchState = {
+		players_count: 0,
+		time_left: "00:00",
+		match_status: "waiting",
+		online_players: 0,
+		max_players: 0
+	}
+	let playerState: IPlayerState = {
+		user_id: client_user_id,
+		health: 100,
+		score: 0,
+		is_ready: false,
+		pos: [0, 0, 0],
+		rotation: [0, 0, 0],
+		rockets: []
+	}
 
 	const SMOOTHING = GAME_CONFIG.REMOTE.smoothing
 
@@ -205,135 +215,141 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		)
 	}
 
-	function modifyRoomState(playersFromServ: Array<IPlayerState>) {
-		const seenUserIds: Record<number, true> = {}
-		const seenRocketIds: Record<number, true> = {}
-		for (const playerState of playersFromServ) {
-			if (!playerState || playerState.user_id === undefined) {
-				continue
-			}
-
-			seenUserIds[playerState.user_id] = true
-			if (playerState.user_id === client_user_id) {
-				continue
-			}
-
-			let entry = players[playerState.user_id]
-			if (!entry) {
-				const meshPlayer = createRemotePlayerMesh()
-				meshPlayer.rotation.order = 'YXZ'
-				const spawnFallback = getPlayerSpawnEnd()
-
-				meshPlayer.position.set(
-					playerState.pos?.[0] ?? spawnFallback.x,
-					playerState.pos?.[1] ?? spawnFallback.y,
-					playerState.pos?.[2] ?? spawnFallback.z,
-				)
-				meshPlayer.rotation.set(
-					playerState.rotation?.[0] ?? 0,
-					playerState.rotation?.[1] ?? 0,
-					playerState.rotation?.[2] ?? 0,
-				)
-
-				const end = meshPlayer.position.clone()
-				const colliderPlayer = new Capsule(
-					getPlayerCapsuleStartFromEnd(end),
-					end,
-					GAME_CONFIG.PLAYER.capsule.radius,
-				)
-
-				players[playerState.user_id] = {
-					mesh: meshPlayer,
-					collider: colliderPlayer,
-					target: [meshPlayer.position.x, meshPlayer.position.y, meshPlayer.position.z],
-					rotation: [meshPlayer.rotation.x, meshPlayer.rotation.y, meshPlayer.rotation.z]
+	function modifyRoomState(messageObj: any) {
+		if (messageObj.type == 'state') {
+			const playersFromServ = getPlayersFromMessage(messageObj)
+			matchState = getMatchState(messageObj)
+			const seenUserIds: Record<number, true> = {}
+			const seenRocketIds: Record<number, true> = {}
+			for (const remotePlayerState of playersFromServ) {
+				if (!remotePlayerState || remotePlayerState.user_id === undefined) {
+					continue
 				}
-				scene.add(meshPlayer)
-				entry = players[playerState.user_id]
-			}
 
-			entry.target[0] = playerState.pos?.[0] ?? 0
-			entry.target[1] = playerState.pos?.[1] ?? 0
-			entry.target[2] = playerState.pos?.[2] ?? 0
-			entry.rotation[0] = playerState.rotation?.[0] ?? 0
-			entry.rotation[1] = playerState.rotation?.[1] ?? 0
-			entry.rotation[2] = playerState.rotation?.[2] ?? 0
+				seenUserIds[remotePlayerState.user_id] = true
+				if (remotePlayerState.user_id === client_user_id) {
+					playerState.health = remotePlayerState.health
+					playerState.score = remotePlayerState.score
+					continue
+				}
 
-			const rocketStates = playerState.rockets
-			if (Array.isArray(rocketStates)) {
-				for (const rocketState of rocketStates) {
-					if (!rocketState) {
-						continue
+				let entry = players[remotePlayerState.user_id]
+				if (!entry) {
+					const meshPlayer = createRemotePlayerMesh()
+					meshPlayer.rotation.order = 'YXZ'
+					const spawnFallback = getPlayerSpawnEnd()
+
+					meshPlayer.position.set(
+						remotePlayerState.pos?.[0] ?? spawnFallback.x,
+						remotePlayerState.pos?.[1] ?? spawnFallback.y,
+						remotePlayerState.pos?.[2] ?? spawnFallback.z,
+					)
+					meshPlayer.rotation.set(
+						remotePlayerState.rotation?.[0] ?? 0,
+						remotePlayerState.rotation?.[1] ?? 0,
+						remotePlayerState.rotation?.[2] ?? 0,
+					)
+
+					const end = meshPlayer.position.clone()
+					const colliderPlayer = new Capsule(
+						getPlayerCapsuleStartFromEnd(end),
+						end,
+						GAME_CONFIG.PLAYER.capsule.radius,
+					)
+
+					players[remotePlayerState.user_id] = {
+						mesh: meshPlayer,
+						collider: colliderPlayer,
+						target: [meshPlayer.position.x, meshPlayer.position.y, meshPlayer.position.z],
+						rotation: [meshPlayer.rotation.x, meshPlayer.rotation.y, meshPlayer.rotation.z]
 					}
+					scene.add(meshPlayer)
+					entry = players[remotePlayerState.user_id]
+				}
 
-					const rocketId = Number(rocketState.rocket_id ?? 0)
-					seenRocketIds[rocketId] = true
+				entry.target[0] = remotePlayerState.pos?.[0] ?? 0
+				entry.target[1] = remotePlayerState.pos?.[1] ?? 0
+				entry.target[2] = remotePlayerState.pos?.[2] ?? 0
+				entry.rotation[0] = remotePlayerState.rotation?.[0] ?? 0
+				entry.rotation[1] = remotePlayerState.rotation?.[1] ?? 0
+				entry.rotation[2] = remotePlayerState.rotation?.[2] ?? 0
 
-					let rocketEntry = rockets[rocketId]
-					if (!rocketEntry) {
-						const meshRocket = createRocket()
-						meshRocket.position.set(
-							rocketState.pos?.[0] ?? 0,
-							rocketState.pos?.[1] ?? 0,
-							rocketState.pos?.[2] ?? 0,
-						)
-						meshRocket.rotation.set(
-							rocketState.rotation?.[0] ?? 0,
-							rocketState.rotation?.[1] ?? 0,
-							rocketState.rotation?.[2] ?? 0,
-						)
-						const localBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderSize)
-						meshRocket.updateMatrixWorld(true)
-						const colliderRocket = localBox.clone().applyMatrix4(meshRocket.matrixWorld)
-						rockets[rocketId] = {
-							user_id: playerState.user_id,
-							mesh: meshRocket,
-							collider: colliderRocket,
-							localBox,
-							target: [meshRocket.position.x, meshRocket.position.y, meshRocket.position.z],
-							rotation: [meshRocket.rotation.x, meshRocket.rotation.y, meshRocket.rotation.z]
+				const rocketStates = remotePlayerState.rockets
+				if (Array.isArray(rocketStates)) {
+					for (const rocketState of rocketStates) {
+						if (!rocketState) {
+							continue
 						}
-						scene.add(meshRocket)
-						rocketEntry = rockets[rocketId]
+
+						const rocketId = Number(rocketState.rocket_id ?? 0)
+						seenRocketIds[rocketId] = true
+
+						let rocketEntry = rockets[rocketId]
+						if (!rocketEntry) {
+							const meshRocket = createRocket()
+							meshRocket.position.set(
+								rocketState.pos?.[0] ?? 0,
+								rocketState.pos?.[1] ?? 0,
+								rocketState.pos?.[2] ?? 0,
+							)
+							meshRocket.rotation.set(
+								rocketState.rotation?.[0] ?? 0,
+								rocketState.rotation?.[1] ?? 0,
+								rocketState.rotation?.[2] ?? 0,
+							)
+							const localBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderSize)
+							meshRocket.updateMatrixWorld(true)
+							const colliderRocket = localBox.clone().applyMatrix4(meshRocket.matrixWorld)
+							rockets[rocketId] = {
+								user_id: remotePlayerState.user_id,
+								mesh: meshRocket,
+								collider: colliderRocket,
+								localBox,
+								target: [meshRocket.position.x, meshRocket.position.y, meshRocket.position.z],
+								rotation: [meshRocket.rotation.x, meshRocket.rotation.y, meshRocket.rotation.z]
+							}
+							scene.add(meshRocket)
+							rocketEntry = rockets[rocketId]
+						}
+
+						rocketEntry.target[0] = rocketState.pos?.[0] ?? 0
+						rocketEntry.target[1] = rocketState.pos?.[1] ?? 0
+						rocketEntry.target[2] = rocketState.pos?.[2] ?? 0
+						rocketEntry.rotation[0] = rocketState.rotation?.[0] ?? 0
+						rocketEntry.rotation[1] = rocketState.rotation?.[1] ?? 0
+						rocketEntry.rotation[2] = rocketState.rotation?.[2] ?? 0
 					}
-
-					rocketEntry.target[0] = rocketState.pos?.[0] ?? 0
-					rocketEntry.target[1] = rocketState.pos?.[1] ?? 0
-					rocketEntry.target[2] = rocketState.pos?.[2] ?? 0
-					rocketEntry.rotation[0] = rocketState.rotation?.[0] ?? 0
-					rocketEntry.rotation[1] = rocketState.rotation?.[1] ?? 0
-					rocketEntry.rotation[2] = rocketState.rotation?.[2] ?? 0
 				}
 			}
-		}
 
-		for (const userIdStr in players) {
-			const userId = Number(userIdStr)
-			if (!seenUserIds[userId]) {
-				const entry = players[userId]
-				if (entry) {
-					entry.mesh.userData._destroyed = true
-					scene.remove(entry.mesh)
-					disposeObject3D(entry.mesh)
+			for (const userIdStr in players) {
+				const userId = Number(userIdStr)
+				if (!seenUserIds[userId]) {
+					const entry = players[userId]
+					if (entry) {
+						entry.mesh.userData._destroyed = true
+						scene.remove(entry.mesh)
+						disposeObject3D(entry.mesh)
+					}
+					delete players[userId]
 				}
-				delete players[userId]
 			}
-		}
 
-		for (const rocketIdStr in rockets) {
-			const rocketId = Number(rocketIdStr)
-			if (!seenRocketIds[rocketId]) {
-				const entry = rockets[rocketId]
-				if (entry) {
-					scene.remove(entry.mesh)
-					disposeMesh(entry.mesh)
+			for (const rocketIdStr in rockets) {
+				const rocketId = Number(rocketIdStr)
+				if (!seenRocketIds[rocketId]) {
+					const entry = rockets[rocketId]
+					if (entry) {
+						scene.remove(entry.mesh)
+						disposeMesh(entry.mesh)
+					}
+					delete rockets[rocketId]
 				}
-				delete rockets[rocketId]
 			}
 		}
 	}
 
-	function update(delta: number) {
+	function update(delta: number, currentMatchState: ICurrentMatchState) {
 		for (const userIdStr in players) {
 			const userId = Number(userIdStr)
 			const entry = players[userId]
@@ -354,6 +370,11 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 			entry.mesh.updateMatrixWorld(true)
 			entry.collider.copy(entry.localBox).applyMatrix4(entry.mesh.matrixWorld)
 		}
+
+		currentMatchState.online_players = matchState.online_players
+		currentMatchState.time_left = matchState.time_left
+		currentMatchState.current_player.health = playerState.health
+		currentMatchState.current_player.score = playerState.score
 	}
 
 	return { modifyRoomState, update, players }

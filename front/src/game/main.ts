@@ -7,7 +7,7 @@ import {loadWorld}     							from './world'
 import {createRocketInstance}					from './rocket'
 import {createStateExchanger} 					from './stateExchanger'
 import {setResizeEvent} 						from './window'
-import {createRoomStateInstance, IMatchState}	from './roomState'
+import {createRoomStateInstance, ICurrentMatchState}	from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -15,7 +15,7 @@ let rendererInstance: THREE.WebGLRenderer | undefined
 let removeResizeInstance: {removeResizeEvent: () => void} | undefined
 
 export function startGame(container: HTMLDivElement, user_id: number, matchId: string | undefined,
-	getMatchState: () => IMatchState, setMatchState: (state: IMatchState) => void) {
+	getMatchState: () => ICurrentMatchState, setMatchState: (state: ICurrentMatchState) => void) {
 	if (!matchId) 
 		matchId = "default"
 
@@ -27,7 +27,7 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
 	removeResizeInstance = setResizeEvent(rendererInstance, camera, container)
-	const player = createPlayer(camera)
+	const player = createPlayer(camera, stateExchanger.sendShot, user_id)
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
@@ -41,8 +41,8 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 
 		const delta = Math.min(clock.getDelta(), 0.05)
 
-		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree, matchState)
-		roomState.update(delta)
+		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
+		roomState.update(delta, matchState)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
 
 		// matchState.players_count = matchState.online_players
