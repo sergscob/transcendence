@@ -8,17 +8,17 @@ export default function AuthLayout() {
   const { t, i18n } = useTranslation();
 
   return (
-    <>
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="absolute top-[10px] left-[10px]">Transendance</div>
-        <div className="absolute top-[10px] right-[10px] flex items-end flex-col">
-          <LangSwitcher />
-          <Link to="/settings-start">{t('main_menu.settings')}</Link>
+    <div className="">
+		<div className="min-h-screen flex items-center justify-center bg-gray-100">
+			<div className="absolute top-[10px] left-[10px]">Transendance</div>
+			<div className="absolute top-[10px] right-[10px] flex items-end flex-col">
+				<LangSwitcher />
+				<Link to="/settings-start">{t('main_menu.settings')}</Link>
 
-        </div>
-        <Outlet />
-        <Footer />
-    </div>
-    </>
+			</div>
+			<Outlet />
+			<Footer />
+		</div>
+	</div>
   );
 }

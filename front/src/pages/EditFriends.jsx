@@ -3,9 +3,9 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import FriendInfo from "../components/ui_int/FriendInfo";
 import AddFriendIcon from "../assets/icons/addFriend.svg?react";
-import waitApprouveIcon from "../assets/icons/waitApprouvalFriend.svg";
-import cancelRequestIcon from "../assets/icons/cancelFriendRequest.svg";
-import acceptFriendIcon from "../assets/icons/acceptFriend.svg";
+import WaitApprouveIcon from "../assets/icons/waitApprouvalFriend.svg?react";
+import CancelRequestIcon from "../assets/icons/cancelFriendRequest.svg?react";
+import AcceptFriendIcon from "../assets/icons/acceptFriend.svg?react";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import { useTranslation } from "react-i18next";
@@ -60,7 +60,7 @@ function EditFriends() {
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100">
           <h2 className="mr-10 text-lg font-bold text-[40px] text-white">{t("edit_friends.all_users")}</h2>
             <input
-                className="placeholder:text-black placeholder:italic rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="placeholder:text-white text-white placeholder:italic rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             	placeholder={t("edit_friends.search_user")} type="text" value={searchQuery}
 				onChange={e => setSearchQuery(e.target.value)}
             />
@@ -71,21 +71,20 @@ function EditFriends() {
 			.map(friend => (
                 <li key={friend.id}>
 				<div className="flex justify-between items-center border-b border-gray-300 pb-2">
-					<FriendInfo friend={friend} className="my-2 text-[25px] gap-3"/>
+					<FriendInfo friend={friend} className="my-2 text-[25px] gap-3 text-white"/>
 					<div>
     					{friend.accepted ? <span className="text-xs text-red-600"> {t("edit_friends.accepted_error")}</span> : ''}
 						{friend.invitation_sent ?
 							<span className="flex items-center gap-2">
 								<a title={t("edit_friends.delete_invitation")} onClick={() => deleteInvitation(friend.id)}>
-									<img src={cancelRequestIcon} alt={t("edit_friends.delete_invitation")} width="30" height="30"/>
+									<CancelRequestIcon className="w-7 h-7 fill-red-500"/>
 								</a>
 								<a title={t("edit_friends.invitation_sent")}>
-									<img src={waitApprouveIcon} alt={t("edit_friends.invitation_sent")} width="30" height="30"/>
+									<WaitApprouveIcon className="w-7 h-7 stroke-yellow-500"/>
 								</a>
 							</span>
     						: <a title={t("edit_friends.send_friend_request")} onClick={() => sendInvitation(friend.id)}>
-                  <AddFriendIcon className="w-7 h-7 stroke-green-500 " />
-    							{/* <img src={addFriendIcon} alt={t("edit_friends.send_friend_request")} width="30" height="30"/> */}
+                  				<AddFriendIcon className="w-7 h-7 stroke-green-500 " />
 							</a>
 						}
 					</div>
@@ -101,29 +100,29 @@ function EditFriends() {
             <ul>
                 {friends.map(friend => (
                 <li key={friend.id}>
-                    <FriendInfo friend={friend} className="my-2 text-[25px] gap-3">
-                        <a title={t("edit_friends.delete_friend")} onClick={() => deleteInvitation(friend.id)}>
-							<img src={cancelRequestIcon} alt={t("edit_friends.delete_friend")} width="30" height="30"/>
+                    <FriendInfo friend={friend} className="my-2 text-[25px] text-white gap-3">
+                        <a className="cursor-pointer" title={t("edit_friends.delete_friend")} onClick={() => deleteInvitation(friend.id)}>
+                            <CancelRequestIcon className="w-7 h-7 fill-red-500" />
                         </a>
                     </FriendInfo>
                 </li>
                 ))}
             </ul>
-          : <div>{t("edit_friends.add_some_friends")}</div>}
+          : <div className="text-white">{t("edit_friends.add_some_friends")}</div>}
           <h2 className="text-lg font-bold text-white">{t("edit_friends.waiting_for_approval")}</h2>
             {waitingList.length ?
             <ul>
                 {waitingList.map(friend => (
                 <li key={friend.id}>
-                    <FriendInfo friend={friend} className="my-2 text-[25px] gap-3">
-                    <a title={t("edit_friends.accept_invitation")} onClick={() => acceptInvitation(friend.id)}>
-						<img src={acceptFriendIcon} alt={t("edit_friends.accept_invitation")} width="30" height="30"/>
+                    <FriendInfo friend={friend} className="my-2 text-[25px] text-white gap-3">
+                    <a className="cursor-pointer" title={t("edit_friends.accept_invitation")} onClick={() => acceptInvitation(friend.id)}>
+                        <AcceptFriendIcon className="w-7 h-7 stroke-green-500" />
                     </a>
                     </FriendInfo>
                 </li>
                 ))}
             </ul>
-          : <div>{t("edit_friends.friendship_requests_here")}</div>
+          : <div className="text-white">{t("edit_friends.friendship_requests_here")}</div>
             }
         </div>
       </div>
