@@ -6,13 +6,13 @@ import {createPlayer}  			from './player'
 import {loadWorld}     			from './world'
 import {createRocketInstance}	from './rocket'
 import {createStateExchanger} 	from './stateExchanger'
-import {setRisizeEvent} 	from './window'
+import {setResizeEvent} 	from './window'
 import {createRoomStateInstance, IMatchState}from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
 let rendererInstance: THREE.WebGLRenderer | undefined
-let removeResizeInstance: {removeRisizeEvent: () => void} | undefined
+let removeResizeInstance: {removeResizeEvent: () => void} | undefined
 
 export function startGame(container: HTMLDivElement, user_id: number, matchId: string | undefined,
 	getMatchState: () => IMatchState, setMatchState: (state: IMatchState) => void) {
@@ -24,7 +24,7 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 	const scene    = createScene()
 	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
-	removeResizeInstance = setRisizeEvent(rendererInstance, camera, container)
+	removeResizeInstance = setResizeEvent(rendererInstance, camera, container)
 	const player = createPlayer(camera)
 	const rockets = createRocketInstance(user_id)
 	const roomState = createRoomStateInstance(user_id, scene, rockets.createRocket)
@@ -45,7 +45,8 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 		roomState.update(delta)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
 
-		matchState.players_count = Array(roomState.players).length
+		// matchState.players_count = matchState.online_players
+		// matchState.players_count = Object.keys(roomState.players).length
 		// matchState.time_left = clock.getElapsedTime()
 		setMatchState(matchState)
 
@@ -75,7 +76,7 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 }
 
 export function stopGame() {
-	removeResizeInstance.removeRisizeEvent()
+	removeResizeInstance.removeResizeEvent()
 	controlsInstance?.destroy()
 	cancelAnimationFrame(animationId)
 

@@ -49,6 +49,7 @@ function OpenMatches() {
             await API.post(`matches/${matchId}/join/`);
             await fetchAll();
             setMatchId(matchId);
+            navigate(`/game/${matchId}`);
         } catch (err) {
             console.error(err);
         }
@@ -58,6 +59,8 @@ function OpenMatches() {
         try {
             await fetchAll();
             setMatchId(match.id);
+            navigate(`/game/${matchId}`);
+
         } catch (err) {
             console.error(err);
         }
