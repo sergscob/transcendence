@@ -16,6 +16,9 @@ let removeResizeInstance: {removeRisizeEvent: () => void} | undefined
 
 export function startGame(container: HTMLDivElement, user_id: number, matchId: string | undefined,
 	getMatchState: () => IMatchState, setMatchState: (state: IMatchState) => void) {
+	if (!matchId) 
+		matchId = "default"
+
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
 	const scene    = createScene()
@@ -25,7 +28,7 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 	const player = createPlayer(camera)
 	const rockets = createRocketInstance(user_id)
 	const roomState = createRoomStateInstance(user_id, scene, rockets.createRocket)
-	const stateExchanger = createStateExchanger(user_id, roomState.modifyRoomState)
+	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
 	const posBuffer: [number, number, number] = [0, 0, 0]
