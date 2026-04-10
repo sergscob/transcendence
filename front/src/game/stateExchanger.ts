@@ -15,7 +15,13 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
 
     channel.onmessage = (event) => {
         const messageObj = JSON.parse(event.data) as any
-		callbackRoomState(messageObj)
+		if (messageObj.type === 'state') {
+			callbackRoomState(messageObj)
+		} else if (messageObj.type === 'start') {
+			// callbackStartRoom()
+		} else if (messageObj.type === 'stop') {
+			// callbackStopRoom()
+		}
     };
 
     channel.onerror = (e) => {

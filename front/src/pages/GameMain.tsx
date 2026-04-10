@@ -4,22 +4,23 @@ import { useUserStore } from "@/stores/userStore";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import { useTranslation } from 'react-i18next'
-import { IMatchState } from '@/game/roomState';  
+import { ICurrentMatchState } from '@/game/roomState';  
 import { useParams } from "react-router-dom";
 
 
-const defaultMatchState: IMatchState = {
+const defaultMatchState: ICurrentMatchState = {
   current_player: {
     user_id: 0,
     health: 100,
     arms_left: 50,
     score: 0,
     is_ready: false,
-    position: [0, 0, 0],
   },
-  players_count: 1,
+  online_players: 1,
+  max_players: 10,
   match_status: "waiting",
   time_left: "00:00",
+  players_count: 0
 };
 
 export default function GameMain() {
@@ -27,8 +28,8 @@ export default function GameMain() {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
-  const matchStateRef = useRef<IMatchState>(defaultMatchState)
-  const [matchState, setMatchState] = useState<IMatchState>(defaultMatchState)
+  const matchStateRef = useRef<ICurrentMatchState>(defaultMatchState)
+  const [matchState, setMatchState] = useState<ICurrentMatchState>(defaultMatchState)
   const user = useUserStore((s: any) => s.user);
   const loading = useUserStore((s: any) => s.loading);
   const loadUser = useUserStore((s: any) => s.loadUser);
@@ -37,8 +38,8 @@ export default function GameMain() {
     loadUser();
   }, [loadUser]);
 
-  const updateMatchState = (s: IMatchState) => {
-    const nextState: IMatchState = {
+  const updateMatchState = (s: ICurrentMatchState) => {
+    const nextState: ICurrentMatchState = {
       ...matchState,
     }
     matchStateRef.current = nextState
@@ -102,11 +103,6 @@ export default function GameMain() {
         </div>
         <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
           PLAYERS: {matchState?.players_count}
-        </div>
-      </div>
-      <div className="absolute w-screen bottom-10 bg-black/20 flex pt-2 text-sm">
-        <div className="ml-2 font-display whitespace-nowrap text-purple-500/50 ">
-          POS: {matchState?.current_player?.position.map(c => c.toFixed(4)).join(', ')}
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ export const GAME_CONFIG = {
 			height: 1,
 		},
 
-		spawnEnd: [2, 2, -5],
+		spawnEnd: [[5.4, 5.8, -16.8], [2.7, 5.9, -12.3], [2, 2, -5]], // 10
 	},
 
 	ROCKET: {
