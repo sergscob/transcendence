@@ -1,13 +1,13 @@
-import * as THREE 				from 'three'
-import {createScene}   			from './scene'
-import {createCamera}  			from './camera'
-import {createControls} 		from './controls'
-import {createPlayer}  			from './player'
-import {loadWorld}     			from './world'
-import {createRocketInstance}	from './rocket'
-import {createStateExchanger} 	from './stateExchanger'
-import {setResizeEvent} 	from './window'
-import {createRoomStateInstance, IMatchState}from './roomState'
+import * as THREE 								from 'three'
+import {createScene}   							from './scene'
+import {createCamera}  							from './camera'
+import {createControls} 						from './controls'
+import {createPlayer}  							from './player'
+import {loadWorld}     							from './world'
+import {createRocketInstance}					from './rocket'
+import {createStateExchanger} 					from './stateExchanger'
+import {setResizeEvent} 						from './window'
+import {createRoomStateInstance, IMatchState}	from './roomState'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -22,13 +22,13 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
 	const scene    = createScene()
+	const roomState = createRoomStateInstance(user_id, scene)
+	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState)
 	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
 	removeResizeInstance = setResizeEvent(rendererInstance, camera, container)
 	const player = createPlayer(camera)
-	const rockets = createRocketInstance(user_id)
-	const roomState = createRoomStateInstance(user_id, scene, rockets.createRocket)
-	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState)
+	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
 	const posBuffer: [number, number, number] = [0, 0, 0]
