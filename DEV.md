@@ -55,7 +55,14 @@
     type: "state",
     user_id: id,
     state: 
-    {
+    {    function sendState(state: any) {
+        if (channel && channel.readyState === WebSocket.OPEN) {
+            channel.send(JSON.stringify({ type: 'state', state, user_id, match_id: matchId }));
+        } else {
+            console.error("WebSocket is not open. Unable to send message.");
+        }
+    }
+
         pos: []
         rockets: []
     }
