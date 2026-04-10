@@ -4,6 +4,8 @@ import Button from "@/components/ui_int/Button"
 import Input from "@/components/ui_int/Input"
 import DraggableWindow from "@/components/ui_int/DraggableWindow";
 import { useTranslation } from "react-i18next";
+import { useSettingsStore } from "@/stores/settingsStore";
+
 
 function ChatWindow({
   name,
@@ -18,9 +20,10 @@ function ChatWindow({
   const [userMessage, setUserMessage] = useState("");
   const channel = useRef(null);
   const user = useUserStore((s) => s.user);
+  const serverIP = useSettingsStore((s) => s.serverIP);
 
   useEffect(() => {
-    const webSocketUrl = `ws://localhost:8000/ws/chat/${roomName}/`;
+    const webSocketUrl = `ws://${serverIP}/ws/chat/${roomName}/`;
     channel.current = new WebSocket(webSocketUrl);
     channel.current.onopen = () => {
       console.log("WebSocket connection established");

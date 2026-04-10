@@ -107,7 +107,7 @@ function FriendsPanel() {
               <li key={friend.id}>
                 <FriendInfo friend={friend} className="my-2">
                   <IconChat
-                    className="h-6 w-7 cursor-pointer text-slate-500 hover:text-slate-700"
+                    className="h-6 w-7 shrink-0 cursor-pointer text-slate-500 hover:text-slate-700"
                     onClick={() => openChat(friend)}
                   />
                 </FriendInfo>

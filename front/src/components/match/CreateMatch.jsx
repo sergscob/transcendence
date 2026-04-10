@@ -10,6 +10,14 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
   const { t } = useTranslation();
   const [error, setError] = useState("");
   const [okEnabled, setOkEnabled] = useState(false);
+  const [form, setForm] = useState({
+    players_maxcount: 2
+  });
+
+  async function changeForm(field) {
+    setError("")
+    setForm({...form, ...field})
+  }
   
   useEffect(() => {
      setOkEnabled(true);
@@ -17,18 +25,19 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
   }, [open]);
 
   async function OnClickOk() {
+    if (form.players_maxcount < 2 || form.players_maxcount > 10) {
+      setError(t("matches.players_maxcount_error"));
+      return;
+    }
+
     try {
-        await API.post("matches/", {
-            players_maxcount: 2,
-            time_limit: 5
-        })
+        const res = await API.post("matches/", form);
+        onSuccess(res.data);
+        setOpen(false);
     } catch (err) {
         setError(err.response.data.detail || t("matches.create_match_error"));
         return;
     }
-    const error = onSuccess();
-    if (error)
-      setError(error);
   }
 
   return (
@@ -39,8 +48,12 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
           {t("matches.create_match")}
         </h2>
         <div className="">
-            <Input placeholder={t("matches.players_maxcount")} className="w-full mt-4" />
-            <Input placeholder={t("matches.time_limit")} className="w-full mt-4" />
+            <label>{t("matches.players_maxcount")}:</label>
+            <Input 
+              value={form.players_maxcount}
+              className="w-full mt-4" 
+              onChange={(e) => changeForm({ players_maxcount: e.target.value })} />
+            {/* <Input placeholder={t("matches.time_limit")} className="w-full mt-4" /> */}
         </div>
         <div className="error-message text-center mt-2">
             {error}

@@ -6,37 +6,35 @@ export const GAME_CONFIG = {
 		speed: 7,
 		jumpImpulse: 15,
 		resetDistance: 50,
+		landingSpeedToTakeDamage: 8,
 
-		// `Capsule` est définie par (start, end, radius)
-		// Ici, `height` = distance entre start et end (la partie cylindrique)
 		capsule: {
-			radius: 0.4,
+			radius: 0.2,
 			height: 1,
 		},
 
-		// Positions de spawn = position `end` de la capsule (la caméra se colle sur `end`)
-		spawnEnd: [3, 2, -5],
+		spawnEnd: [2, 2, -5],
 	},
 
 	ROCKET: {
-		speed: 30,
+		speed: 40,
 		maxDistance: 100,
-		colliderRadius: 0.1,
+		colliderSize: [0.1, 0.1, 1.0],
 		idStride: 1000,
 
 		geometry: {
-			radiusTop: 0.03,
+			radiusTop: 0.02,
 			radiusBottom: 0,
-			height: 0.6,
+			height: 1,
 			radialSegments: 3,
 			heightSegments: 1,
 		},
-		materialColor: 0x0033FF,
+		materialColor: 0xFFFFFF,
 	},
 
 	REMOTE: {
-		smoothing: 50,
-		playerMeshColor: 0xffffff,
+		smoothing: 60,
+		playerMeshColor: 0x715947,
 	},
 } as const
 

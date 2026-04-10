@@ -6,10 +6,10 @@ type LanguagesEnum = "en" | "fr" | "ru";
 type SettingsState = {
     serverIP: string;
     language: LanguagesEnum;
-    setServerIp: (serverIp: string) => void;
-    setLanguage: (language: LanguagesEnum) => void;
-    getServerHttpUrl: () => string;
-    getServerWsUrl: () => string;
+    // setServerIp: (serverIp: string) => void;
+    // setLanguage: (language: LanguagesEnum) => void;
+    // getServerHttpUrl: () => string;
+    // getServerWsUrl: () => string;
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -43,7 +43,7 @@ export const useSettingsStore = create<SettingsState>()(
                 return "ws://" + serverIP;
             }
         }),
-        { name: "settings-storage" },
+        { name: "trans-settings-storage" },
     )
 );
 
