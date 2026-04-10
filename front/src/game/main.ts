@@ -44,10 +44,6 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 		roomState.update(delta, matchState)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
-
-		// matchState.players_count = matchState.online_players
-		// matchState.players_count = Object.keys(roomState.players).length
-		// matchState.time_left = clock.getElapsedTime()
 		setMatchState(matchState)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0
@@ -68,6 +64,8 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 				rockets: rockets.state(),
 			})
 		}
+
+		console.log(camera.position.x, camera.position.y, camera.position.z)
 
 		rendererInstance?.render(scene, camera)
 	}
