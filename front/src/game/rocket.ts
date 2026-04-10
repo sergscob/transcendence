@@ -3,7 +3,23 @@ import { Octree } from 'three/addons/math/Octree.js'
 import { GAME_CONFIG } from './gameConfig'
 import { remotePlayersArr, IMatchState }from './roomState'
 
-export function createRocketInstance(user_id: number) {
+export function createRocket(): THREE.Mesh {
+	const g = GAME_CONFIG.ROCKET.geometry
+	const rocketGeometry = new THREE.CylinderGeometry(
+		g.radiusTop,
+		g.radiusBottom,
+		g.height,
+		g.radialSegments,
+		g.heightSegments,
+	)
+	const rocketMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.ROCKET.materialColor })
+	const rocket = new THREE.Mesh(rocketGeometry, rocketMaterial)
+	rocket.geometry.rotateX(-Math.PI / 2)
+
+	return rocket
+}
+
+export function createRocketInstance(user_id: number, sendShot: (shot: any) => void) {
 	const ROCKET_ID_STRIDE = GAME_CONFIG.ROCKET.idStride
 	let nextRocketNumber = 1
 	const rockets: Array<{rocket_id: number, mesh: THREE.Mesh, collider: THREE.Box3, localBox: THREE.Box3}> = []
@@ -12,22 +28,6 @@ export function createRocketInstance(user_id: number) {
 
 	function generateRocketId() {
 		return user_id * ROCKET_ID_STRIDE + nextRocketNumber++
-	}
-
-	function createRocket(): THREE.Mesh {
-		const g = GAME_CONFIG.ROCKET.geometry
-		const rocketGeometry = new THREE.CylinderGeometry(
-			g.radiusTop,
-			g.radiusBottom,
-			g.height,
-			g.radialSegments,
-			g.heightSegments,
-		)
-		const rocketMaterial = new THREE.MeshLambertMaterial({ color: GAME_CONFIG.ROCKET.materialColor })
-		const rocket = new THREE.Mesh(rocketGeometry, rocketMaterial)
-		rocket.geometry.rotateX(-Math.PI / 2)
-
-		return rocket
 	}
 
 	function update(scene: THREE.Scene, camera: THREE.PerspectiveCamera, click: boolean, delta: number, worldOctree: Octree,
@@ -54,7 +54,7 @@ export function createRocketInstance(user_id: number) {
 				if (players[userId].collider.intersectsBox(rocketCollider)) {
 					scene.remove(rocketMesh)
 					rockets.splice(i, 1)
-					PlayerGetState.current_player.score += 100
+					sendShot(userId)
 				}
 			}
 		}
@@ -91,5 +91,5 @@ export function createRocketInstance(user_id: number) {
 		}))
 	}
 
-	return {update, state, createRocket}
+	return {update, state}
 } 
