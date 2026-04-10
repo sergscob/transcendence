@@ -40,6 +40,7 @@ class MatchListViewMy(APIView):
             Match.objects.filter(
                 Exists(MatchPlayer.objects.filter(match_id=OuterRef('pk'), user=request.user))
             )
+            .exclude(status=MatchStatus.FINISHED)
             .annotate(
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
@@ -87,7 +88,7 @@ class MatchActionView(APIView):
         match = self._get_match(match_id)
         user = request.user
 
-        if match.status != MatchStatus.WAITING:
+        if match.status != MatchStatus.WAITING and match.status != MatchStatus.LIVE:
             return Response(
                 {"detail": _("Only waiting matches can be canceled or left.")},
                 status=status.HTTP_400_BAD_REQUEST,

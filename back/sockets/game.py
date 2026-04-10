@@ -9,14 +9,6 @@ ROOM_BROADCAST_TASKS: Dict[str, asyncio.Task] = {}
 SEND_INTERVAL = 0.016
 
 
-async def broadcast_match_start(channel_layer, match_id: str, payload: Dict[str, Any] | None = None):
-    event = {
-        'type': 'start',
-        'payload': payload or {},
-    }
-    await channel_layer.group_send(f'game_{match_id}', event)
-
-
 async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: str):
     try:
         while True:
@@ -25,8 +17,8 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
             async with ROOM_LOCK:
                 match_state = await get_match_state(match_id)
 
-            # if match_state is None or match_state.get('status') == 'waiting' :
-            #     continue
+            if match_state is None or match_state.get('status') == 'waiting' :
+                continue
 
             await channel_layer.group_send(
                 room_group_name,
@@ -120,11 +112,20 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
             'matchState': event.get('match_state'),
         })
 
-    async def game_start(self, event):
+    async def start(self, event):
+        payload = event.get('payload', [])
         await self.send_json({
             'type': 'start',
-            **event.get('payload', {}),
+            'players': payload,
         })
+
+    async def stop(self, event):
+        payload = event.get('payload', [])
+        await self.send_json({
+            'type': 'stop',
+            'players': payload,
+        })
+
 
     async def update_game_state(self, user_id: int, state: Any):
         async with ROOM_LOCK:
