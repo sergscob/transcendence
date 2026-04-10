@@ -1,11 +1,33 @@
 import asyncio
-from typing import Any, Dict
+from typing import Any, Dict, TypedDict
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-ROOM_GAME_STATE_BY_MATCH: Dict[str, Dict[int, Dict[str, Any]]] = {}
+
+class PlayerState(TypedDict, total=False):
+    user_id: int
+    pos: list[float]
+    rockets: list[dict[str, Any]]
+
+class MatchState(TypedDict, total=False):
+    time: str
+    status: str
+    players: Dict[int, PlayerState]
+
+RoomStateByMatch = Dict[str, MatchState]
+
+ROOM_GAME_STATE_BY_MATCH: RoomStateByMatch = {}
 ROOM_LOCK: asyncio.Lock = asyncio.Lock()
 ROOM_BROADCAST_TASKS: Dict[str, asyncio.Task] = {}
 SEND_INTERVAL = 0.016
+
+
+def _new_match_state(match_id):
+    print (f"Creating new match state for match_id: {match_id}")
+    return {
+        'time': '0',
+        'status': 'waiting',
+        'players': {},
+    }
 
 
 async def broadcast_match_start(channel_layer, match_id: str, payload: Dict[str, Any] | None = None):
@@ -22,13 +44,13 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
             await asyncio.sleep(SEND_INTERVAL)
 
             async with ROOM_LOCK:
-                states = list(ROOM_GAME_STATE_BY_MATCH.get(match_id, {}).values())
+                match_state = ROOM_GAME_STATE_BY_MATCH.get(match_id, _new_match_state(match_id))
 
             await channel_layer.group_send(
                 room_group_name,
                 {
                     'type': 'room_state',
-                    'states': states,
+                    'match_state': match_state,
                 },
             )
     except asyncio.CancelledError:
@@ -56,7 +78,7 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         async with ROOM_LOCK:
-            ROOM_GAME_STATE_BY_MATCH.setdefault(self.match_id, {})
+            ROOM_GAME_STATE_BY_MATCH.setdefault(self.match_id, _new_match_state(self.match_id))
             task = ROOM_BROADCAST_TASKS.get(self.match_id)
             if task is None or task.done():
                 ROOM_BROADCAST_TASKS[self.match_id] = asyncio.create_task(
@@ -64,7 +86,7 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
                 )
 
         await self.accept()
-        await self.send_room_state()
+        # await self.send_room_state()
 
     async def disconnect(self, close_code):
         should_cancel_task = False
@@ -73,9 +95,10 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
         async with ROOM_LOCK:
             room_state = ROOM_GAME_STATE_BY_MATCH.get(self.match_id)
             if room_state is not None and self.user_id is not None:
-                room_state.pop(self.user_id, None)
+                players = room_state.setdefault('players', {})
+                players.pop(self.user_id, None)
 
-            if room_state is not None and not room_state:
+            if room_state is not None and not room_state.get('players'):
                 ROOM_GAME_STATE_BY_MATCH.pop(self.match_id, None)
                 task_to_cancel = ROOM_BROADCAST_TASKS.pop(self.match_id, None)
                 should_cancel_task = task_to_cancel is not None
@@ -103,7 +126,7 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
     async def room_state(self, event):
         await self.send_json({
             'type': 'state',
-            'states': event.get('states', []),
+            'matchState': event.get('match_state', _new_match_state(self.match_id)),
         })
 
     async def game_start(self, event):
@@ -112,18 +135,20 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
             **event.get('payload', {}),
         })
 
-    async def send_room_state(self):
-        async with ROOM_LOCK:
-            states = list(ROOM_GAME_STATE_BY_MATCH.get(self.match_id, {}).values())
-        await self.send_json({
-            'type': 'state',
-            'states': states,
-        })
+    # async def send_room_state(self):
+    #     async with ROOM_LOCK:
+    #         states = list(ROOM_GAME_STATE_BY_MATCH.get(self.match_id, {}).values())
+    #     await self.send_json({
+    #         'type': 'state',
+    #         'states': states,
+    #     })
 
     async def update_game_state(self, user_id: int, state: Any):
         async with ROOM_LOCK:
             if isinstance(state, dict):
                 merged = dict(state)
                 merged['user_id'] = user_id
-                ROOM_GAME_STATE_BY_MATCH.setdefault(self.match_id, {})[user_id] = merged
+                match_state = ROOM_GAME_STATE_BY_MATCH.setdefault(self.match_id, _new_match_state(self.match_id))
+                players = match_state.setdefault('players', {})
+                players[user_id] = merged
                 return

@@ -14,9 +14,19 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
     };
 
     channel.onmessage = (event) => {
-        try {
-            const rawPlayers = JSON.parse(event.data) as any
+        // try {
+        const messageObj = JSON.parse(event.data) as any
+        if (messageObj.type == 'state') {
+            const matchState = messageObj.matchState
+            const playersObj = matchState?.players
+            if (!playersObj || typeof playersObj !== 'object' ) {
+                console.log("Invalid WS message payload: ", matchState)
+                return
+            }
+
+            const rawPlayers = Object.values(playersObj) as any[]
             if (!Array.isArray(rawPlayers)) {
+                console.log("Invalid WS message payload: ", matchState);
                 return
             }
 
@@ -69,9 +79,10 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
             if (players.length) {
                 callbackRoomState(players)
             }
-        } catch (error) {
-            console.error("Invalid WS message payload:", error);
         }
+        // } catch (error) {
+        //     console.error("Invalid WS message payload:", error);
+        // }
     };
 
     channel.onerror = (e) => {
