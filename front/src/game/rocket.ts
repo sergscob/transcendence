@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { GAME_CONFIG } from './gameConfig'
-import { remotePlayersArr, IMatchState }from './roomState'
+import { remotePlayersArr, ICurrentMatchState }from './roomState'
 
 export function createRocket(): THREE.Mesh {
 	const g = GAME_CONFIG.ROCKET.geometry
@@ -31,7 +31,7 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 	}
 
 	function update(scene: THREE.Scene, camera: THREE.PerspectiveCamera, click: boolean, delta: number, worldOctree: Octree,
-		players: remotePlayersArr, PlayerGetState: IMatchState) {
+		players: remotePlayersArr, PlayerGetState: ICurrentMatchState) {
 		for (let i = rockets.length - 1; i >= 0; i--) {
 			const rocketMesh = rockets[i].mesh
 			const rocketCollider = rockets[i].collider
