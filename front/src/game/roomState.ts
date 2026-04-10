@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { Capsule } from 'three/addons/math/Capsule.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
+import { createRocket } from './rocket'
 
 export interface IPlayerState {
     user_id: number;
@@ -28,7 +29,6 @@ export interface IMatchState {
 	max_players: number;
 }
 
-type CreateRocketCallback = () => THREE.Mesh
 export type remotePlayersArr = Record<number, {
 	mesh: THREE.Object3D;
 	collider: Capsule;
@@ -44,7 +44,7 @@ export type remoteRocketsArr = Record<number, {
 	rotation: [number, number, number]
 }>
 
-export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene, createRocket: CreateRocketCallback) {
+export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene) {
 	const players: remotePlayersArr = {}
 	const rockets: remoteRocketsArr = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)

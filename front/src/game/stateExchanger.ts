@@ -18,6 +18,7 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
         const messageObj = JSON.parse(event.data) as any
         if (messageObj.type == 'state') {
             const matchState = messageObj.matchState
+
             const playersObj = matchState?.players
             if (!playersObj || typeof playersObj !== 'object' ) {
                 console.log("Invalid WS message payload: ", matchState)
@@ -35,8 +36,6 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
                 if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
                     continue
                 }
-                console.log(user_id, raw.user_id)
-
 
                 const posArr = raw.pos
                 const pos: [number, number, number] = Array.isArray(posArr)
@@ -82,9 +81,6 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
                 callbackRoomState(players)
             }
         }
-        // } catch (error) {
-        //     console.error("Invalid WS message payload:", error);
-        // }
     };
 
     channel.onerror = (e) => {
@@ -99,9 +95,9 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
         }
     }
 
-    function sendShot(shot: any) {
+    function sendShot(shot_id: any) {
         if (channel && channel.readyState === WebSocket.OPEN) {
-            channel.send(JSON.stringify({ type: 'shot', user_id, match_id: matchId }));
+            channel.send(JSON.stringify({ type: 'shot', shot_id, user_id, match_id: matchId }));
         } else {
             console.error("WebSocket is not open. Unable to send message.");
         }
@@ -114,5 +110,5 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
         }
     }
 
-    return {sendState, close};
+    return {sendState, sendShot, close};
 }
