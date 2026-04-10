@@ -87,7 +87,7 @@ class MatchActionView(APIView):
         match = self._get_match(match_id)
         user = request.user
 
-        if match.status != MatchStatus.WAITING:
+        if match.status != MatchStatus.WAITING and match.status != MatchStatus.LIVE:
             return Response(
                 {"detail": _("Only waiting matches can be canceled or left.")},
                 status=status.HTTP_400_BAD_REQUEST,
