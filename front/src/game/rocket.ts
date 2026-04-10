@@ -68,9 +68,11 @@ export function createRocketInstance(user_id: number) {
 			camera.getWorldDirection(camDir)
 
 			newRocket.position.copy(camera.position)
-			// newRocket.position.add.setX()
 			const target = newRocket.position.clone().add(camDir)
 			newRocket.lookAt(target)
+			const direction = new THREE.Vector3()
+			newRocket.getWorldDirection(direction)
+			newRocket.position.addScaledVector(direction, 1.1)
 
 			const localBox = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderSize)
 			newRocket.updateMatrixWorld(true)
