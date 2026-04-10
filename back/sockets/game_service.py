@@ -89,6 +89,6 @@ async def shot_user(match_id, user_id, shot_id, damage, score):
     curUser = players.get(user_id)
     shotUser = players.get(shot_id)
     if curUser is not None:
-        shotUser['score'] = shotUser.get('score', 0) + score
+        curUser['score'] = curUser.get('score', 0) + score
     if shotUser is not None:
-        curUser['health'] = curUser.get('health', 100) - damage
+        shotUser['health'] = shotUser.get('health', 100) - damage

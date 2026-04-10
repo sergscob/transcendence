@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 let resizeHandler: (() => void) | undefined
 
-export function setRisizeEvent(rendererInstance: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera, container: HTMLDivElement) {
+export function setResizeEvent(rendererInstance: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera, container: HTMLDivElement) {
 
 	resizeHandler = () => {
 		if (!rendererInstance)
@@ -18,13 +18,13 @@ export function setRisizeEvent(rendererInstance: THREE.WebGLRenderer, camera: TH
 	resizeHandler()
 	window.addEventListener('resize', resizeHandler)
 
-	function removeRisizeEvent() {
+	function removeResizeEvent() {
 		if (resizeHandler) {
 			window.removeEventListener('resize', resizeHandler)
 			resizeHandler = undefined
 		}
 	}
 
-	return {removeRisizeEvent}
+	return {removeResizeEvent}
 
 }
