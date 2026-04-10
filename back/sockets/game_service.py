@@ -24,6 +24,15 @@ RoomStateByMatch = Dict[str, MatchState]
 
 ROOM_GAME_STATE_BY_MATCH: RoomStateByMatch = {}
 
+async def get_match_state(match_id: str) -> MatchState:
+    state = ROOM_GAME_STATE_BY_MATCH.get(match_id)
+    if state is None:
+        print (f"Match state for match_id {match_id} not found, creating new one.")
+        state = await _new_match_state(match_id)
+        ROOM_GAME_STATE_BY_MATCH[match_id] = state
+    return state
+
+
 
 @database_sync_to_async
 def _get_match_record(match_id):
@@ -33,6 +42,7 @@ def _get_match_record(match_id):
     if match_record is None:
         return None
     return match_record
+
 
 
 async def _new_match_state(match_id):
@@ -47,6 +57,7 @@ async def _new_match_state(match_id):
         'live_players': 1,
         'players': {},
     }
+
 
 
 @database_sync_to_async
@@ -65,6 +76,7 @@ def _save_match_start(match_id):
 
 @database_sync_to_async
 def _save_match_finish(match_id):
+    match_state = get_match_state(match_id)
     Match = apps.get_model('match', 'Match')
     match_record = Match.objects.filter(id=match_id).first()
     if match_record:
@@ -72,18 +84,22 @@ def _save_match_finish(match_id):
         match_record.finished_at = timezone.now()
         match_record.save(update_fields=['status', 'finished_at'])
         print (f"Match FINISHED {match_id}")
+        
+        for player_id, player_info in match_state['players'].items():
+            MatchPlayer = apps.get_model('match', 'MatchPlayer')
+            player_record = MatchPlayer.objects.filter(match_id=match_id, user_id=player_id).first()
+            if player_record:
+                player_record.score = player_info.get('score', 0)
+                player_record.result = 'win' if player_info.get('health', 0) > 0 else 'loss'
+                player_record.save(update_fields=['score', 'result'])
+                print (f"Updated player {player_id} record with score {player_record.score} and result {player_record.result}")
+
+        ROOM_GAME_STATE_BY_MATCH.pop(match_id, None)
         return True
     return False
 
 
 
-async def get_match_state(match_id: str) -> MatchState:
-    state = ROOM_GAME_STATE_BY_MATCH.get(match_id)
-    if state is None:
-        print (f"Match state for match_id {match_id} not found, creating new one.")
-        state = await _new_match_state(match_id)
-        ROOM_GAME_STATE_BY_MATCH[match_id] = state
-    return state
     
 
 
@@ -100,6 +116,7 @@ async def add_new_player(match_state, userInfo):
         print (f"Max players reached for match_id {match_state['match_id']}. Starting match.")
         match_state['status'] = 'live'
         await _save_match_start(match_state['match_id'])
+
 
 
 async def update_player(match_id, userInfo):
