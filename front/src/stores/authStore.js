@@ -33,6 +33,6 @@ export const useAuthStore = create(
     //
     }),
     
-    { name: "user-storage" }
+    { name: "trans-user-storage" }
   )
 );
