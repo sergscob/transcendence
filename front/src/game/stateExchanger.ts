@@ -3,10 +3,11 @@ import { IPlayerState } from './roomState'
 type RoomStateCallback = (players: IPlayerState[]) => void
 import { useSettingsStore } from "@/stores/settingsStore";
 
-export function createStateExchanger(user_id: number, callbackRoomState: RoomStateCallback) {
+export function createStateExchanger(user_id: number, matchId: string, callbackRoomState: RoomStateCallback) {
     const serverIP = useSettingsStore.getState().serverIP;
     console.log("Game server:", serverIP);
-    const webSocketUrl = `ws://${serverIP}/ws/game/1/`;    const channel = new WebSocket(webSocketUrl);
+    const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
+    const channel = new WebSocket(webSocketUrl);
 
     channel.onopen = () => {
         console.log("WebSocket connection established");
@@ -79,7 +80,7 @@ export function createStateExchanger(user_id: number, callbackRoomState: RoomSta
 
     function sendState(state: any) {
         if (channel && channel.readyState === WebSocket.OPEN) {
-            channel.send(JSON.stringify({ state, user_id }));
+            channel.send(JSON.stringify({ type: 'state', state, user_id, match_id: matchId }));
         } else {
             console.error("WebSocket is not open. Unable to send message.");
         }
