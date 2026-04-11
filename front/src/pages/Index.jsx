@@ -13,7 +13,7 @@ export default function Index() {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-center bg-gray-100 overflow-hidden">
+    <div className="w-screen h-screen flex justify-center overflow-hidden">
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex justify-center items-center">
           <MainMenu />

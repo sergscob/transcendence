@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import backgroundImage from "@/assets/images/brick-bg.jpg";
 
 export default function NotFound({ text, code=404 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="text-center">
         <h1 className="text-6xl font-bold text-white mb-4">{code}</h1>
         <p className="text-2xl text-white mb-8">{text || t("not_found.page_not_found")}</p>
