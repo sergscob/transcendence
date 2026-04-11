@@ -39,7 +39,7 @@ export default function GameMain() {
 
   const updateMatchState = (s: IMatchState) => {
     const nextState: IMatchState = {
-      ...matchState,
+      ...s,
     }
     matchStateRef.current = nextState
     setMatchState(nextState)
