@@ -13,7 +13,18 @@ export const GAME_CONFIG = {
 			height: 1,
 		},
 
-		spawnEnd: [[5.4, 5.8, -16.8], [2.7, 5.9, -12.3], [2, 2, -5]], // 10
+		spawnEnd: [
+			[5.4, 5.8, -16.8],
+			[2.7, 5.9, -12.3],
+			[2, 2, -5],
+			[-2.3, 7.4, 4.5],
+			[23.5, 10.3, 11.3],
+			[-4, 14.8, 1.3],
+			[2, 6.1, 30],
+			[-22.8, 4.2, 21.4],
+			[7.5, 4.8, 15],
+			[14, 7.4, -27.8]
+		],
 	},
 
 	ROCKET: {
@@ -39,9 +50,9 @@ export const GAME_CONFIG = {
 } as const
 
 
-export function getPlayerSpawnEnd(): THREE.Vector3 {
-	const [x, y, z] = GAME_CONFIG.PLAYER.spawnEnd
-	return new THREE.Vector3(x, y, z)
+export function getPlayerSpawnEnd(index: number): THREE.Vector3 {
+	// const [x, y, z] = GAME_CONFIG.PLAYER.spawnEnd[index]
+	return new THREE.Vector3(...GAME_CONFIG.PLAYER.spawnEnd[index])
 }
 
 export function getPlayerCapsuleStartFromEnd(end: THREE.Vector3): THREE.Vector3 {

@@ -41,7 +41,9 @@ export type remoteRocketsArr = Record<number, {
 export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene) {
 	const players: remotePlayersArr = {}
 	const rockets: remoteRocketsArr = {}
+	const spawnIndex: Record<number, number> = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
+	let gameStarted = false
 	let matchState: IMatchState = {
 		players_count: 0,
 		time_left: "00:00",
@@ -64,6 +66,13 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 	const remotePlayerLoader = new GLTFLoader()
 	let remotePlayerModel: THREE.Object3D | null = null
 	let remotePlayerModelPromise: Promise<THREE.Object3D> | null = null
+
+	function getSpawnIndex(user_id: number): number {
+		if (Object.keys(spawnIndex).length === 0) {
+			return 0
+		}
+		return spawnIndex[user_id]
+	}
 
 	function loadRemotePlayerModel(): Promise<THREE.Object3D> {
 		if (remotePlayerModel) {
@@ -190,7 +199,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		return container
 	}
 
-	function smoothMove(mesh: THREE.Object3D, target: [number, number, number], rotation: [number, number, number], delta: number, invertPitch = false) {
+	function smoothMove(mesh: THREE.Object3D, target: [number, number, number], rotation: [number, number, number], delta: number) {
 		const alpha = 1 - Math.exp(-SMOOTHING * delta)
 		const x = mesh.position.x
 		const y = mesh.position.y
@@ -215,11 +224,37 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		)
 	}
 
+	function startState(messageObj: any) {
+		const playersObj = messageObj?.players
+		if (!playersObj || typeof playersObj !== 'object') {
+			console.log("Invalid WS message payload: ", matchState)
+			return
+		}
+
+		const rawPlayers = Object.values(playersObj) as any[]
+		if (!Array.isArray(rawPlayers)) {
+			console.log("Invalid WS message payload: ", matchState);
+			return
+		}
+
+		for (const raw of rawPlayers) {
+			if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
+				continue
+			}
+
+			spawnIndex[Number(raw.user_id)] = Number(raw.index)
+		}
+		gameStarted = true
+	}
+
+	function stopState(messageObj: any) {
+	}
+
 	function modifyRoomState(messageObj: any) {
+		const seenUserIds: Record<number, boolean> = {}
+		const seenRocketIds: Record<number, boolean> = {}
 		const playersFromServ = getPlayersFromMessage(messageObj)
 		matchState = getMatchState(messageObj)
-		const seenUserIds: Record<number, true> = {}
-		const seenRocketIds: Record<number, true> = {}
 		for (const remotePlayerState of playersFromServ) {
 			if (!remotePlayerState || remotePlayerState.user_id === undefined) {
 				continue
@@ -236,7 +271,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 			if (!entry) {
 				const meshPlayer = createRemotePlayerMesh()
 				meshPlayer.rotation.order = 'YXZ'
-				const spawnFallback = getPlayerSpawnEnd()
+				const spawnFallback = getPlayerSpawnEnd(getSpawnIndex(remotePlayerState.user_id))
 
 				meshPlayer.position.set(
 					remotePlayerState.pos?.[0] ?? spawnFallback.x,
@@ -347,13 +382,13 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		}
 	}
 
-	function update(delta: number, currentMatchState: ICurrentMatchState) {
+	function update(delta: number, currentMatchState: ICurrentMatchState, teleportPlayer: (position: THREE.Vector3) => void) {
 		for (const userIdStr in players) {
 			const userId = Number(userIdStr)
 			const entry = players[userId]
 			if (!entry)
 				continue
-			smoothMove(entry.mesh, entry.target, entry.rotation, delta, true)
+			smoothMove(entry.mesh, entry.target, entry.rotation, delta)
 			const end = entry.mesh.position.clone()
 			entry.collider.set(getPlayerCapsuleStartFromEnd(end), end, GAME_CONFIG.PLAYER.capsule.radius)
 		}
@@ -373,7 +408,13 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		currentMatchState.time_left = matchState.time_left
 		currentMatchState.current_player.health = playerState.health
 		currentMatchState.current_player.score = playerState.score
+
+		if (gameStarted) {
+			const index = getSpawnIndex(client_user_id)
+			teleportPlayer(getPlayerSpawnEnd(index))
+			gameStarted = false
+		}
 	}
 
-	return { modifyRoomState, update, players }
+	return { modifyRoomState, startState, stopState, update, getSpawnIndex, players }
 }

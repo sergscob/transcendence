@@ -3,25 +3,28 @@ import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
-export function createPlayer(camera: THREE.PerspectiveCamera, sendShot: (shot: any) => void, user_id: number) {
-	const spawnEnd = getPlayerSpawnEnd()
+export function createPlayer(camera: THREE.PerspectiveCamera, sendShot: (shot: any) => void, user_id: number, getSpawnIndex: (user_id: number) => number) {
+	const spawnEnd = getPlayerSpawnEnd(getSpawnIndex(user_id))
 	const collider = new Capsule(
 		getPlayerCapsuleStartFromEnd(spawnEnd),
 		spawnEnd.clone(),
 		GAME_CONFIG.PLAYER.capsule.radius,
 	)
-
 	const velocity = new THREE.Vector3()
 	let onFloor = false
 
+	function teleportPlayer(position: THREE.Vector3) {
+		collider.set(
+			getPlayerCapsuleStartFromEnd(position),
+			position,
+			GAME_CONFIG.PLAYER.capsule.radius,
+		)
+	}
+
 	function update(delta: number, keys: Record<string, boolean>, yaw: number, worldOctree: Octree) {
 		if (collider.end.length() > GAME_CONFIG.PLAYER.resetDistance) {
-			const resetEnd = getPlayerSpawnEnd()
-			collider.set(
-				getPlayerCapsuleStartFromEnd(resetEnd),
-				resetEnd,
-				GAME_CONFIG.PLAYER.capsule.radius,
-			)
+			const resetEnd = getPlayerSpawnEnd(getSpawnIndex(user_id))
+			teleportPlayer(resetEnd)
 		}
 
 		const damping = Math.exp(-4 * delta) - 1
@@ -66,5 +69,5 @@ export function createPlayer(camera: THREE.PerspectiveCamera, sendShot: (shot: a
 		camera.position.copy(collider.end)
 	}
 
-	return { update }
+	return { update, teleportPlayer }
 }
