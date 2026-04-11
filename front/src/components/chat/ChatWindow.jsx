@@ -62,8 +62,8 @@ function ChatWindow({
       defaultPosition={defaultPosition}
       zIndex={zIndex}
       className="w-[320px] max-w-[calc(100vw-2rem)]"
-      headerClassName="bg-slate-100"
-      bodyClassName="flex h-[420px] flex-col bg-gray-100 text-gray-800"
+      headerClassName="bg-gray-500 text-white"
+      bodyClassName="flex h-[420px] flex-col bg-gray-300 text-gray-800"
     >
       <div className="flex-1 overflow-y-auto p-2">
         {messages.map((msg, index) => (
@@ -78,10 +78,10 @@ function ChatWindow({
         ))}
       </div>
 
-      <form className="flex gap-2 border-t border-zinc-200 p-2" onSubmit={sendMessage}>
+      <form className="flex gap-2 border-t border-gray-400 p-2 bg-gray-400" onSubmit={sendMessage}>
         <Input
           placeholder={t("chat_window.type_message")}
-          className="mr-2 grow border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="mr-2 grow border placeholder:text-white border-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={userMessage}
           onChange={(e) => setUserMessage(e.target.value)}
         />

@@ -102,20 +102,18 @@ function EditProfile() {
   return (
     <div className="w-screen h-screen flex justify-center items-center">
       <div className="flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500">
-		<div className="text-lg text-[40px] font-bold text-white text-center">{t("edit_profile.edit_profile")}</div>
+		<div className="text-lg text-[40px] text-white text-center">{t("edit_profile.edit_profile")}</div>
 		<div className="flex flex-col items-center gap-4">
-			<div className="text-[30px] font-bold text-white">{user.username}</div>
 			{user.avatar && (
-				<img src={IMAGES_DIR+user.avatar} className="w-15 h-15 rounded-full" />
+				<img src={IMAGES_DIR+user.avatar} className="w-70 h-70 rounded-full" />
 			)}
+			<div className="text-[30px] font-bold text-white">{user.username}</div>
 		</div>
-		<div className="flex flex-col items-left gap-8 mt-10">
-			<div>
-				<label className="flex items-center gap-2 text-lg text-[20px] text-white">
-					<input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} className="size-5 cursor-pointer"/>
-					{t("edit_profile.ask_two_factor_authentication")}
-				</label>
-			</div>
+		<div className="flex flex-col items-left gap-2 mt-4">
+			<label className="flex items-center gap-2 text-lg text-[20px] text-white">
+				<input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} className="size-5 cursor-pointer"/>
+				{t("edit_profile.ask_two_factor_authentication")}
+			</label>
 			<div>
 				<div className="text-lg text-[20px] text-white">{t("edit_profile.ask_upload_avatar")}</div>
 				<form onSubmit={uploadAvatar} className="flex items-center justify-between ma-4 border-2 p-4 rounded bg-white mt-2">

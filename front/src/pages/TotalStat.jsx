@@ -41,11 +41,11 @@ function TotalStat() {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
 
-            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-white min-w-150" >
+            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150" >
 
-                <div className="text-[20px] font-bold">{t("total_stat.title")}</div>
+                <div className="text-[20px] text-white">{t("total_stat.title")}</div>
 
-                <Table className="">
+                <Table className="text-white">
                     <TableHeader>
                         <TableRow>
                             <TableHead>{t("total_stat.place")}</TableHead>

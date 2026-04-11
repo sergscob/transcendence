@@ -11,10 +11,10 @@ export default function AuthLayout() {
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
 		<div className="min-h-screen flex items-center justify-center">
-			<div className="absolute top-[10px] left-[10px]">Transendance</div>
+			<div className="absolute top-[10px] left-[10px] text-white">Transendance</div>
 			<div className="absolute top-[10px] right-[10px] flex items-end flex-col">
 				<LangSwitcher />
-				<Link to="/settings-start">{t('main_menu.settings')}</Link>
+				<Link className="text-white" to="/settings-start">{t('main_menu.settings')}</Link>
 
 			</div>
 			<Outlet />
