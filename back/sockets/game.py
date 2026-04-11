@@ -24,7 +24,7 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
                 room_group_name,
                 {
                     'type': 'room_state',
-                    'match_state': match_state,
+                    'payload': match_state,
                 },
             )
     except asyncio.CancelledError:
@@ -109,7 +109,7 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
     async def room_state(self, event):
         await self.send_json({
             'type': 'state',
-            'matchState': event.get('match_state'),
+            'matchState': event.get('payload'),
         })
 
     async def start(self, event):
