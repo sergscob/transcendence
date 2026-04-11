@@ -39,7 +39,7 @@ function Register() {
 	}
 
 	return (
-		<div className="flex h-screen items-center justify-center bg-gray-100">
+		<div className="flex h-screen items-center justify-center">
 				{registered ?
 					<div>
 						<h3 className="text-l text-white mb-4 text-center">{t("register.registration_succeeded")}</h3>

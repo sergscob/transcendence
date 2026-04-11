@@ -97,7 +97,7 @@ function EditProfile() {
   if (!user) return <NotFound text={t("edit_profile.server_connection_error")} code={t("edit_profile.error_code")} />;
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center bg-gray-100">
+    <div className="w-screen h-screen flex justify-center items-center">
       <div className="flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500">
 		<div className="text-lg text-[40px] font-bold text-white text-center">{t("edit_profile.edit_profile")}</div>
 		<div className="flex flex-col items-center gap-4">

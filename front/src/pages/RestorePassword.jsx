@@ -35,7 +35,7 @@ function RestorePassword() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
+    <div className="flex h-screen items-center justify-center">
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white p-6 rounded-2xl shadow-md w-120"
@@ -56,11 +56,11 @@ function RestorePassword() {
 					<div className="error-message text-center mt-2">{errors.common}</div>
 					<Button className="mt-2 w-full" loading={loading}>{t("restore_password.send_link")}</Button>
 					<div className="text-sm mt-6 text-center">
-						{t("restore_password.have_account")} 
+						{t("restore_password.have_account")}
 						<Link className="simple-link ml-2" to="/login">{t("restore_password.login_here")}</Link>
 					</div>
 					<div className="text-sm text-center">
-						{t("restore_password.no_account")} 
+						{t("restore_password.no_account")}
 						<Link className="simple-link ml-2" to="/register">{t("restore_password.register_here")}</Link>
 					</div>
 				</>
