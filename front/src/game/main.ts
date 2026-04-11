@@ -21,13 +21,13 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
-	const scene    = createScene()
-	const roomState = createRoomStateInstance(user_id, scene)
-	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState)
-	const worldOctree = loadWorld(scene)
 	const camera   = createCamera(container)
 	removeResizeInstance = setResizeEvent(rendererInstance, camera, container)
-	const player = createPlayer(camera, stateExchanger.sendShot, user_id)
+	const scene    = createScene()
+	const worldOctree = loadWorld(scene)
+	const roomState = createRoomStateInstance(user_id, scene)
+	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState)
+	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex)
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
@@ -41,8 +41,8 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 
 		const delta = Math.min(clock.getDelta(), 0.05)
 
+		roomState.update(delta, matchState, player.teleportPlayer)
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
-		roomState.update(delta, matchState)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
 		setMatchState(matchState)
 
@@ -64,8 +64,6 @@ export function startGame(container: HTMLDivElement, user_id: number, matchId: s
 				rockets: rockets.state(),
 			})
 		}
-
-		console.log(camera.position.x, camera.position.y, camera.position.z)
 
 		rendererInstance?.render(scene, camera)
 	}

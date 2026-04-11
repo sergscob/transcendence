@@ -1,9 +1,13 @@
-import { IPlayerState } from './roomState'
-
-type RoomStateCallback = (players: IPlayerState[]) => void
+type CallbackOnMessage = (messageObj: any) => void
 import { useSettingsStore } from "@/stores/settingsStore";
 
-export function createStateExchanger(user_id: number, matchId: string, callbackRoomState: RoomStateCallback) {
+export function createStateExchanger(
+	user_id: number,
+	matchId: string,
+	callbackRoomState: CallbackOnMessage,
+	callbackStartRoom: CallbackOnMessage,
+	callbackStopRoom: CallbackOnMessage
+	) {
     const serverIP = useSettingsStore.getState().serverIP;
     console.log("Game server:", serverIP);
     const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
@@ -15,12 +19,12 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
 
     channel.onmessage = (event) => {
         const messageObj = JSON.parse(event.data) as any
-		if (messageObj.type === 'state') {
+		if (messageObj?.type === 'state') {
 			callbackRoomState(messageObj)
-		} else if (messageObj.type === 'start') {
-			// callbackStartRoom()
-		} else if (messageObj.type === 'stop') {
-			// callbackStopRoom()
+		} else if (messageObj?.type === 'start') {
+			callbackStartRoom(messageObj)
+		} else if (messageObj?.type === 'stop') {
+			callbackStopRoom(messageObj)
 		}
     };
 
