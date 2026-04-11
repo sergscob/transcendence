@@ -12,7 +12,7 @@ export default function Index() {
         <BigButton text={t('main_menu.friends')} url="/editfriends" className="bg-purple-400 hover:bg-blue-700 border-blue-700"/>
         <BigButton text={t('main_menu.settings')} url="/settings" className="bg-purple-500 hover:bg-blue-700 border-blue-700"/>
         <BigButton text={t('main_menu.start_game')} url="/game" className="bg-purple-600 hover:bg-blue-700 border-blue-700"/>
-		    <BigButton text={t('main_menu.open_matches')} url="/matches" className="bg-yellow-500 hover:bg-yellow-700 border-yellow-700"/>
+        <BigButton text={t('main_menu.open_matches')} url="/matches" className="bg-yellow-500 hover:bg-yellow-700 border-yellow-700"/>
         <BigButton text={t('main_menu.statistics')} url="/stats" className="bg-yellow-500 hover:bg-yellow-700 border-yellow-700"/>
     </div>
   );

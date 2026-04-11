@@ -55,22 +55,22 @@ function EditFriends() {
 
   return (
     <div className="w-screen min-h-screen flex justify-center items-center">
-      <div className="flex flex-col md:flex-row gap-10 lg:gap-30 relative ">
+      <div className="flex flex-col md:flex-row gap-10 lg:gap-20 relative ">
 
-        <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100">
+        <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100 p-5">
           <h2 className="mr-10 text-lg font-bold text-[40px] text-white">{t("edit_friends.all_users")}</h2>
             <input
-                className="placeholder:text-white text-white placeholder:italic rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="placeholder:text-white p-1 text-white placeholder:italic rounded-md bg-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             	placeholder={t("edit_friends.search_user")} type="text" value={searchQuery}
 				onChange={e => setSearchQuery(e.target.value)}
             />
 
-            <ul className="overscroll-auto max-h-64 overflow-y-auto p-4 space-y-8 border border-gray-300 rounded-md">
+            <ul className="overscroll-auto max-h-64 overflow-y-auto p-4 space-y-4 border border-gray-300 rounded-md bg-gray-600">
             {allFriends
 			.filter(friend => (searchQuery === "") ? true : friend.username.toLowerCase().includes(searchQuery.toLowerCase()))
 			.map(friend => (
                 <li key={friend.id}>
-				<div className="flex justify-between items-center border-b border-gray-300 pb-2">
+				<div className="flex justify-between items-center border border-gray-300 rounded-md p-2 bg-gray-600">
 					<FriendInfo friend={friend} className="my-2 text-[25px] gap-3 text-white"/>
 					<div>
     					{friend.accepted ? <span className="text-xs text-red-600"> {t("edit_friends.accepted_error")}</span> : ''}
@@ -97,28 +97,30 @@ function EditFriends() {
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500">
           <h2 className="text-lg text-[40px] font-bold text-white">{t("edit_friends.friends")}</h2>
             {friends.length ?
-            <ul>
+            <ul className="overflow-y-auto border rounded-md bg-gray-600 border-gray-300 p-4 space-y-4">
                 {friends.map(friend => (
                 <li key={friend.id}>
-                    <FriendInfo friend={friend} className="my-2 text-[25px] text-white gap-3">
-                        <a className="cursor-pointer" title={t("edit_friends.delete_friend")} onClick={() => deleteInvitation(friend.id)}>
-                            <CancelRequestIcon className="w-7 h-7 fill-red-500" />
-                        </a>
-                    </FriendInfo>
-                </li>
+					<div className="flex justify-between items-center border border-gray-300 rounded-md p-2 bg-gray-600">
+						<FriendInfo friend={friend} className="text-[25px] text-white gap-3"> </FriendInfo>
+						<a className="cursor-pointer" title={t("edit_friends.delete_friend")} onClick={() => deleteInvitation(friend.id)}>
+								<CancelRequestIcon className="w-7 h-7 fill-red-500" />
+						</a>
+					</div>
+				</li>
                 ))}
             </ul>
           : <div className="text-white">{t("edit_friends.add_some_friends")}</div>}
-          <h2 className="text-lg font-bold text-white">{t("edit_friends.waiting_for_approval")}</h2>
+          <h2 className="text-lg text-white text-[20px]">{t("edit_friends.waiting_for_approval")}</h2>
             {waitingList.length ?
-            <ul>
+            <ul className="overflow-y-auto border rounded-md bg-gray-600 border-gray-300 p-4 space-y-4">
                 {waitingList.map(friend => (
                 <li key={friend.id}>
-                    <FriendInfo friend={friend} className="my-2 text-[25px] text-white gap-3">
-                    <a className="cursor-pointer" title={t("edit_friends.accept_invitation")} onClick={() => acceptInvitation(friend.id)}>
-                        <AcceptFriendIcon className="w-7 h-7 stroke-green-500" />
-                    </a>
-                    </FriendInfo>
+					<div className="flex justify-between items-center border border-gray-300 rounded-md p-2 bg-gray-600">
+						<FriendInfo friend={friend} className="text-[25px] text-white gap-3"> </FriendInfo>
+						<a className="cursor-pointer" title={t("edit_friends.accept_invitation")} onClick={() => acceptInvitation(friend.id)}>
+							<AcceptFriendIcon className="w-7 h-7 stroke-green-500" />
+						</a>
+					</div>
                 </li>
                 ))}
             </ul>
