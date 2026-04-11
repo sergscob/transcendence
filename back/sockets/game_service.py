@@ -67,7 +67,7 @@ async def broadcast_to_match(match_id: str, event_type: str, payload: dict | Non
         f"game_{match_id}",
         {
             "type": event_type,      
-            "payload": payload or {},
+            "payload": payload,
         },
     )
 
@@ -136,6 +136,8 @@ async def _save_match_finish(match_id):
             'result': 'win' if player_info.get('health', 0) > 0 else 'loss',
         })
     print ("Prepared finish payload: ", payload)
+
+    await broadcast_to_match(match_id, 'room_state', match_state)
     await broadcast_to_match(match_id, 'stop', payload)
 
     ROOM_GAME_STATE_BY_MATCH.pop(match_id, None)
