@@ -17,7 +17,7 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
             async with ROOM_LOCK:
                 match_state = await get_match_state(match_id)
 
-            if match_state is None or match_state.get('status') == 'waiting' :
+            if match_state is None or match_state.get('status') != 'live' :
                 continue
 
             await channel_layer.group_send(
