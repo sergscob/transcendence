@@ -268,10 +268,10 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 			}
 
 			let entry = players[remotePlayerState.user_id]
+			const spawnFallback = getPlayerSpawnEnd(getSpawnIndex(remotePlayerState.user_id))
 			if (!entry) {
 				const meshPlayer = createRemotePlayerMesh()
 				meshPlayer.rotation.order = 'YXZ'
-				const spawnFallback = getPlayerSpawnEnd(getSpawnIndex(remotePlayerState.user_id))
 
 				meshPlayer.position.set(
 					remotePlayerState.pos?.[0] ?? spawnFallback.x,
@@ -301,9 +301,9 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 				entry = players[remotePlayerState.user_id]
 			}
 
-			entry.target[0] = remotePlayerState.pos?.[0] ?? 0
-			entry.target[1] = remotePlayerState.pos?.[1] ?? 0
-			entry.target[2] = remotePlayerState.pos?.[2] ?? 0
+			entry.target[0] = remotePlayerState.pos?.[0] ?? spawnFallback.x
+			entry.target[1] = remotePlayerState.pos?.[1] ?? spawnFallback.y
+			entry.target[2] = remotePlayerState.pos?.[2] ?? spawnFallback.z
 			entry.rotation[0] = remotePlayerState.rotation?.[0] ?? 0
 			entry.rotation[1] = remotePlayerState.rotation?.[1] ?? 0
 			entry.rotation[2] = remotePlayerState.rotation?.[2] ?? 0

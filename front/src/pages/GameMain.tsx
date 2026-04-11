@@ -15,6 +15,7 @@ const defaultMatchState: ICurrentMatchState = {
     arms_left: 50,
     score: 0,
     is_ready: false,
+	pos: [5.4, 5.8, -16.8]
   },
   online_players: 1,
   max_players: 10,

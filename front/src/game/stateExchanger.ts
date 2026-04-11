@@ -1,5 +1,6 @@
-type CallbackOnMessage = (messageObj: any) => void
 import { useSettingsStore } from "@/stores/settingsStore";
+
+type CallbackOnMessage = (messageObj: any) => void
 
 export function createStateExchanger(
 	user_id: number,
@@ -12,10 +13,6 @@ export function createStateExchanger(
     console.log("Game server:", serverIP);
     const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
     const channel = new WebSocket(webSocketUrl);
-
-    channel.onopen = () => {
-        console.log("WebSocket connection established");
-    };
 
     channel.onmessage = (event) => {
         const messageObj = JSON.parse(event.data) as any
@@ -48,12 +45,27 @@ export function createStateExchanger(
         }
     }
 
-
     function close() {
         if (channel && channel.readyState !== WebSocket.CLOSED) {
             channel.close();
         }
-    }
+	}
+
+	function waitForSocketConnection(socket: WebSocket, callback: () => void) {
+		setTimeout(
+			function () {
+				if (socket.readyState === 1) {
+					if (callback != null){
+						callback();
+					}
+				} else {
+					console.log("wait for connection...")
+					waitForSocketConnection(socket, callback);
+				}
+			}, 5);
+	}
+
+	waitForSocketConnection(channel, () => console.log("Connection is made"))
 
     return {sendState, sendShot, close};
 }

@@ -5,7 +5,7 @@ import {createControls} 						from './controls'
 import {createPlayer}  							from './player'
 import {loadWorld}     							from './world'
 import {createRocketInstance}					from './rocket'
-import {createStateExchanger} 					from './stateExchanger'
+import {createStateExchanger, waitingConnection}from './stateExchanger'
 import {setResizeEvent} 						from './window'
 import {createRoomStateInstance, ICurrentMatchState}	from './roomState'
 
@@ -14,8 +14,12 @@ let controlsInstance: ReturnType<typeof createControls> | undefined
 let rendererInstance: THREE.WebGLRenderer | undefined
 let removeResizeInstance: {removeResizeEvent: () => void} | undefined
 
-export function startGame(container: HTMLDivElement, user_id: number, matchId: string | undefined,
-	getMatchState: () => ICurrentMatchState, setMatchState: (state: ICurrentMatchState) => void) {
+export function startGame(container: HTMLDivElement,
+	user_id: number,
+	matchId: string | undefined,
+	getMatchState: () => ICurrentMatchState,
+	setMatchState: (state: ICurrentMatchState) => void
+	) {
 	if (!matchId) 
 		matchId = "default"
 
