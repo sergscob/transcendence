@@ -7,7 +7,7 @@ export default function Footer() {
   const termsHref = `/terms_of_service${suffix}.html`;
 
   return (
-    <div className="fixed bottom-0 w-screen px-20 py-4 text-center text-sm text-gray-500 bg-transparent">
+    <div className="fixed bottom-0 w-screen px-20 py-4 text-center text-sm text-white bg-transparent">
       <a href={privacyHref} className="mr-20">{i18n.t('footer.privacy_policy')}</a>
       <a href={termsHref}>{i18n.t('footer.terms_of_service')}</a>
     </div>

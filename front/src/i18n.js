@@ -60,6 +60,8 @@ const resources = {
       "main_menu.friends": "Friends",
       "main_menu.settings": "Settings",
       "main_menu.start_game": "Start Game",
+	  "main_menu.open_matches": "Open matches",
+	  "main_menu.statistics" : "Statistics",
 
       // FriendsPanel
       "friends_panel.title": "Friends",
@@ -128,6 +130,7 @@ const resources = {
       "view_profile.wins": "Wins",
       "view_profile.losses": "Losses",
       "view_profile.score": "Score",
+	  "view_profile.email": "Email",
 
       // TotalStat
       "total_stat.title": "Total stats",
@@ -204,6 +207,8 @@ const resources = {
       "main_menu.friends": "Amis",
       "main_menu.settings": "Paramètres",
       "main_menu.start_game": "Démarrer le jeu",
+	  "main_menu.open_matches": "Ouvrir les matchs",
+	  "main_menu.statistics" : "Statistiques",
 
       // FriendsPanel
       "friends_panel.title": "Amis",
@@ -272,6 +277,7 @@ const resources = {
       "view_profile.wins": "Victoires",
       "view_profile.losses": "Defaites",
       "view_profile.score": "Score",
+	  "view_profile.email": "Email",
 
       // TotalStat
       "total_stat.title": "Statistiques totales",
@@ -348,6 +354,8 @@ const resources = {
       "main_menu.friends": "Друзья",
       "main_menu.settings": "Настройки",
       "main_menu.start_game": "Начать игру",
+	  "main_menu.open_matches": "Открыть матчи",
+	  "main_menu.statistics" : "Статистика",
 
       // FriendsPanel
       "friends_panel.title": "Друзья",
@@ -416,6 +424,7 @@ const resources = {
       "view_profile.wins": "Победы",
       "view_profile.losses": "Поражения",
       "view_profile.score": "Очки",
+	  "view_profile.email": "Почта",
 
       // TotalStat
       "total_stat.title": "Общая статистика",

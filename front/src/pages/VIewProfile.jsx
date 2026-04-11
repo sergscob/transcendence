@@ -35,23 +35,30 @@ function ViewProfile() {
 
   return (
 	<div className="w-screen h-screen flex justify-center items-center">
-		<div className="flex flex-col gap-2 items-center border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500">
-			<Avatar user={user} size="250" />
-			<div className="text-[30px] font-bold text-white">{user.username}</div>
-			<div className="">
-				{t("view_profile.place")}: {stat?.place || 0}
+		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500">
+			<div className="flex flex-col items-center gap-3">
+				<Avatar user={user} size="300" />
+				<div className="text-[30px] font-bold text-white">{user.username}</div>
 			</div>
-			<div className="">
-				{t("view_profile.total_matches")}: {stat?.total_matches || 0}
-			</div>
-			<div className="">
-				{t("view_profile.wins")}: {stat?.wins || 0}
-			</div>
-			<div className="">
-				{t("view_profile.losses")}: {stat?.losses || 0}
-			</div>
-			<div className="">
-				{t("view_profile.score")}: {stat?.score || 0}
+			<div className="flex flex-col items-left">
+				<div className="">
+					{t("view_profile.email")}: {user.email}
+				</div>
+				<div className="">
+					{t("view_profile.place")}: {stat?.place || 0}
+				</div>
+				<div className="">
+					{t("view_profile.total_matches")}: {stat?.total_matches || 0}
+				</div>
+				<div className="">
+					{t("view_profile.wins")}: {stat?.wins || 0}
+				</div>
+				<div className="">
+					{t("view_profile.losses")}: {stat?.losses || 0}
+				</div>
+				<div className="">
+					{t("view_profile.score")}: {stat?.score || 0}
+				</div>
 			</div>
 		</div>
 	</div>
