@@ -2,9 +2,8 @@ import asyncio
 from typing import Any, Dict, TypedDict
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from channels.db import database_sync_to_async
-from .game_service import get_match_state, add_new_player, update_player, shot_user
+from .game_service import ROOM_LOCK, get_match_state, add_new_player, update_player, shot_user, _get_remaining_seconds, _format_time_left, _save_match_finish
 
-ROOM_LOCK: asyncio.Lock = asyncio.Lock()
 ROOM_BROADCAST_TASKS: Dict[str, asyncio.Task] = {}
 SEND_INTERVAL = 0.016
 
@@ -14,11 +13,19 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
         while True:
             await asyncio.sleep(SEND_INTERVAL)
 
+            remaining_seconds = None
             async with ROOM_LOCK:
                 match_state = await get_match_state(match_id)
+                if match_state is not None and match_state.get('status') == 'live':
+                    remaining_seconds = _get_remaining_seconds(match_state)
+                    match_state['time'] = _format_time_left(remaining_seconds)
 
             if match_state is None or match_state.get('status') != 'live' :
                 continue
+
+            if remaining_seconds is not None and remaining_seconds <= 0:
+                await _save_match_finish(match_id)
+                return
 
             await channel_layer.group_send(
                 room_group_name,
@@ -39,6 +46,14 @@ async def _broadcast_room_state(channel_layer, room_group_name: str, match_id: s
 
 class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
+    async def _safe_send_json(self, payload: dict) -> bool:
+        try:
+            await self.send_json(payload)
+        except Exception as exc:
+            if exc.__class__.__name__ == 'Disconnected' or 'closed protocol' in str(exc).lower():
+                return 
+            raise
+
     async def connect(self):
         url_route = self.scope.get("url_route", {})
         kwargs = url_route.get("kwargs", {})
@@ -49,6 +64,9 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
         self.room_group_name = f'game_{self.match_id}'
         self.user_id = None
+
+        async with ROOM_LOCK:
+            await get_match_state(self.match_id)
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
@@ -68,14 +86,14 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
         async with ROOM_LOCK:
             room_state = await get_match_state(self.match_id)
-            if room_state is not None and self.user_id is not None:
-                players = room_state.setdefault('players', {})
-                players.pop(self.user_id, None)
+            # if room_state is not None and self.user_id is not None:
+                # players = room_state.setdefault('players', {})
+                # players.pop(self.user_id, None)
 
-            if room_state is not None and not room_state.get('players'):
-                disconnect_player(self.match_id, self.user_id)
-                task_to_cancel = ROOM_BROADCAST_TASKS.pop(self.match_id, None)
-                should_cancel_task = task_to_cancel is not None
+            # if room_state is not None and not room_state.get('players'):
+            #     disconnect_player(self.match_id, self.user_id)
+            #     task_to_cancel = ROOM_BROADCAST_TASKS.pop(self.match_id, None)
+            #     should_cancel_task = task_to_cancel is not None
 
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
@@ -107,24 +125,25 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
 
 
     async def room_state(self, event):
-        await self.send_json({
+        payload = dict(event.get('payload') or {})
+        payload.pop('started_at', None)
+        await self._safe_send_json({
             'type': 'state',
-            'matchState': event.get('payload'),
+            'matchState': payload,
         })
 
     async def start(self, event):
-        payload = event.get('payload', [])
-        await self.send_json({
+        await self._safe_send_json({
             'type': 'start',
-            'players': payload,
+            'players': event.get('payload', []),
         })
 
     async def stop(self, event):
-        payload = event.get('payload', [])
-        await self.send_json({
+        await self._safe_send_json({
             'type': 'stop',
-            'players': payload,
+            'players': event.get('payload', [])
         })
+        await self.close(code=1000)
 
 
     async def update_game_state(self, user_id: int, state: Any):
