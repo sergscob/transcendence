@@ -75,7 +75,7 @@ function DraggableWindow({
                 onPointerDown={onPointerDown}
                 className={`flex cursor-grab items-center justify-between gap-4 border-b border-slate-200  text-slate-800 pl-4 pr-2 py-1 active:cursor-grabbing ${headerClassName}`}
             >
-                <div className="select-none text-sm font-semibold ">
+                <div className="select-none text-sm ">
                     {title}
                 </div>
                 {onClose ? (<ButtonClose onClose={onClose} />) : null}

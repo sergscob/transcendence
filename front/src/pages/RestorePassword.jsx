@@ -6,7 +6,6 @@ import Input from "../components/ui_int/Input";
 import Button from "../components/ui_int/Button";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Rain from "../components/ui/rain.tsx";
 
 
 function RestorePassword() {
@@ -36,14 +35,12 @@ function RestorePassword() {
   };
 
   return (
-    <div className="relative flex h-screen items-center justify-center bg-gray-100">
-		<Rain className="absolute inset-0 z-10"/>
-		<div className="relative z-10">
+    <div className="flex h-screen items-center justify-center">
 			<form
 				onSubmit={handleSubmit}
-				className="bg-white p-6 rounded-2xl shadow-md w-120"
+				className="bg-gray-500 p-6 rounded-2xl shadow-md w-120"
 			>
-				<h2 className="text-xl font-bold mb-4 text-center">{t("restore_password.title")}</h2>
+				<h2 className="text-[25px] mb-4 text-center">{t("restore_password.title")}</h2>
 				{ succeded ?
 				<>
 				<h3 className="text-l mb-4 text-center">{t("restore_password.reset_link_sent")}</h3>
@@ -55,22 +52,22 @@ function RestorePassword() {
 						value={form.email}
 						onChange={e => changeForm({ email: e.target.value })}
 						placeholder={t("restore_password.email")}
+						className="placeholder:text-white border-gray-300 text-white"
 					/>
 					<div className="error-message text-center mt-2">{errors.common}</div>
 					<Button className="mt-2 w-full" loading={loading}>{t("restore_password.send_link")}</Button>
-					<div className="text-sm mt-6 text-center">
-						{t("restore_password.have_account")} 
-						<Link className="simple-link ml-2" to="/login">{t("restore_password.login_here")}</Link>
+					<div className="text-sm mt-6 text-center text-white">
+						{t("restore_password.have_account")}
+						<Link className="text-blue-800 ml-2" to="/login">{t("restore_password.login_here")}</Link>
 					</div>
-					<div className="text-sm text-center">
-						{t("restore_password.no_account")} 
-						<Link className="simple-link ml-2" to="/register">{t("restore_password.register_here")}</Link>
+					<div className="text-sm text-center text-white">
+						{t("restore_password.no_account")}
+						<Link className="text-blue-800 ml-2" to="/register">{t("restore_password.register_here")}</Link>
 					</div>
 				</>
 				}
 			</form>
 		</div>
-    </div>
   );
 }
 

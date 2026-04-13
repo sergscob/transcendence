@@ -5,7 +5,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}"  // ⚠️ важно: jsx включён
   ],
    theme: {
-    extend: {},
+    extend: {
+		// backgroundImage: {
+		// 	'brickBg':"url('/src/assets/images/brick-bg.jpg')",
+		// }
+	},
   },
   plugins: [],
 }
