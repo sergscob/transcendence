@@ -1,13 +1,15 @@
-import * as THREE 								from 'three'
-import {createScene}   							from './scene'
-import {createCamera}  							from './camera'
-import {createControls} 						from './controls'
-import {createPlayer}  							from './player'
-import {loadWorld}     							from './world'
-import {createRocketInstance}					from './rocket'
-import {createStateExchanger, waitingConnection}from './stateExchanger'
-import {setResizeEvent} 						from './window'
-import {createRoomStateInstance, ICurrentMatchState}	from './roomState'
+import * as THREE 					from 'three'
+import {createScene}   				from './scene'
+import {createCamera}  				from './camera'
+import {createRocketInstance}		from './rocket'
+import {createControls} 			from './controls'
+import {createPlayer}  				from './player'
+import {loadWorld}     				from './world'
+import {createStateExchanger}		from './stateExchanger'
+import {setResizeEvent} 			from './window'
+import {createRoomStateInstance,
+		ICurrentMatchState}			from './roomState'
+import { GAME_CONFIG } from './gameConfig'
 
 let animationId: number
 let controlsInstance: ReturnType<typeof createControls> | undefined
@@ -31,11 +33,11 @@ export function startGame(container: HTMLDivElement,
 	const worldOctree = loadWorld(scene)
 	const roomState = createRoomStateInstance(user_id, scene)
 	const stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState)
-	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex)
+	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex, getMatchState())
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
-	const posBuffer: [number, number, number] = [0, 0, 0]
+	const posBuffer: [number, number, number] = [...GAME_CONFIG.PLAYER.spawnEnd[0]]
 	const rotationBuffer: [number, number, number] = [0, 0, 0]
 
 	const clock = new THREE.Clock()
@@ -48,7 +50,6 @@ export function startGame(container: HTMLDivElement,
 		roomState.update(delta, matchState, player.teleportPlayer)
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 		rockets.update(scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
-		setMatchState(matchState)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0
 		camera.rotation.x = controlsInstance?.getPitch() ?? 0
@@ -69,6 +70,8 @@ export function startGame(container: HTMLDivElement,
 			})
 		}
 
+		matchState.current_player.pos = posBuffer
+		setMatchState(matchState)
 		rendererInstance?.render(scene, camera)
 	}
 

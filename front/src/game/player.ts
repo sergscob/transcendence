@@ -1,10 +1,19 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
+import { ICurrentMatchState } from './roomState'
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
-export function createPlayer(camera: THREE.PerspectiveCamera, sendShot: (shot: any) => void, user_id: number, getSpawnIndex: (user_id: number) => number) {
-	const spawnEnd = getPlayerSpawnEnd(getSpawnIndex(user_id))
+export function createPlayer(
+	camera: THREE.PerspectiveCamera,
+	sendShot: (shot: any) => void,
+	user_id: number,
+	getSpawnIndex: (user_id: number) => number,
+	matchState: ICurrentMatchState
+	) {
+
+	console.log(matchState.current_player.pos)
+	const spawnEnd = new THREE.Vector3(...matchState.current_player.pos)
 	const collider = new Capsule(
 		getPlayerCapsuleStartFromEnd(spawnEnd),
 		spawnEnd.clone(),

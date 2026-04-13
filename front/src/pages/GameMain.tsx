@@ -6,6 +6,7 @@ import NotFound from "./NotFound";
 import { useTranslation } from 'react-i18next'
 import { ICurrentMatchState } from '@/game/roomState';  
 import { useParams } from "react-router-dom";
+import { GAME_CONFIG } from '../game/gameConfig'
 
 
 const defaultMatchState: ICurrentMatchState = {
@@ -14,7 +15,8 @@ const defaultMatchState: ICurrentMatchState = {
     health: 100,
     arms_left: 50,
     score: 0,
-    is_ready: false
+    is_ready: false,
+	pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
   },
   online_players: 1,
   max_players: 10,
