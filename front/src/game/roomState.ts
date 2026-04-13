@@ -11,6 +11,7 @@ export interface ICurrentPlayerState {
 	arms_left: number;
 	score: number;
 	is_ready: boolean;
+	pos: [number, number , number]
 }
 
 export interface ICurrentMatchState {
