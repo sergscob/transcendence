@@ -14,8 +14,7 @@ const defaultMatchState: ICurrentMatchState = {
     health: 100,
     arms_left: 50,
     score: 0,
-    is_ready: false,
-	pos: [5.4, 5.8, -16.8]
+    is_ready: false
   },
   online_players: 1,
   max_players: 10,
@@ -41,7 +40,7 @@ export default function GameMain() {
 
   const updateMatchState = (s: ICurrentMatchState) => {
     const nextState: ICurrentMatchState = {
-      ...matchState,
+      ...s,
     }
     matchStateRef.current = nextState
     setMatchState(nextState)

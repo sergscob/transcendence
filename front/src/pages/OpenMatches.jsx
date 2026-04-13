@@ -80,14 +80,14 @@ function OpenMatches() {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
 
-            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-white min-w-150" >
+            <div className="flex flex-col gap-4 text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150" >
                 {myList.length > 0 && (
             <div className="flex items-center gap-1 flex-col">
               {t("matches.you_are_in_a_match")}
               <Link to={`/game/${myList[0].id}`} className="text-center mt-4 py-2 px-6 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
                   {t("matches.go_to_match")}
               </Link>
-              
+
               <div>
                   {t("matches.players")}: {myList[0].num_players}/{myList[0].players_maxcount}
                </div>

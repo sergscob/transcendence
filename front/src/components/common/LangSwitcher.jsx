@@ -17,10 +17,10 @@ export default function LangSwitcher() {
 
   return (
     <div>
-        <ToggleGroup type="single" value={language} variant="outline" onValueChange={changeLang} className="bg-transparent text-gray-600">
-            <ToggleGroupItem value="en" className={`border-gray-400 ${i18n.language==='en' ? 'bg-gray-300 ' : 'cursor-pointer'}`}>EN</ToggleGroupItem>
-            <ToggleGroupItem value="fr" className={`border-gray-400 ${i18n.language==='fr' ? 'bg-gray-300 ' : 'cursor-pointer'}`}>FR</ToggleGroupItem>
-            <ToggleGroupItem value="ru" className={`border-gray-400 ${i18n.language==='ru' ? 'bg-gray-300 ' : 'cursor-pointer'}`}>RU</ToggleGroupItem>
+        <ToggleGroup type="single" value={language} variant="outline" onValueChange={changeLang} className="bg-transparent text-white">
+            <ToggleGroupItem value="en" className={`border-gray-400 ${i18n.language==='en' ? 'bg-gray-400 ' : 'cursor-pointer'}`}>EN</ToggleGroupItem>
+            <ToggleGroupItem value="fr" className={`border-gray-400 ${i18n.language==='fr' ? 'bg-gray-400 ' : 'cursor-pointer'}`}>FR</ToggleGroupItem>
+            <ToggleGroupItem value="ru" className={`border-gray-400 ${i18n.language==='ru' ? 'bg-gray-400 ' : 'cursor-pointer'}`}>RU</ToggleGroupItem>
         </ToggleGroup>
     </div>
   );
