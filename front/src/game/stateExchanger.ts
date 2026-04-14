@@ -51,21 +51,5 @@ export function createStateExchanger(
         }
 	}
 
-	function waitForSocketConnection(socket: WebSocket, callback: () => void) {
-		setTimeout(
-			function () {
-				if (socket.readyState === 1) {
-					if (callback != null){
-						callback();
-					}
-				} else {
-					console.log("wait for connection...")
-					waitForSocketConnection(socket, callback);
-				}
-			}, 5);
-	}
-
-	waitForSocketConnection(channel, () => console.log("Connection is made"))
-
     return {sendState, sendShot, close};
 }

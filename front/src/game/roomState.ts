@@ -11,7 +11,7 @@ export interface ICurrentPlayerState {
 	arms_left: number;
 	score: number;
 	is_ready: boolean;
-	pos: [number, number , number]
+	hit_other_player: boolean;
 }
 
 export interface ICurrentMatchState {
@@ -39,17 +39,24 @@ export type remoteRocketsArr = Record<number, {
 	rotation: [number, number, number]
 }>
 
-export function createRoomStateInstance(client_user_id: number, scene: THREE.Scene) {
+type sceneInstanceType = {
+    scene: THREE.Scene;
+    colorSceneSetter: (color: THREE.ColorRepresentation) => void;
+    colorSceneGetter: () => THREE.Color;
+}
+
+export function createRoomStateInstance(client_user_id: number, sceneInstance: sceneInstanceType) {
 	const players: remotePlayersArr = {}
 	const rockets: remoteRocketsArr = {}
 	const spawnIndex: Record<number, number> = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 	let gameStarted = false
+	let screenAcumulator = 0
 	let matchState: IMatchState = {
-		players_count: 0,
-		time_left: "00:00",
+		players_count: 1,
+		time_left: "waiting",
 		match_status: "waiting",
-		online_players: 0,
+		online_players: 1,
 		max_players: 0
 	}
 	let playerState: IPlayerState = {
@@ -61,8 +68,6 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		rotation: [0, 0, 0],
 		rockets: []
 	}
-
-	const SMOOTHING = GAME_CONFIG.REMOTE.smoothing
 
 	const remotePlayerLoader = new GLTFLoader()
 	let remotePlayerModel: THREE.Object3D | null = null
@@ -201,7 +206,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 	}
 
 	function smoothMove(mesh: THREE.Object3D, target: [number, number, number], rotation: [number, number, number], delta: number) {
-		const alpha = 1 - Math.exp(-SMOOTHING * delta)
+		const alpha = 1 - Math.exp(-GAME_CONFIG.REMOTE.smoothing * delta)
 		const x = mesh.position.x
 		const y = mesh.position.y
 		const z = mesh.position.z
@@ -257,7 +262,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 		const playersFromServ = getPlayersFromMessage(messageObj)
 		matchState = getMatchState(messageObj)
 		for (const remotePlayerState of playersFromServ) {
-			if (!remotePlayerState || remotePlayerState.user_id === undefined) {
+			if (!remotePlayerState || remotePlayerState.user_id === undefined || remotePlayerState.health == 0) {
 				continue
 			}
 
@@ -298,7 +303,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 					target: [meshPlayer.position.x, meshPlayer.position.y, meshPlayer.position.z],
 					rotation: [meshPlayer.rotation.x, meshPlayer.rotation.y, meshPlayer.rotation.z]
 				}
-				scene.add(meshPlayer)
+				sceneInstance.scene.add(meshPlayer)
 				entry = players[remotePlayerState.user_id]
 			}
 
@@ -343,7 +348,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 							target: [meshRocket.position.x, meshRocket.position.y, meshRocket.position.z],
 							rotation: [meshRocket.rotation.x, meshRocket.rotation.y, meshRocket.rotation.z]
 						}
-						scene.add(meshRocket)
+						sceneInstance.scene.add(meshRocket)
 						rocketEntry = rockets[rocketId]
 					}
 
@@ -363,7 +368,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 				const entry = players[userId]
 				if (entry) {
 					entry.mesh.userData._destroyed = true
-					scene.remove(entry.mesh)
+					sceneInstance.scene.remove(entry.mesh)
 					disposeObject3D(entry.mesh)
 				}
 				delete players[userId]
@@ -375,7 +380,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 			if (!seenRocketIds[rocketId]) {
 				const entry = rockets[rocketId]
 				if (entry) {
-					scene.remove(entry.mesh)
+					sceneInstance.scene.remove(entry.mesh)
 					disposeMesh(entry.mesh)
 				}
 				delete rockets[rocketId]
@@ -384,6 +389,7 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 	}
 
 	function update(delta: number, currentMatchState: ICurrentMatchState, teleportPlayer: (position: THREE.Vector3) => void) {
+		screenAcumulator += delta
 		for (const userIdStr in players) {
 			const userId = Number(userIdStr)
 			const entry = players[userId]
@@ -407,13 +413,20 @@ export function createRoomStateInstance(client_user_id: number, scene: THREE.Sce
 
 		currentMatchState.online_players = matchState.online_players
 		currentMatchState.time_left = matchState.time_left
-		currentMatchState.current_player.health = playerState.health
 		currentMatchState.current_player.score = playerState.score
+		if (currentMatchState.current_player.health > playerState.health) {
+			sceneInstance.colorSceneSetter(0xff0000)
+			screenAcumulator = 0
+		} else if (sceneInstance.colorSceneGetter().equals(new THREE.Color(0xff0000)) && screenAcumulator > 0.4 && currentMatchState.current_player.health) {
+			sceneInstance.colorSceneSetter(0xffffff)
+		}
+		currentMatchState.current_player.health = playerState.health
 
 		if (gameStarted) {
 			const index = getSpawnIndex(client_user_id)
 			teleportPlayer(getPlayerSpawnEnd(index))
 			gameStarted = false
+			currentMatchState.current_player.arms_left = GAME_CONFIG.PLAYER.totalAmmo
 		}
 	}
 
