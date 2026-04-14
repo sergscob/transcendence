@@ -417,7 +417,7 @@ const resources = {
       "main_menu.start_game": "Начать игру",
 	  "main_menu.open_matches": "Открыть матчи",
 	  "main_menu.statistics" : "Статистика",
-	  "main_menu.game_rules" : "Game Rules [ButInRussian]",
+	  "main_menu.game_rules" : "Правила Игры",
 
       // FriendsPanel
       "friends_panel.title": "Друзья",
