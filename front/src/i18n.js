@@ -62,6 +62,7 @@ const resources = {
       "main_menu.start_game": "Start Game",
 	  "main_menu.open_matches": "Open matches",
 	  "main_menu.statistics" : "Statistics",
+	  "main_menu.game_rules" : "Game Rules",
 
       // FriendsPanel
       "friends_panel.title": "Friends",
@@ -141,6 +142,11 @@ const resources = {
       "total_stat.score": "Score",
       "total_stat.load_more": "Load more",
 
+	  // Rules
+      "rules.server_connection_error": "Check server connection. Server address in settings.",
+	  "rules.error_code": "Error",
+
+
       // Matches
       "matches.open_matches": "Open matches",
       "matches.my_match": "My match",
@@ -209,6 +215,7 @@ const resources = {
       "main_menu.start_game": "Démarrer le jeu",
 	  "main_menu.open_matches": "Ouvrir les matchs",
 	  "main_menu.statistics" : "Statistiques",
+	  "main_menu.game_rules" : "Regles du jeu",
 
       // FriendsPanel
       "friends_panel.title": "Amis",
@@ -356,6 +363,7 @@ const resources = {
       "main_menu.start_game": "Начать игру",
 	  "main_menu.open_matches": "Открыть матчи",
 	  "main_menu.statistics" : "Статистика",
+	  "main_menu.game_rules" : "Game Rules [ButInRussian]",
 
       // FriendsPanel
       "friends_panel.title": "Друзья",
