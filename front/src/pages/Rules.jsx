@@ -29,7 +29,7 @@ export default function Rules() {
                 </h2>
 
                 <div className="flex flex-col gap-3 text-gray-200 text-base md:text-lg bg-gray-700 p-6 rounded-lg border border-gray-600 shadow-inner">
-                    <h3 className="text-center text-xl md:text-2xl font-bold text-blue-400 border-b border-gray-500 pb-2">
+                    <h3 className="text-xl md:text-2xl font-bold text-blue-400 border-b border-gray-500 pb-2">
                         1. {t("rules.objective")}
                     </h3>
                     <p className="leading-relaxed">
