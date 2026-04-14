@@ -4,12 +4,12 @@ export const GAME_CONFIG = {
 	PLAYER: {
 		gravity: 40,
 		speed: 7,
-		jumpImpulse: 15,
+		jumpImpulse: 10,
 		resetDistance: 50,
 		landingSpeedToTakeDamage: 8,
-
+		totalAmmo: 10,
 		capsule: {
-			radius: 0.2,
+			radius: 0.3,
 			height: 1,
 		},
 
@@ -28,15 +28,15 @@ export const GAME_CONFIG = {
 	},
 
 	ROCKET: {
-		speed: 40,
+		speed: 60,
 		maxDistance: 100,
-		colliderSize: [0.1, 0.1, 1.0],
+		colliderSize: [0.02, 0.02, 1],
 		idStride: 1000,
 
 		geometry: {
 			radiusTop: 0.02,
 			radiusBottom: 0,
-			height: 1,
+			height: 0.1,
 			radialSegments: 3,
 			heightSegments: 1,
 		},

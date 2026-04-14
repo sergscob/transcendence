@@ -1,19 +1,15 @@
 import * as THREE from 'three'
 import { Octree } from 'three/addons/math/Octree.js'
 import { Capsule } from 'three/addons/math/Capsule.js'
-import { ICurrentMatchState } from './roomState'
 import { GAME_CONFIG, getPlayerCapsuleStartFromEnd, getPlayerSpawnEnd } from './gameConfig'
 
 export function createPlayer(
 	camera: THREE.PerspectiveCamera,
 	sendShot: (shot: any) => void,
 	user_id: number,
-	getSpawnIndex: (user_id: number) => number,
-	matchState: ICurrentMatchState
+	getSpawnIndex: (user_id: number) => number
 	) {
-
-	console.log(matchState.current_player.pos)
-	const spawnEnd = new THREE.Vector3(...matchState.current_player.pos)
+	const spawnEnd = getPlayerSpawnEnd(getSpawnIndex(user_id))
 	const collider = new Capsule(
 		getPlayerCapsuleStartFromEnd(spawnEnd),
 		spawnEnd.clone(),
@@ -65,14 +61,14 @@ export function createPlayer(
 		const result = worldOctree.capsuleIntersect(collider)
 		onFloor = false
 		if (result) {
-			onFloor = result.normal.y > 0
+			onFloor = result.normal.y > 0.25
 			if (onFloor) {
 				if (!wasOnFloor && -velocity.y > GAME_CONFIG.PLAYER.landingSpeedToTakeDamage) {
 					sendShot(user_id)
 				}
 				velocity.y = 0
 			}
-			collider.translate(result.normal.multiplyScalar(result.depth))
+			collider.translate(result.normal.multiplyScalar(result.depth * 1.5))
 		}
 
 		camera.position.copy(collider.end)

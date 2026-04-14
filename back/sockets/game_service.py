@@ -237,9 +237,12 @@ def disconnect_player(match_id, user_id):
 
 
 async def shot_user(match_id, user_id, shot_id, damage, score):
-    print(f"shot from user {user_id} with shot_id {shot_id} damage: {damage}, score: {score}")
 
     match_state = await get_match_state(match_id)
+    if match_state['status'] != 'live':
+        return
+
+    print(f"shot from user {user_id} with shot_id {shot_id} damage: {damage}, score: {score}")
     players = match_state.get('players', {})
     curUser = players.get(user_id)
     shotUser = players.get(shot_id)

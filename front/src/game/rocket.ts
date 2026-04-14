@@ -21,6 +21,9 @@ export function createRocket(): THREE.Mesh {
 
 export function createRocketInstance(user_id: number, sendShot: (shot: any) => void) {
 	const ROCKET_ID_STRIDE = GAME_CONFIG.ROCKET.idStride
+	let loadingAmmoAcumulator = 0
+	let waitAmmoAcumulator = 0
+	let hitMarkerAcumulator = 0
 	let nextRocketNumber = 1
 	const rockets: Array<{rocket_id: number, mesh: THREE.Mesh, collider: THREE.Box3, localBox: THREE.Box3}> = []
 
@@ -30,8 +33,20 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 		return user_id * ROCKET_ID_STRIDE + nextRocketNumber++
 	}
 
-	function update(scene: THREE.Scene, camera: THREE.PerspectiveCamera, click: boolean, delta: number, worldOctree: Octree,
-		players: remotePlayersArr, PlayerGetState: ICurrentMatchState) {
+	function update(
+		scene: THREE.Scene,
+		camera: THREE.PerspectiveCamera,
+		click: boolean,
+		delta: number,
+		worldOctree: Octree,
+		players: remotePlayersArr,
+		PlayerGetState: ICurrentMatchState
+		) {		
+		hitMarkerAcumulator += delta
+		if (PlayerGetState.current_player.hit_other_player && hitMarkerAcumulator > 0.4) {
+			PlayerGetState.current_player.hit_other_player = false
+		}
+
 		for (let i = rockets.length - 1; i >= 0; i--) {
 			const rocketMesh = rockets[i].mesh
 			const rocketCollider = rockets[i].collider
@@ -55,11 +70,16 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 					scene.remove(rocketMesh)
 					rockets.splice(i, 1)
 					sendShot(userId)
+					PlayerGetState.current_player.hit_other_player = true
+					hitMarkerAcumulator = 0
 				}
 			}
 		}
 
-		if (click && PlayerGetState.current_player.arms_left > 0) {
+		waitAmmoAcumulator += delta
+
+		if (click && PlayerGetState.current_player.arms_left > 0 && waitAmmoAcumulator > 0.5) {
+			waitAmmoAcumulator = 0
 			PlayerGetState.current_player.arms_left--
 			const newRocket = createRocket()
 			const rocketId = generateRocketId()
@@ -80,6 +100,14 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 	
 			rockets.push({rocket_id: rocketId, mesh: newRocket, collider: newCollider, localBox})
 			scene.add(newRocket)
+		}
+
+		if (PlayerGetState.current_player.arms_left <= 0) {
+			loadingAmmoAcumulator += delta
+			if (loadingAmmoAcumulator >= 2) {
+				PlayerGetState.current_player.arms_left = GAME_CONFIG.PLAYER.totalAmmo
+				loadingAmmoAcumulator = 0
+			}
 		}
 	}
 

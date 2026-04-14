@@ -13,10 +13,10 @@ const defaultMatchState: ICurrentMatchState = {
   current_player: {
     user_id: 0,
     health: 100,
-    arms_left: 50,
+    arms_left: GAME_CONFIG.PLAYER.totalAmmo,
     score: 0,
     is_ready: false,
-	pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
+	hit_other_player: false
   },
   online_players: 1,
   max_players: 10,
@@ -85,12 +85,21 @@ export default function GameMain() {
     <div className="relative w-screen h-screen overflow-hidden">
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {paused && (
-        <div className="absolute flex items-center justify-center bg-black/50 text-white text-2xl">
+        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
           {t("game_main.pause_click_resume")}
         </div>
       )}
-
-      <div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl ">
+	  {!paused && (
+        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-2xl">
+        +
+        </div>
+	  )}
+	  {!paused && matchState?.current_player?.hit_other_player && (
+        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-3xl">
+        X
+        </div>
+	  )}
+      <div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl">
         <div className={`ml-2 font-display whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
           HEALTH: {matchState?.current_player?.health.toFixed(0)}%
         </div>
@@ -104,7 +113,7 @@ export default function GameMain() {
           TIME: {matchState?.time_left}
         </div>
         <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
-          PLAYERS: {matchState?.players_count}
+          PLAYERS: {matchState?.online_players}
         </div>
       </div>
     </div>
