@@ -16,7 +16,8 @@ const defaultMatchState: ICurrentMatchState = {
     arms_left: GAME_CONFIG.PLAYER.totalAmmo,
     score: 0,
     is_ready: false,
-	hit_other_player: false
+	hit_other_player: false,
+	pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
   },
   online_players: 1,
   max_players: 10,
