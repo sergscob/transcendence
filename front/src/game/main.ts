@@ -49,6 +49,12 @@ export function startGame(container: HTMLDivElement,
 	const clock = new THREE.Clock()
 	function animate() {
 		const matchState = getMatchState()
+
+		if (matchState.match_status == "close") {
+			stopGame()
+			return
+		}
+
 		animationId = requestAnimationFrame(animate)
 
 		const delta = Math.min(clock.getDelta(), 0.05)

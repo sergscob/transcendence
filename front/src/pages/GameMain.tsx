@@ -8,7 +8,6 @@ import { ICurrentMatchState } from '@/game/roomState';
 import { useParams } from "react-router-dom";
 import { GAME_CONFIG } from '../game/gameConfig'
 
-
 const defaultMatchState: ICurrentMatchState = {
   current_player: {
     user_id: 0,
@@ -81,42 +80,53 @@ export default function GameMain() {
 
   if (!user) return <div>{t("game_main.loading")}</div>;
 
+  if (matchState?.match_status != "close") {
+	return (
+		<div className="relative w-screen h-screen overflow-hidden">
+		<div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+		{paused && (
+			<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
+			{t("game_main.pause_click_resume")}
+			</div>
+		)}
+		{!paused && (
+			<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-2xl">
+			+
+			</div>
+		)}
+		{!paused && matchState?.current_player?.hit_other_player && (
+			<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-3xl">
+			X
+			</div>
+		)}
+		<div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl">
+			<div className={`ml-2 font-display whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
+			HEALTH: {matchState?.current_player?.health.toFixed(0)}%
+			</div>
+			<div className={`ml-10 font-display whitespace-nowrap ${matchState?.current_player.arms_left < 2 ? "text-red-500/50" : "text-white/50"}`}>
+			ARMS: {matchState.current_player.arms_left}
+			</div>
+			<div className="ml-10 font-display whitespace-nowrap text-green-500/50">
+			SCORE: {matchState?.current_player?.score}
+			</div>
+			<div className="ml-10 font-display whitespace-nowrap text-yellow-500/50">
+			TIME: {matchState?.time_left}
+			</div>
+			<div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
+			PLAYERS: {matchState?.online_players}
+			</div>
+		</div>
+		</div>
+	)
+  }
 
-  return (
-    <div className="relative w-screen h-screen overflow-hidden">
-      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
-      {paused && (
-        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
-          {t("game_main.pause_click_resume")}
-        </div>
-      )}
-	  {!paused && (
-        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-2xl">
-        +
-        </div>
-	  )}
-	  {!paused && matchState?.current_player?.hit_other_player && (
-        <div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-3xl">
-        X
-        </div>
-	  )}
-      <div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl">
-        <div className={`ml-2 font-display whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
-          HEALTH: {matchState?.current_player?.health.toFixed(0)}%
-        </div>
-        <div className={`ml-10 font-display whitespace-nowrap ${matchState?.current_player.arms_left < 2 ? "text-red-500/50" : "text-white/50"}`}>
-          ARMS: {matchState.current_player.arms_left}
-        </div>
-        <div className="ml-10 font-display whitespace-nowrap text-green-500/50">
-          SCORE: {matchState?.current_player?.score}
-        </div>
-        <div className="ml-10 font-display whitespace-nowrap text-yellow-500/50">
-          TIME: {matchState?.time_left}
-        </div>
-        <div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
-          PLAYERS: {matchState?.online_players}
-        </div>
-      </div>
-    </div>
-  )
+  if (matchState?.match_status == "close") {
+	return (
+	  <div className="relative w-screen h-screen overflow-hidden">
+	  	<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
+	  	   Game is finished
+	  	</div>
+	  </div>
+	)
+  }
 }
