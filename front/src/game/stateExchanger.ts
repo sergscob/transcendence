@@ -9,6 +9,7 @@ export function createStateExchanger(
 	callbackStartRoom: CallbackOnMessage,
 	callbackStopRoom: CallbackOnMessage
 	) {
+	let connectionEstablish = false
     const serverIP = useSettingsStore.getState().serverIP;
     console.log("Game server:", serverIP);
     const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
@@ -25,9 +26,14 @@ export function createStateExchanger(
 		}
     };
 
-    channel.onerror = (e) => {
-        console.error("WebSocket error:", e);
+    channel.onerror = (event) => {
+        console.error("WebSocket error:", event);
     };
+
+	channel.onopen = (event) => {
+		connectionEstablish = true
+		console.log("WebSocket open:", event);
+	}
 
     function sendState(state: any) {
         if (channel && channel.readyState === WebSocket.OPEN) {
@@ -49,7 +55,12 @@ export function createStateExchanger(
         if (channel && channel.readyState !== WebSocket.CLOSED) {
             channel.close();
         }
+		console.log("WebSocket close");
 	}
 
-    return {sendState, sendShot, close};
+	function getConnectionStatus() {
+		return connectionEstablish
+	}
+
+    return {sendState, sendShot, close, getConnectionStatus};
 }

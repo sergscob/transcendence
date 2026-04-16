@@ -12,6 +12,7 @@ export interface ICurrentPlayerState {
 	score: number;
 	is_ready: boolean;
 	hit_other_player: boolean;
+	pos: [number, number, number];
 }
 
 export interface ICurrentMatchState {
@@ -49,12 +50,8 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 	const players: remotePlayersArr = {}
 	const rockets: remoteRocketsArr = {}
 	const spawnIndex: Record<number, number> = {}
-	const INITIAL_SERVER_SPAWN_TIMEOUT = 1
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 	let gameStarted = false
-	let waitingForServerSpawn = false
-	let serverSpawnWaitAccumulator = 0
-	let serverSpawnPosition: THREE.Vector3 | null = null
 	let screenAcumulator = 0
 	let matchState: IMatchState = {
 		players_count: 1,
@@ -234,45 +231,6 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		)
 	}
 
-	function parsePositionVector(pos: any): THREE.Vector3 | null {
-		if (!Array.isArray(pos) || pos.length < 3) {
-			return null
-		}
-
-		const x = Number(pos[0])
-		const y = Number(pos[1])
-		const z = Number(pos[2])
-		if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) {
-			return null
-		}
-
-		return new THREE.Vector3(x, y, z)
-	}
-
-	function updateInitialSpawnPositionFromStateMessage(messageObj: any) {
-		if (!waitingForServerSpawn || serverSpawnPosition) {
-			return
-		}
-
-		const playersObj = messageObj?.matchState?.players
-		if (!playersObj || typeof playersObj !== 'object') {
-			return
-		}
-
-		const rawPlayers = Object.values(playersObj) as any[]
-		for (const raw of rawPlayers) {
-			if (!raw || typeof raw !== 'object' || Number(raw.user_id) !== client_user_id) {
-				continue
-			}
-
-			const parsedPos = parsePositionVector(raw.pos)
-			if (parsedPos) {
-				serverSpawnPosition = parsedPos
-				return
-			}
-		}
-	}
-
 	function startState(messageObj: any) {
 		const playersObj = messageObj?.players
 		if (!playersObj || typeof playersObj !== 'object') {
@@ -286,22 +244,13 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 			return
 		}
 
-		serverSpawnPosition = null
 		for (const raw of rawPlayers) {
 			if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
 				continue
 			}
 
 			spawnIndex[Number(raw.user_id)] = Number(raw.index)
-			if (Number(raw.user_id) === client_user_id) {
-				const parsedPos = parsePositionVector(raw.pos)
-				if (parsedPos) {
-					serverSpawnPosition = parsedPos
-				}
-			}
 		}
-		waitingForServerSpawn = true
-		serverSpawnWaitAccumulator = 0
 		gameStarted = true
 	}
 
@@ -311,7 +260,6 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 	function modifyRoomState(messageObj: any) {
 		const seenUserIds: Record<number, boolean> = {}
 		const seenRocketIds: Record<number, boolean> = {}
-		updateInitialSpawnPositionFromStateMessage(messageObj)
 		const playersFromServ = getPlayersFromMessage(messageObj)
 		matchState = getMatchState(messageObj)
 		for (const remotePlayerState of playersFromServ) {
@@ -323,6 +271,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 			if (remotePlayerState.user_id === client_user_id) {
 				playerState.health = remotePlayerState.health
 				playerState.score = remotePlayerState.score
+				playerState.pos = remotePlayerState.pos
 				continue
 			}
 
@@ -467,6 +416,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		currentMatchState.online_players = matchState.online_players
 		currentMatchState.time_left = matchState.time_left
 		currentMatchState.current_player.score = playerState.score
+		currentMatchState.current_player.pos = playerState.pos
 		if (currentMatchState.current_player.health > playerState.health) {
 			sceneInstance.colorSceneSetter(0xff0000)
 			screenAcumulator = 0
@@ -476,22 +426,10 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		currentMatchState.current_player.health = playerState.health
 
 		if (gameStarted) {
+			const index = getSpawnIndex(client_user_id)
+			teleportPlayer(getPlayerSpawnEnd(index))
 			gameStarted = false
 			currentMatchState.current_player.arms_left = GAME_CONFIG.PLAYER.totalAmmo
-		}
-
-		if (waitingForServerSpawn) {
-			if (serverSpawnPosition) {
-				teleportPlayer(serverSpawnPosition)
-				waitingForServerSpawn = false
-				serverSpawnPosition = null
-			} else {
-				serverSpawnWaitAccumulator += delta
-				if (serverSpawnWaitAccumulator >= INITIAL_SERVER_SPAWN_TIMEOUT) {
-					waitingForServerSpawn = false
-					serverSpawnPosition = null
-				}
-			}
 		}
 	}
 

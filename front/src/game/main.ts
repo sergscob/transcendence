@@ -18,6 +18,7 @@ let stateExchanger: {
     sendState: (state: any) => void;
     sendShot: (shot_id: any) => void;
     close: () => void;
+	getConnectionStatus: () => boolean;
 }
 
 export function startGame(container: HTMLDivElement,
@@ -41,6 +42,7 @@ export function startGame(container: HTMLDivElement,
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
 	let sendAccumulator = 0
+	let waitConnectionAccumulator = 0
 	const posBuffer: [number, number, number] = [0, 0, 0]
 	const rotationBuffer: [number, number, number] = [0, 0, 0]
 
@@ -52,6 +54,13 @@ export function startGame(container: HTMLDivElement,
 		const delta = Math.min(clock.getDelta(), 0.05)
 
 		roomState.update(delta, matchState, player.teleportPlayer)
+		if (!stateExchanger.getConnectionStatus() || waitConnectionAccumulator < 0.5) {
+			waitConnectionAccumulator += delta
+			console.log(...matchState.current_player.pos)
+			player.teleportPlayer(new THREE.Vector3(...matchState.current_player.pos))
+			return
+		}
+
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 		rockets.update(sceneInstance.scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
 		setMatchState(matchState)
@@ -82,7 +91,7 @@ export function startGame(container: HTMLDivElement,
 }
 
 export function stopGame() {
-	removeResizeInstance.removeResizeEvent()
+	removeResizeInstance?.removeResizeEvent()
 	controlsInstance?.destroy()
 	cancelAnimationFrame(animationId)
 	stateExchanger.close()
