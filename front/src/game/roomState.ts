@@ -65,7 +65,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		health: 100,
 		score: 0,
 		is_ready: false,
-		pos: [0, 0, 0],
+		pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]],
 		rotation: [0, 0, 0],
 		rockets: []
 	}
@@ -255,6 +255,8 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 	}
 
 	function stopState(messageObj: any) {
+		matchState.match_status = "close"
+		console.log(messageObj)
 	}
 
 	function modifyRoomState(messageObj: any) {
@@ -415,6 +417,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 
 		currentMatchState.online_players = matchState.online_players
 		currentMatchState.time_left = matchState.time_left
+		currentMatchState.match_status = matchState.match_status
 		currentMatchState.current_player.score = playerState.score
 		currentMatchState.current_player.pos = playerState.pos
 		if (currentMatchState.current_player.health > playerState.health) {
