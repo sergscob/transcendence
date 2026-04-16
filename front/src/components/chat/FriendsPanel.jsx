@@ -136,7 +136,7 @@ function FriendsPanel() {
           zIndex={30 + index}
         />
       ))}
-      <div className="absolute">{JSON.stringify(positions)}</div>
+      {/* <div className="absolute">{JSON.stringify(positions)}</div> */}
     </>
   );
 }

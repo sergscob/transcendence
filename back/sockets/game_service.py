@@ -211,6 +211,7 @@ async def add_new_player(match_state, userInfo):
     userInfo['score'] = 0
     players[userInfo['user_id']] = userInfo
     match_state['online_players'] = players.__len__()
+    match_state['live_players'] = players.__len__()
     print(f"match_state['online_players']: {match_state['online_players']} {match_state['status']}")
 
     if match_state['online_players'] >= match_state['max_players'] and match_state['status'] == 'waiting':

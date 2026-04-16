@@ -266,6 +266,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		matchState = getMatchState(messageObj)
 		for (const remotePlayerState of playersFromServ) {
 			if (!remotePlayerState || remotePlayerState.user_id === undefined || remotePlayerState.health == 0) {
+				playerState.health = 0
 				continue
 			}
 
@@ -423,7 +424,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		if (currentMatchState.current_player.health > playerState.health) {
 			sceneInstance.colorSceneSetter(0xff0000)
 			screenAcumulator = 0
-		} else if (sceneInstance.colorSceneGetter().equals(new THREE.Color(0xff0000)) && screenAcumulator > 0.4 && currentMatchState.current_player.health) {
+		} else if (sceneInstance.colorSceneGetter().equals(new THREE.Color(0xff0000)) && screenAcumulator > 0.4 && playerState.health) {
 			sceneInstance.colorSceneSetter(0xffffff)
 		}
 		currentMatchState.current_player.health = playerState.health
