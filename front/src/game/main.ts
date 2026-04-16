@@ -50,7 +50,8 @@ export function startGame(container: HTMLDivElement,
 	function animate() {
 		const matchState = getMatchState()
 
-		if (matchState.match_status == "close") {
+		if (matchState.match_status == "close" || !matchState.current_player.health) {
+			matchState.match_status = "close"
 			stopGame()
 			return
 		}

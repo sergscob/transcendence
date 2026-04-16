@@ -121,6 +121,7 @@ export default function GameMain() {
   }
 
   if (matchState?.match_status == "close") {
+	// setPaused(true)
 	return (
 	  <div className="relative w-screen h-screen overflow-hidden">
 	  	<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
