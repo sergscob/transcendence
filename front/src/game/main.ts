@@ -28,7 +28,7 @@ export function startGame(container: HTMLDivElement,
 	setMatchState: (state: ICurrentMatchState) => void
 	) {
 	if (!matchId) 
-		matchId = "default"
+		return
 
 	rendererInstance = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true })
 	controlsInstance = createControls(container)
@@ -52,6 +52,7 @@ export function startGame(container: HTMLDivElement,
 
 		if (matchState.match_status == "close" || !matchState.current_player.health) {
 			matchState.match_status = "close"
+			setMatchState(matchState)
 			stopGame()
 			return
 		}

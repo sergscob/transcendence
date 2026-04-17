@@ -8,6 +8,7 @@ import { ICurrentMatchState } from '@/game/roomState'
 import { useParams } from "react-router-dom"
 import { GAME_CONFIG } from '../game/gameConfig'
 import deathSkullPic from '../assets/images/death_skull.png'
+import robotHead from '../assets/images/robot-head.jpg'
 
 const defaultMatchState: ICurrentMatchState = {
   current_player: {
@@ -122,19 +123,38 @@ export default function GameMain() {
 	)
   }
 
-  if (matchState?.match_status == "close") {
+  if (matchState?.match_status == "close" && !matchState?.isWinner) {
 	// setPaused(true)
+	console.log('loss')
 	return (
       <div className="relative w-screen h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
         
         <img 
-            src={deathSkullPic} 
+            src={deathSkullPic}
             alt="Death Skull" 
             className="w-64 h-64 object-contain mb-8 pointer-events-none" 
 		/>
 
         <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
-          Game is finished and you are {matchState?.isWinner ? "winner" : "looser"} your score is {matchState?.current_player.score}
+          Game is finished and you are looser your score is {matchState?.current_player.score}
+        </div>
+        
+      </div>
+    )
+  } else if (matchState?.match_status == "close" && matchState?.isWinner) {
+	// setPaused(true)
+	console.log('win')
+	return (
+      <div className="relative w-screen h-screen overflow-hidden bg-white flex flex-col items-center justify-center">
+        
+        <img 
+            src={robotHead} 
+            alt="Robot Head" 
+            className="w-64 h-64 object-contain mb-8 pointer-events-none" 
+		/>
+
+        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
+          Game is finished and you are winner your score is {matchState?.current_player.score}
         </div>
         
       </div>

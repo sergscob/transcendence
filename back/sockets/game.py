@@ -116,7 +116,8 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
             user_id = content.get('user_id')
             shot_id = content.get('shot_id')
             damage = content.get('damage', 10)
-            score = content.get('score', 10)
+			if (user_id != shot_id):
+            	score = content.get('score', 10)
             await shot_user(self.match_id, user_id, shot_id, damage, score)
             return
 

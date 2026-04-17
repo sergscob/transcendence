@@ -201,8 +201,8 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 
 				container.add(clone)
 			})
-			.catch(() => {
-				console.log('Error: Creation of the players 3d model (createRemotePlayerMesh)')
+			.catch((e) => {
+				console.log('Error: Creation of the players 3d model (createRemotePlayerMesh)', e)
 			})
 
 		return container
@@ -275,9 +275,9 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 			if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
 				continue
 			}
-
+			console.log(raw?.result)
 			if (raw.user_id == client_user_id) {
-				isWinner = raw?.result
+				isWinner = raw?.result == "win"
 			}
 		}
 
@@ -290,8 +290,8 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		const playersFromServ = getPlayersFromMessage(messageObj)
 		matchState = getMatchState(messageObj)
 		for (const remotePlayerState of playersFromServ) {
-			if (!remotePlayerState || remotePlayerState.user_id === undefined || remotePlayerState.health == 0) {
-				playerState.health = 0
+			if (!remotePlayerState || remotePlayerState.user_id === undefined ||
+				(remotePlayerState.health == 0 && remotePlayerState.user_id !== client_user_id)) {
 				continue
 			}
 
