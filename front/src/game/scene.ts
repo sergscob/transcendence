@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export function createScene(): THREE.Scene {
+export function createScene() {
 	const scene = new THREE.Scene()
 	scene.background = new THREE.Color(0x87ceeb)
 
@@ -11,5 +11,14 @@ export function createScene(): THREE.Scene {
 	sunLight.position.set(10, 20, 10)
 	scene.add(sunLight)
 
-	return scene
+	function colorSceneSetter(color: THREE.ColorRepresentation) {
+		sunLight.color.set(color);
+		ambientLight.color.set(color);
+	}
+
+	function colorSceneGetter(): THREE.Color {
+		return sunLight.color
+	}
+
+	return {scene, colorSceneSetter, colorSceneGetter}
 }

@@ -211,6 +211,7 @@ async def add_new_player(match_state, userInfo):
     userInfo['score'] = 0
     players[userInfo['user_id']] = userInfo
     match_state['online_players'] = players.__len__()
+    match_state['live_players'] = players.__len__()
     print(f"match_state['online_players']: {match_state['online_players']} {match_state['status']}")
 
     if match_state['online_players'] >= match_state['max_players'] and match_state['status'] == 'waiting':
@@ -237,9 +238,12 @@ def disconnect_player(match_id, user_id):
 
 
 async def shot_user(match_id, user_id, shot_id, damage, score):
-    print(f"shot from user {user_id} with shot_id {shot_id} damage: {damage}, score: {score}")
 
     match_state = await get_match_state(match_id)
+    if match_state['status'] != 'live':
+        return
+
+    print(f"shot from user {user_id} with shot_id {shot_id} damage: {damage}, score: {score}")
     players = match_state.get('players', {})
     curUser = players.get(user_id)
     shotUser = players.get(shot_id)
