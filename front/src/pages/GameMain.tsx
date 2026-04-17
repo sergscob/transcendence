@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { ICurrentMatchState } from '@/game/roomState';  
 import { useParams } from "react-router-dom";
 import { GAME_CONFIG } from '../game/gameConfig'
+import deathSkullPic from '../assets/images/death_skull.png'
 
 const defaultMatchState: ICurrentMatchState = {
   current_player: {
@@ -123,11 +124,19 @@ export default function GameMain() {
   if (matchState?.match_status == "close") {
 	// setPaused(true)
 	return (
-	  <div className="relative w-screen h-screen overflow-hidden">
-	  	<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
-	  	   Game is finished
-	  	</div>
-	  </div>
-	)
+      <div className="relative w-screen h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
+        
+        <img 
+            src={deathSkullPic} 
+            alt="Death Skull" 
+            className="w-64 h-64 object-contain mb-8 pointer-events-none" 
+		/>
+
+        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
+          GAME OVER
+        </div>
+        
+      </div>
+    )
   }
 }
