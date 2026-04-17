@@ -18,6 +18,7 @@ import ViewProfile from "./pages/VIewProfile";
 import NotFound from "./pages/NotFound";
 import GameMain from "./pages/GameMain";
 import Settings from "./pages/Settings";
+import Rules from "./pages/Rules";
 import OpenMatches from "./pages/OpenMatches";
 import TotalStat from "./pages/TotalStat";
 
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="/stats" element={<TotalStat />} />
             <Route path="/matches" element={<OpenMatches />} />
             <Route path="/settings" element={<Settings />} />
+			<Route path="/rules" element={<Rules />} />
             <Route path="/" element={<Index />} />
           </Route>
         </Route>
@@ -59,3 +61,4 @@ export default function App() {
     </Router>
   );
 }
+
