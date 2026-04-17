@@ -46,7 +46,7 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route element={<GameLayout />}>
-            <Route path="/game/" element={<GameMain />} />
+            {/* <Route path="/game/" element={<GameMain />} /> */}
             <Route path="/game/:id" element={<GameMain />} />
           </Route>
         </Route>

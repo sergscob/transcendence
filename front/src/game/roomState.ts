@@ -22,6 +22,7 @@ export interface ICurrentMatchState {
 	match_status: string;
 	online_players: number;
 	max_players: number;
+	isWinner: boolean;
 }
 
 export type remotePlayersArr = Record<number, {
@@ -52,6 +53,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 	const spawnIndex: Record<number, number> = {}
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 	let gameStarted = false
+	let isWinner = false
 	let screenAcumulator = 0
 	let matchState: IMatchState = {
 		players_count: 1,
@@ -256,7 +258,30 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 
 	function stopState(messageObj: any) {
 		matchState.match_status = "close"
-		console.log(messageObj)
+
+		const playersObj = messageObj?.players
+		if (!playersObj || typeof playersObj !== 'object') {
+			console.log("Invalid WS message payload: ", matchState)
+			return
+		}
+
+		const rawPlayers = Object.values(playersObj) as any[]
+		if (!Array.isArray(rawPlayers)) {
+			console.log("Invalid WS message payload: ", matchState);
+			return
+		}
+
+		for (const raw of rawPlayers) {
+			if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
+				continue
+			}
+
+			if (raw.user_id == client_user_id) {
+				isWinner = raw?.result
+			}
+		}
+
+		console.log(rawPlayers)
 	}
 
 	function modifyRoomState(messageObj: any) {
@@ -277,7 +302,6 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 				playerState.pos = remotePlayerState.pos
 				continue
 			}
-
 			let entry = players[remotePlayerState.user_id]
 			const spawnFallback = getPlayerSpawnEnd(getSpawnIndex(remotePlayerState.user_id))
 			if (!entry) {
@@ -419,6 +443,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		currentMatchState.online_players = matchState.online_players
 		currentMatchState.time_left = matchState.time_left
 		currentMatchState.match_status = matchState.match_status
+		currentMatchState.isWinner = isWinner
 		currentMatchState.current_player.score = playerState.score
 		currentMatchState.current_player.pos = playerState.pos
 		if (currentMatchState.current_player.health > playerState.health) {

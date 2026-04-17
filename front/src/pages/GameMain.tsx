@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { startGame, stopGame } from '../game/main'
-import { useUserStore } from "@/stores/userStore";
-import Loading from "../components/ui_int/Loading";
+import { useUserStore } from "@/stores/userStore"
+import Loading from "../components/ui_int/Loading"
 import NotFound from "./NotFound";
 import { useTranslation } from 'react-i18next'
-import { ICurrentMatchState } from '@/game/roomState';  
-import { useParams } from "react-router-dom";
+import { ICurrentMatchState } from '@/game/roomState'
+import { useParams } from "react-router-dom"
 import { GAME_CONFIG } from '../game/gameConfig'
 import deathSkullPic from '../assets/images/death_skull.png'
 
@@ -22,20 +22,21 @@ const defaultMatchState: ICurrentMatchState = {
   online_players: 1,
   max_players: 10,
   match_status: "waiting",
+  isWinner: false,
   time_left: "00:00",
   players_count: 0
 };
 
 export default function GameMain() {
-  const { id: matchId } = useParams();
+  const { id: matchId } = useParams()
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
   const matchStateRef = useRef<ICurrentMatchState>(defaultMatchState)
   const [matchState, setMatchState] = useState<ICurrentMatchState>(defaultMatchState)
-  const user = useUserStore((s: any) => s.user);
-  const loading = useUserStore((s: any) => s.loading);
-  const loadUser = useUserStore((s: any) => s.loadUser);
+  const user = useUserStore((s: any) => s.user)
+  const loading = useUserStore((s: any) => s.loading)
+  const loadUser = useUserStore((s: any) => s.loadUser)
 
   useEffect(() => {
     loadUser();
@@ -76,10 +77,10 @@ export default function GameMain() {
     }
   }, [user?.id])
 
-  if (loading) return <Loading />;
-  if (!user) return <NotFound text={t("game_main.server_connection_error")} code={t("game_main.error_code")} />;
+  if (loading) return <Loading />
+  if (!user) return <NotFound text={t("game_main.server_connection_error")} code={t("game_main.error_code")} />
 
-  if (!user) return <div>{t("game_main.loading")}</div>;
+  if (!user) return <div>{t("game_main.loading")}</div>
 
   if (matchState?.match_status != "close") {
 	return (
@@ -133,7 +134,7 @@ export default function GameMain() {
 		/>
 
         <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
-          GAME OVER
+          Game is finished and you are {matchState?.isWinner ? "winner" : "looser"} your score is {matchState?.current_player.score}
         </div>
         
       </div>
