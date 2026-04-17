@@ -149,9 +149,9 @@ const resources = {
 	  "rules.objective_content" : "Welcome to the arena. You are dropping into a fast-paced, close-quarters deathmatch against up to 9 other online players. There are no teams and no second chances. Your only goal: be the last player standing.",
 	  "rules.loadout" : "Loadout & Lives",
 	  "rules.loadout_lives_title" : "Lives",
-	  "rules.loadout_lives_content" : "You start with exactly 3 lives. Once you lose them all, you are eliminated from the match",
+	  "rules.loadout_lives_content" : "You start with 100 hp. Once you lose them all, you are eliminated from the match",
 	  "rules.loadout_ammo_title" : "Ammo",
-	  "rules.loadout_ammo_content" : "You drop in with only 50 rounds of ammunition. Spray and pray will get you killed, so make every single shot count!",
+	  "rules.loadout_ammo_content" : "You drop in with only 10 rounds of ammunition. Once you finished them you can reload indefinetly. Make every single shot count!",
 	  "rules.loadout_lobby_title" : "Lobby Size",
 	  "rules.loadout_lobby_content" : " Matches are capped at a maximum of 10 players to keep the chaos contained.",
 	  "rules.controls" : "Controls",
@@ -170,7 +170,8 @@ const resources = {
 	  "rules.multiplayer_joinmatch_content" : 'All other players can then open their "Open Matches" menu and join the hosts room.',
 	  "rules.multiplayer_startgame" : "Start the game",
 	  "rules.multiplayer_startgame_content" : "The match will begin automatically as soon as the room reaches the required number of players",
-
+	  "rules.interface" : "Interface",
+	  "rules.interface_content" : "Keep your eyes on the interface to survive the arena. Reading from left to right, you'll first see your Health (HP), which dictates how much damage you can take. Next is your Arms indicator, showing your current ammo. Further right, you'll find your current match Score, followed by the Time Left on the clock. Finally, the far right displays the total number of Players currently in the game.",
 
       // Matches
       "matches.open_matches": "Open matches",
@@ -327,10 +328,8 @@ const resources = {
       "rules.objective_content": "Bienvenue dans l'arène. Vous êtes plongé dans un match à mort frénétique et rapproché contre jusqu'à 9 autres joueurs en ligne. Il n'y a pas d'équipes et pas de secondes chances. Votre seul but : être le dernier joueur en vie.",
   	  "rules.loadout": "Équipement et Vies",
   	  "rules.loadout_lives_title": "Vies",
-  	  "rules.loadout_lives_content": "Vous commencez avec exactement 3 vies. Une fois que vous les perdez toutes, vous êtes éliminé du match.",
- 	  "rules.loadout_ammo_title": "Munitions",
- 	  "rules.loadout_ammo_content": "Vous atterrissez avec seulement 50 munitions. Tirer à l'aveuglette vous fera tuer, alors faites en sorte que chaque tir compte !",
-  	  "rules.loadout_lobby_title": "Taille du Salon",
+	  "rules.loadout_lives_content" : "Vous commencez avec 100 PV. Une fois que vous les avez tous perdus, vous êtes éliminé de la partie.", 	  "rules.loadout_ammo_title": "Munitions",
+      "rules.loadout_ammo_content" : "Vous êtes déployé avec seulement 10 munitions. Une fois épuisées, vous pouvez recharger à l'infini. Faites en sorte que chaque tir compte !",  	  "rules.loadout_lobby_title": "Taille du Salon",
 	  "rules.loadout_lobby_content": "Les matchs sont limités à un maximum de 10 joueurs pour contenir le chaos.",
 	  "rules.controls": "Commandes",
 	  "rules.controls_wasd": "W, A, S, D",
@@ -348,6 +347,8 @@ const resources = {
 	  "rules.multiplayer_joinmatch_content": "Tous les autres joueurs peuvent ensuite ouvrir leur menu \"Matchs Ouverts\" et rejoindre le salon de l'hôte.",
 	  "rules.multiplayer_startgame": "Démarrer la partie",
 	  "rules.multiplayer_startgame_content": "Le match commencera automatiquement dès que le salon atteindra le nombre de joueurs requis.",
+	  "rules.interface" : "Interface",
+      "rules.interface_content" : "Gardez un œil sur l'interface pour survivre dans l'arène. De gauche à droite, vous verrez d'abord votre Santé (PV), qui indique la quantité de dégâts que vous pouvez subir. Ensuite, l'indicateur d'Armes affiche vos munitions actuelles. Plus à droite, vous trouverez votre Score de match actuel, suivi du Temps Restant au chronomètre. Enfin, tout à droite, s'affiche le nombre total de Joueurs actuellement dans la partie.",
 
       // Matches
       "matches.open_matches": "Matchs ouverts",
@@ -504,10 +505,8 @@ const resources = {
   	  "rules.objective_content": "Добро пожаловать на арену. Вы вступаете в динамичный ближний бой насмерть против 9 других игроков онлайн. Здесь нет команд и вторых шансов. Ваша единственная цель — остаться последним выжившим.",
   	  "rules.loadout": "Снаряжение и жизни",
   	  "rules.loadout_lives_title": "Жизни",
-  	  "rules.loadout_lives_content": "Вы начинаете ровно с 3 жизнями. Как только вы потеряете их все, вы выбываете из матча.",
-  	  "rules.loadout_ammo_title": "Боеприпасы",
-  	  "rules.loadout_ammo_content": "Вы высаживаетесь всего с 50 патронами. Стрельба вслепую приведет к вашей смерти, так что берегите каждый выстрел!",
-  	  "rules.loadout_lobby_title": "Размер лобби",
+      "rules.loadout_lives_content" : "Вы начинаете со 100 ОЗ. Как только вы потеряете их все, вы выбываете из матча.",  	  "rules.loadout_ammo_title": "Боеприпасы",
+      "rules.loadout_ammo_content" : "Вы появляетесь в игре всего с 10 патронами. Как только они закончатся, вы сможете перезаряжаться бесконечно. Пусть каждый выстрел будет на счету!",  	  "rules.loadout_lobby_title": "Размер лобби",
   	  "rules.loadout_lobby_content": "Матчи ограничены максимум 10 игроками, чтобы контролировать хаос.",
   	  "rules.controls": "Управление",
   	  "rules.controls_wasd": "W, A, S, D",
@@ -525,6 +524,9 @@ const resources = {
   	  "rules.multiplayer_joinmatch_content": "Все остальные игроки могут затем открыть меню «Открытые матчи» и присоединиться к комнате хоста.",
   	  "rules.multiplayer_startgame": "Начать игру",
   	  "rules.multiplayer_startgame_content": "Матч начнется автоматически, как только в комнате наберется необходимое количество игроков.",
+	  "rules.interface" : "Интерфейс",
+      "rules.interface_content" : "Следите за интерфейсом, чтобы выжить на арене. Слева направо: сначала вы увидите свое Здоровье (ОЗ), которое определяет, сколько урона вы можете выдержать. Далее идет индикатор Оружия, показывающий ваши текущие боеприпасы. Еще правее вы найдете свой текущий Счет в матче, за которым следует Оставшееся время. Наконец, в крайнем правом углу отображается общее количество Игроков, находящихся в данный момент в игре.",
+	
 
       // Matches
       "matches.open_matches": "Открытые матчи",
