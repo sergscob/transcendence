@@ -1,26 +1,39 @@
-import { IPlayerState } from './roomState'
-
-type RoomStateCallback = (players: IPlayerState[]) => void
 import { useSettingsStore } from "@/stores/settingsStore";
 
-export function createStateExchanger(user_id: number, matchId: string, callbackRoomState: RoomStateCallback) {
+type CallbackOnMessage = (messageObj: any) => void
+
+export function createStateExchanger(
+	user_id: number,
+	matchId: string,
+	callbackRoomState: CallbackOnMessage,
+	callbackStartRoom: CallbackOnMessage,
+	callbackStopRoom: CallbackOnMessage
+	) {
+	let connectionEstablish = false
     const serverIP = useSettingsStore.getState().serverIP;
     console.log("Game server:", serverIP);
     const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
     const channel = new WebSocket(webSocketUrl);
 
-    channel.onopen = () => {
-        console.log("WebSocket connection established");
-    };
-
     channel.onmessage = (event) => {
         const messageObj = JSON.parse(event.data) as any
-		callbackRoomState(messageObj)
+		if (messageObj?.type === 'state') {
+			callbackRoomState(messageObj)
+		} else if (messageObj?.type === 'start') {
+			callbackStartRoom(messageObj)
+		} else if (messageObj?.type === 'stop') {
+			callbackStopRoom(messageObj)
+		}
     };
 
-    channel.onerror = (e) => {
-        console.error("WebSocket error:", e);
+    channel.onerror = (event) => {
+        console.error("WebSocket error:", event);
     };
+
+	channel.onopen = (event) => {
+		connectionEstablish = true
+		console.log("WebSocket open:", event);
+	}
 
     function sendState(state: any) {
         if (channel && channel.readyState === WebSocket.OPEN) {
@@ -38,12 +51,16 @@ export function createStateExchanger(user_id: number, matchId: string, callbackR
         }
     }
 
-
     function close() {
         if (channel && channel.readyState !== WebSocket.CLOSED) {
             channel.close();
         }
-    }
+		console.log("WebSocket close");
+	}
 
-    return {sendState, sendShot, close};
+	function getConnectionStatus() {
+		return connectionEstablish
+	}
+
+    return {sendState, sendShot, close, getConnectionStatus};
 }
