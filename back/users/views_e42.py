@@ -1,16 +1,42 @@
 from django.conf import settings
 from django.shortcuts import redirect
 import requests
+from urllib.parse import urlencode, urlparse
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+def _is_valid_http_url(value):
+    if not value:
+        return False
+    parsed = urlparse(value)
+    return parsed.scheme in ("http", "https") and bool(parsed.netloc)
+
+
+def _callback_url(request):
+    configured = (getattr(settings, "E42_REDIRECT_URI", "") or "").strip()
+    # if configured and "localhost" not in configured and "127.0.0.1" not in configured:
+    return configured
+    # return request.build_absolute_uri("/api/auth/e42callback/")
+
+
+def _frontend_base_url(state_value):
+    if _is_valid_http_url(state_value):
+        return state_value.rstrip("/")
+    return settings.FRONTEND_URL.rstrip("/")
+
 def e42_login(request):
-    url = (
-        "https://api.intra.42.fr/oauth/authorize"
-        f"?client_id={settings.E42_CLIENT_ID}"
-        f"&redirect_uri={settings.E42_REDIRECT_URI}"
-        "&response_type=code"
-    )
+    params = {
+        "client_id": settings.E42_CLIENT_ID,
+        "redirect_uri": _callback_url(request),
+        "response_type": "code",
+    }
+
+    next_url = request.GET.get("next", "").strip()
+    if _is_valid_http_url(next_url):
+        params["state"] = next_url
+
+    url = "https://api.intra.42.fr/oauth/authorize?" + urlencode(params)
     return redirect(url)
 
 
@@ -18,6 +44,8 @@ User = get_user_model()
 
 def e42_callback(request):
     code = request.GET.get("code")
+    state_value = request.GET.get("state", "").strip()
+    redirect_uri = _callback_url(request)
 
     token_res = requests.post(
         "https://api.intra.42.fr/oauth/token",
@@ -26,7 +54,7 @@ def e42_callback(request):
             "client_id": settings.E42_CLIENT_ID,
             "client_secret": settings.E42_CLIENT_SECRET,
             "code": code,
-            "redirect_uri": settings.E42_REDIRECT_URI,
+            "redirect_uri": redirect_uri,
         },
     )
 
@@ -53,4 +81,5 @@ def e42_callback(request):
 
     refresh = RefreshToken.for_user(user)
 
-    return redirect(f"{settings.FRONTEND_URL}/oauth?token={refresh.access_token}")
+    frontend_base_url = _frontend_base_url(state_value)
+    return redirect(f"{frontend_base_url}/oauth?token={refresh.access_token}")

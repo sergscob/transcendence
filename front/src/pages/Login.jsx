@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { toast } from 'react-toastify'
 import API from "../api/api";
 import { getErrorMessage } from "../utils/errors";
 import Input from "../components/ui_int/Input";
@@ -13,7 +12,7 @@ import { useSettingsStore } from "@/stores/settingsStore";
 
 export default function Login() {
     const { getServerHttpUrl } = useSettingsStore();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [form, setForm] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -69,7 +68,8 @@ export default function Login() {
 
     function onLogin42() {
         setLogin42Clicked(true);
-        window.location = getServerHttpUrl() + '/api/auth/e42/'
+        const frontendOrigin = encodeURIComponent(window.location.origin);
+        window.location = `${getServerHttpUrl()}/api/auth/e42/?next=${frontendOrigin}`;
     }
 
 
@@ -99,7 +99,7 @@ export default function Login() {
                     <Button loading={loading} className="w-full">
                         {t('login.title')}
                     </Button>
-                    <a href={`${getServerHttpUrl()}/api/auth/google/`} className="block text-center mt-3 text-sm text-blue-800">
+                    <a href={`${getServerHttpUrl()}/api/auth/google/?next=${encodeURIComponent(window.location.origin)}`} className="block text-center mt-3 text-sm text-blue-800">
                         {t('login.login_with_google')}
                     </a>
                     <a className="text-blue-800 text-sm block text-center" onClick={onLogin42}>
