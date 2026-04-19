@@ -131,7 +131,8 @@ const resources = {
       "view_profile.wins": "Wins",
       "view_profile.losses": "Losses",
       "view_profile.score": "Score",
-	  "view_profile.email": "Email",
+	    "view_profile.email": "Email",
+      "view_profile.place": "Place",
 
       // TotalStat
       "total_stat.title": "Total stats",
@@ -239,9 +240,9 @@ const resources = {
       "main_menu.friends": "Amis",
       "main_menu.settings": "Paramètres",
       "main_menu.start_game": "Démarrer le jeu",
-	  "main_menu.open_matches": "Ouvrir les matchs",
-	  "main_menu.statistics" : "Statistiques",
-	  "main_menu.game_rules" : "Regles du jeu",
+	    "main_menu.open_matches": "Ouvrir les matchs",
+	    "main_menu.statistics" : "Statistiques",
+	    "main_menu.game_rules" : "Regles du jeu",
 
       // FriendsPanel
       "friends_panel.title": "Amis",
@@ -265,12 +266,12 @@ const resources = {
       "settings.ip_address.updated": "Adresse du serveur mise a jour.",
 
       // EditProfile
-	  "edit_profile.edit_profile": "Modifier le profil :",
+	    "edit_profile.edit_profile": "Modifier le profil :",
       "edit_profile.server_connection_error": "Verifiez la connexion au serveur. L'adresse du serveur est dans les parametres.",
       "edit_profile.error_code": "Erreur",
-	  "edit_profile.ask_two_factor_authentication": "Ajouter l'authentification a deux facteurs ?",
+  	  "edit_profile.ask_two_factor_authentication": "Ajouter l'authentification a deux facteurs ?",
       "edit_profile.two_factor_authentication": "Authentification a deux facteurs",
-	  "edit_profile.ask_upload_avatar": "Téléverser un avatar ?",
+	    "edit_profile.ask_upload_avatar": "Téléverser un avatar ?",
       "edit_profile.upload_avatar": "Téléverser l'avatar",
       "edit_profile.upload_avatar_failed": "Échec du téléversement de l'avatar",
 
@@ -310,7 +311,8 @@ const resources = {
       "view_profile.wins": "Victoires",
       "view_profile.losses": "Defaites",
       "view_profile.score": "Score",
-	  "view_profile.email": "Email",
+	    "view_profile.email": "Email",
+      "view_profile.place": "Place",
 
       // TotalStat
       "total_stat.title": "Statistiques totales",
@@ -487,7 +489,8 @@ const resources = {
       "view_profile.wins": "Победы",
       "view_profile.losses": "Поражения",
       "view_profile.score": "Очки",
-	  "view_profile.email": "Почта",
+  	  "view_profile.email": "Почта",
+      "view_profile.place": "Место",
 
       // TotalStat
       "total_stat.title": "Общая статистика",

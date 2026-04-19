@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import API from "../api/api";
 import Avatar from "@/components/ui_int/Avatar";
 import NotFound from "@/pages/NotFound";
-import Rain from "../components/ui/rain.tsx";
+import ButtonClose from "@/components/ui_int/ButtonClose";
 
 function ViewProfile() {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ function ViewProfile() {
   const [ user, setUser ] = useState(null);
   const [ stat, setStat ] = useState(null);
   const [ loading, setLoading ] = useState(true);
+  const navigate = useNavigate();
 
   const loadUser = async () => {
         try {
@@ -35,7 +37,8 @@ function ViewProfile() {
 
   return (
 	<div className="w-screen h-screen flex justify-center items-center">
-		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500">
+		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500 relative" >
+		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 			<div className="flex flex-col items-center gap-3">
 				<Avatar user={user} size="300" />
 				<div className="text-[30px] font-bold text-white">{user.username}</div>
