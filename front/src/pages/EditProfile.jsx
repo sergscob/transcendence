@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
@@ -12,6 +13,7 @@ import AddFileIcon from "../assets/icons/addFile.svg?react";
 import FileUploadedIcon from "../assets/icons/fileUploaded.svg?react";
 import UploadIcon from "../assets/icons/upload.svg?react"
 import MissFileIcon from "../assets/icons/missingFile.svg?react"
+import ButtonClose from "@/components/ui_int/ButtonClose";
 
 function EditProfile() {
   const { t } = useTranslation();
@@ -23,6 +25,7 @@ function EditProfile() {
   const fileInputRef = useRef();
   const [openOtpDialog, setOpenOtpDialog] = useState(false);
   const [qrcode, setQrcode] = useState("");
+  const navigate = useNavigate();
 
   async function onCheck2fa(e) {
     e.preventDefault();
@@ -101,7 +104,8 @@ function EditProfile() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500">
+      <div className="flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500 relative min-w-150" >
+      <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 		<div className="text-lg text-[40px] text-white text-center">{t("edit_profile.edit_profile")}</div>
 		<div className="flex flex-col items-center gap-4">
 			{user.avatar && (

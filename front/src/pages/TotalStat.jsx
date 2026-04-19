@@ -102,7 +102,7 @@ function TotalStat() {
                     </TableBody>
                 </Table>
                 {statData.next && (
-                    <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white"
+                    <Button className="max-w-50 _bg-green-500 _hover:bg-green-600 _text-white"
                         onClick={() => fetchNext()}
                     >
                         {t("total_stat.load_more")}

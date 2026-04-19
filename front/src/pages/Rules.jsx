@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from "@/stores/userStore";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import gameScreenshot from "../assets/images/game_screenshot.png"
+import ButtonClose from "@/components/ui_int/ButtonClose";
 
 export default function Rules() {
 	const { t } = useTranslation();
-
+    const navigate = useNavigate();
 	const user = useUserStore((s) => s.user);
 	const loading = useUserStore((s) => s.loading);
 
@@ -22,7 +24,8 @@ export default function Rules() {
 
 	return (
 		<div className="w-full h-full overflow-y-auto px-4 py-10 flex flex-col items-center">
-			<div className="flex flex-col gap-6 w-full max-w-4xl border border-gray-600 rounded-xl p-6 md:p-10 shadow-2xl bg-gray-800">
+			<div className="flex flex-col gap-6 w-full max-w-4xl border border-gray-600 rounded-xl p-6 md:p-10 shadow-2xl bg-gray-800 relative">	
+				<ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
 				<h2 className="font-extrabold text-3xl md:text-5xl text-white text-center tracking-wide mb-2">
 					{t("main_menu.game_rules")}
 				</h2>

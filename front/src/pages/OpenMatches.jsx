@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import CreateMatch from "@/components/match/CreateMatch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import ButtonClose from "@/components/ui_int/ButtonClose";
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
@@ -59,8 +60,7 @@ function OpenMatches() {
         try {
             await fetchAll();
             setMatchId(match.id);
-            navigate(`/game/${matchId}`);
-
+            navigate(`/game/${match.id}`);
         } catch (err) {
             console.error(err);
         }
@@ -80,7 +80,9 @@ function OpenMatches() {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
 
-            <div className="flex flex-col gap-4 text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150" >
+            <div className="flex flex-col gap-4 text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative">
+                <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
+
                 {myList.length > 0 && (
             <div className="flex items-center gap-1 flex-col">
               {t("matches.you_are_in_a_match")}
@@ -145,11 +147,13 @@ function OpenMatches() {
 
                 </TableBody>
             </Table>
-            <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 "
-                onClick={() => setOpenCreateDialog(true)}
-                disabled={myList.length > 0}>
-                {t("matches.create_match")}
-            </Button>
+            { myList.length == 0 && 
+                <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 "
+                    onClick={() => setOpenCreateDialog(true)}
+                    disabled={myList.length > 0}>
+                    {t("matches.create_match")}
+                </Button>
+            }
             <CreateMatch open={openCreateDialog} setOpen={setOpenCreateDialog} onSuccess={createdMatch} />
         </div>
     </div >
