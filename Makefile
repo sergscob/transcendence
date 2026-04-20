@@ -21,6 +21,7 @@ front:
 
 i-back:
 	cd back && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python preload_model.py
+#	cd back && uv python install 3.13 && uv venv --python 3.13 --seed venv && . venv/bin/activate && python -m pip install -r requirements.txt && python preload_model.py
 
 i-front:
 	cd front && npm install
