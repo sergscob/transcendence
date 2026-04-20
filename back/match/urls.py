@@ -6,7 +6,7 @@
 # GET /api/matches/my.
 
 from django.urls import path, include
-from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView
+from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView, MatchListViewCurrent
 from .views_stat import StatsUserView, StatsTotalView
 
     
@@ -14,6 +14,7 @@ urlpatterns = [
     path("api/matches/", MatchListViewMy.as_view()),                 # POST create, GET my
 
     path("api/matches/available/", MatchListViewAvailable.as_view()),   # GET available matches
+    path("api/matches/current/", MatchListViewCurrent.as_view()),   # GET current matches
 
     path("api/matches/<uuid:match_id>/", MatchActionView.as_view()),     # GET detail
     path("api/matches/<uuid:match_id>/join/", MatchActionView.as_view()),

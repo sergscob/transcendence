@@ -197,10 +197,12 @@ const resources = {
       "matches.actions": "Actions",
       "matches.leave_match": "Leave match",
       "matches.join": "Join",
+      "matches.view": "View",
       "matches.status_waiting": "Waiting",
       "matches.status_live": "Live",
       "matches.status_finished": "Finished",
       "matches.status_canceled": "Canceled",
+      "matches.not_started": "Not started",
 
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
@@ -380,10 +382,12 @@ const resources = {
       "matches.actions": "Actions",
       "matches.leave_match": "Quitter le match",
       "matches.join": "Rejoindre",
+      "matches.view": "Voir",
       "matches.status_waiting": "En attente",
       "matches.status_live": "En cours",
       "matches.status_finished": "Termine",
       "matches.status_canceled": "Annule",
+      "matches.not_started": "Non commencé",
 
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
@@ -564,10 +568,12 @@ const resources = {
       "matches.actions": "Действия",
       "matches.leave_match": "Покинуть матч",
       "matches.join": "Присоединиться",
+      "matches.view": "Просмотр",
       "matches.status_waiting": "Ожидание",
       "matches.status_live": "В процессе",
       "matches.status_finished": "Завершен",
       "matches.status_canceled": "Отменен",
+      "matches.not_started": "Не начался",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"

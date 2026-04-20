@@ -30,6 +30,7 @@ const defaultMatchState: ICurrentMatchState = {
 
 export default function GameMain() {
   const { id: matchId } = useParams()
+  const isView = new URLSearchParams(window.location.search).has("view")
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
@@ -135,7 +136,7 @@ export default function GameMain() {
             className="w-64 h-64 object-contain mb-8 pointer-events-none" 
 		/>
 
-        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
+        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display text-center">
           Game is finished and you are looser your score is {matchState?.current_player.score}
         </div>
         
@@ -153,7 +154,7 @@ export default function GameMain() {
             className="w-64 h-64 object-contain mb-8 pointer-events-none" 
 		/>
 
-        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display">
+        <div className="select-none text-red-600 text-7xl font-bold tracking-[0.25em] font-display text-center">
           Game is finished and you are winner your score is {matchState?.current_player.score}
         </div>
         
