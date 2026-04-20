@@ -30,7 +30,6 @@ function EditFriends() {
 
   useEffect(() => {
     if (loaded && user) {
-      console.log("User loaded in Profile.jsx", user);
       fetchAllData();
     }
   }, [user]);
