@@ -22,32 +22,44 @@
     ◦ Create an immersive 3D environment.
     ◦ Implement advanced rendering techniques.
     ◦ Ensure smooth performance and user interaction.    
-
-
-Major: Implement a complete web-based game where users can play against each other.
+16. Major: Implement a complete web-based game where users can play against each other.
     ◦ The game can be real-time multiplayer (e.g., Pong, Chess, Tic-Tac-Toe, Card games, etc.).
     ◦ Players must be able to play live matches.
     ◦ The game must have clear rules and win/loss conditions.
     ◦ The game can be 2D or 3D.
+18. Major: Multiplayer game (more than two players).
+    ◦ Support for three or more players simultaneously.
+    ◦ Fair gameplay mechanics for all participants.
+    ◦ Proper synchronization across all clients
+19. Minor: Implement advanced search functionality with filters, sorting, and pagination
+
+
 Major: Remote players — Enable two players on separate computers to play the same game in real-time.
     ◦ Handle network latency and disconnections gracefully.
     ◦ Provide a smooth user experience for remote gameplay.
     ◦ Implement reconnection logic.
 
-Major: Multiplayer game (more than two players).
-    ◦ Support for three or more players simultaneously.
-    ◦ Fair gameplay mechanics for all participants.
-    ◦ Proper synchronization across all clients
 
 
 
+Minor: Game statistics and match history (requires a game module).
+◦ Track user game statistics (wins, losses, ranking, level, etc.).
+◦ Display match history (1v1 games, dates, results, opponents).
+◦ Show achievements and progression.
+◦ Leaderboard integration
 
+Minor: Implement spectator mode for games.
+◦ Allow users to watch ongoing games.
+◦ Real-time updates for spectators.
+◦ Optional: spectator chat.
 
 
 
 Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).    
 
-Minor: Implement advanced search functionality with filters, sorting, and pagination
+
+
+
 
 Minor: Support for additional browsers.
     ◦ Full compatibility with at least 2 additional browsers (Firefox, Safari, Edge,etc.).

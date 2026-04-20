@@ -87,45 +87,27 @@ function OpenMatches() {
     return (
         <div className="w-screen h-screen flex justify-center items-center">
 
-            <div className="flex flex-col gap-4 text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative">
+            <div className="text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative">
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
 
                 {myList.length > 0 && (
-                    <div className="flex items-center gap-1 flex-col">
-                        {t("matches.you_are_in_a_match")}
-                        <Link to={`/game/${myList[0].id}`} className="text-center mt-4 py-2 px-6 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
-                            {t("matches.go_to_match")}
-                        </Link>
-
-                        <div>
-                            {t("matches.players")}: {myList[0].num_players}/{myList[0].players_maxcount}
-                        </div>
-                        <div>
-                            {t("matches.creator")}: {myList[0].created_by_name}
-                        </div>
-                        <div>
-                            {t("matches.status")}: {getStatusLabel(myList[0].status)}
-                        </div>
-                        <div>
-                            {t("matches.created_at")}: {dayjs(myList[0].created_at).format(DATE_FORMAT)}
-                        </div>
-                        <div>
-                            {t("matches.started_at")}: {myList[0].started_at ? dayjs(myList[0].started_at).format(DATE_FORMAT) : t("matches.not_started")}
-                        </div>
-                        <Button
-                            className="bg-red-500 hover:bg-red-700 text-white"
-                            onClick={() => deleteMyMatch(myList[0].id)}
-                        >
-                            {user.id === myList[0].created_by ? t("matches.delete_my_match") : t("matches.leave_match")}
-                        </Button>
-                        <div className="mt-4 w-full border border-gray-800 h-px" />
-                    </div>
+                    <MatchesList title={t("matches.you_are_in_a_match")}
+                        matches={myList}
+                        actions={(match) => (
+                            <>
+                            <Link to={`/game/${myList[0].id}`} className="text-center mt-4 py-2 px-6 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">
+                                {t("matches.go_to_match")}
+                            </Link>
+                            <Button onClick={() => deleteMyMatch(myList[0].id)} className="bg-red-500 hover:bg-red-700 text-white">
+                                {user.id === myList[0].created_by ? t("matches.delete_my_match") : t("matches.leave_match")}
+                            </Button>
+                            </>
+                        )}
+                    />
                 )}
 
                 {waitingList.length > 0 && (
-                    <div>
-                    <div className="text-[20px] font-bold">{t("matches.open_matches")}</div>
-                    <MatchesList
+                    <MatchesList title={t("matches.open_matches")}
                         matches={waitingList}
                         actions={(match) => (
                             <Button
@@ -137,13 +119,18 @@ function OpenMatches() {
                             </Button>
                         )}
                     />
-                    </div>
                 )}
 
+                {myList.length == 0 &&
+                    <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 mt-2"
+                        onClick={() => setOpenCreateDialog(true)}
+                        disabled={myList.length > 0}>
+                        {t("matches.create_match")}
+                    </Button>
+                }
+
                 {currentList.length > 0 && (
-                    <>
-                    <div className="text-[20px] font-bold">{t("matches.open_matches")}</div>
-                    <MatchesList
+                    <MatchesList title={t("matches.current_matches")}
                         matches={currentList}
                         actions={(match) => (
                             <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={() => viewMatch(match.id)}>
@@ -151,16 +138,8 @@ function OpenMatches() {
                             </Button>
                         )}
                     />
-                    </>
                 )}
 
-                {myList.length == 0 &&
-                    <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 "
-                        onClick={() => setOpenCreateDialog(true)}
-                        disabled={myList.length > 0}>
-                        {t("matches.create_match")}
-                    </Button>
-                }
                 <CreateMatch open={openCreateDialog} setOpen={setOpenCreateDialog} onSuccess={createdMatch} />
             </div>
         </div >

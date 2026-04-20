@@ -60,7 +60,7 @@ const resources = {
       "main_menu.friends": "Friends",
       "main_menu.settings": "Settings",
       "main_menu.start_game": "Start Game",
-      "main_menu.open_matches": "Open matches",
+      "main_menu.open_matches": "Matches",
       "main_menu.statistics": "Statistics",
       "main_menu.game_rules": "Game Rules",
 
@@ -186,7 +186,7 @@ const resources = {
       "matches.players_maxcount": "Players count",
       "matches.time_limit": "Time limit",
       "matches.create_match_error": "Failed to create match",
-      "matches.delete_my_match": "Delete my match",
+      "matches.delete_my_match": "Delete match",
       "matches.you_are_in_a_match": "You are in a match",
       "matches.go_to_match": "Go to match",
       "matches.players": "Players",
@@ -203,6 +203,7 @@ const resources = {
       "matches.status_finished": "Finished",
       "matches.status_canceled": "Canceled",
       "matches.not_started": "Not started",
+      "matches.current_matches": "Active matches",
 
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
@@ -388,6 +389,7 @@ const resources = {
       "matches.status_finished": "Termine",
       "matches.status_canceled": "Annule",
       "matches.not_started": "Non commencé",
+      "matches.current_matches": "Matchs en cours",
 
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
@@ -574,6 +576,7 @@ const resources = {
       "matches.status_finished": "Завершен",
       "matches.status_canceled": "Отменен",
       "matches.not_started": "Не начался",
+      "matches.current_matches": "Текущие матчи",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"
