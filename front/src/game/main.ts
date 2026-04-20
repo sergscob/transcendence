@@ -64,7 +64,6 @@ export function startGame(container: HTMLDivElement,
 		roomState.update(delta, matchState, player.teleportPlayer)
 		if (!stateExchanger.getConnectionStatus() || waitConnectionAccumulator < 0.5) {
 			waitConnectionAccumulator += delta
-			console.log(...matchState.current_player.pos)
 			player.teleportPlayer(new THREE.Vector3(...matchState.current_player.pos))
 			return
 		}

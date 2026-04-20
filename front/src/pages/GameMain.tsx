@@ -10,23 +10,29 @@ import { GAME_CONFIG } from '../game/gameConfig'
 import deathSkullPic from '../assets/images/death_skull.png'
 import robotHead from '../assets/images/robot-head.jpg'
 
-const defaultMatchState: ICurrentMatchState = {
-  current_player: {
-    user_id: 0,
-    health: 100,
-    arms_left: GAME_CONFIG.PLAYER.totalAmmo,
-    score: 0,
-    is_ready: false,
-	hit_other_player: false,
-	pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
-  },
-  online_players: 1,
-  max_players: 10,
-  match_status: "waiting",
-  isWinner: false,
-  time_left: "00:00",
-  players_count: 0
-};
+let defaultMatchState: ICurrentMatchState
+
+function resetMatchState() {
+	defaultMatchState = {
+	current_player: {
+		user_id: 0,
+		health: 100,
+		arms_left: GAME_CONFIG.PLAYER.totalAmmo,
+		score: 0,
+		is_ready: false,
+		hit_other_player: false,
+		pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
+	},
+	online_players: 1,
+	max_players: 10,
+	match_status: "waiting",
+	isWinner: false,
+	time_left: "00:00",
+	players_count: 0
+	};
+}
+
+resetMatchState()
 
 export default function GameMain() {
   const { id: matchId } = useParams()
@@ -124,8 +130,7 @@ export default function GameMain() {
   }
 
   if (matchState?.match_status == "close" && !matchState?.isWinner) {
-	// setPaused(true)
-	console.log('loss')
+	resetMatchState()
 	return (
       <div className="relative w-screen h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
         
@@ -142,8 +147,7 @@ export default function GameMain() {
       </div>
     )
   } else if (matchState?.match_status == "close" && matchState?.isWinner) {
-	// setPaused(true)
-	console.log('win')
+	resetMatchState()
 	return (
       <div className="relative w-screen h-screen overflow-hidden bg-white flex flex-col items-center justify-center">
         

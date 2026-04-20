@@ -275,13 +275,11 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 			if (!raw || typeof raw !== 'object' || raw.user_id === undefined) {
 				continue
 			}
-			console.log(raw?.result)
 			if (raw.user_id == client_user_id) {
 				isWinner = raw?.result == "win"
 			}
 		}
 
-		console.log(rawPlayers)
 	}
 
 	function modifyRoomState(messageObj: any) {
