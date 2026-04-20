@@ -20,6 +20,7 @@ import GameMain from "./pages/GameMain";
 import Settings from "./pages/Settings";
 import Rules from "./pages/Rules";
 import OpenMatches from "./pages/OpenMatches";
+import UserMatches from "./pages/UserMatches";
 import TotalStat from "./pages/TotalStat";
 
 
@@ -41,8 +42,9 @@ export default function App() {
             <Route path="/editfriends" element={<EditFriends />} />
             <Route path="/stats" element={<TotalStat />} />
             <Route path="/matches" element={<OpenMatches />} />
+            <Route path="/usermatches/:userid" element={<UserMatches />} />
             <Route path="/settings" element={<Settings />} />
-			<Route path="/rules" element={<Rules />} />
+            <Route path="/rules" element={<Rules />} />
             <Route path="/" element={<Index />} />
           </Route>
         </Route>
@@ -55,8 +57,8 @@ export default function App() {
         <Route path="/admin" element={<RedirectToDjangoAdmin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <ToastContainer 
-        position="top-right"    
+      <ToastContainer
+        position="top-right"
       />
     </Router>
   );

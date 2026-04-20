@@ -8,6 +8,7 @@
 from django.urls import path, include
 from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView, MatchListViewCurrent
 from .views_stat import StatsUserView, StatsTotalView
+from .views_users import MatchUsersView
 
     
 urlpatterns = [
@@ -20,6 +21,9 @@ urlpatterns = [
     path("api/matches/<uuid:match_id>/join/", MatchActionView.as_view()),
     path("api/matches/<uuid:match_id>/ready/", MatchActionView.as_view()),
     path("api/matches/<uuid:match_id>/finish/", MatchActionView.as_view()),
+
+    path("api/matches/user/<int:user_id>/", MatchUsersView.as_view()),
+    # path("api/matches/<uuid:match_id>/users/", MatchUsersView.as_view()),
 
     path("api/stats/<int:user_id>/", StatsUserView.as_view()),
     path("api/stats/", StatsTotalView.as_view()),

@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Link } from "react-router-dom";
 import ButtonClose from "@/components/ui_int/ButtonClose";
+import { useSorting, getSortIcon } from "@/utils/sortUtils";
 
 function TotalStat() {
     const pageSize = 3;
@@ -17,30 +18,8 @@ function TotalStat() {
     const loading = useUserStore((s) => s.loading);
     const [statData, setStatData] = useState({ count: 0, results: [], next: null, previous: null });
     const [statArray, setStatArray] = useState([]);
-    const [sortBy, setSortBy] = useState("place");
-    const [page, setPage] = useState(1);
     const navigate = useNavigate();
-
-    function showSorted(sort) {
-        let sort2 = sort[0] === "-" ? sort.slice(1) : sort;
-        let sortBy2 = sortBy[0] === "-" ? sortBy.slice(1) : sortBy;
-        if (sort2 === sortBy2) {
-            if (sortBy[0] === '-') 
-                setSortBy(sort2);
-            else 
-                setSortBy("-" + sort2);
-        } else {
-            setSortBy(sort);
-        }
-        setPage(1);
-    }
-
-    function getSortIcon(sort) {
-        let sortBy2 = sortBy[0] === "-" ? sortBy.slice(1) : sortBy;
-        if (sort === sortBy2) 
-            return sortBy[0] === '-' ? "↓" : "↑";
-        return "";
-    }   
+    const { sortBy, page, setPage, showSorted } = useSorting("place");
 
     async function fetchStats(pageNumber = 1) {
         const res = await API.get(`stats/?order=${sortBy}&page=${pageNumber}&page_size=${pageSize}`);
@@ -68,19 +47,19 @@ function TotalStat() {
                     <TableHeader>
                         <TableRow>
                             <TableHead className="cursor-pointer" onClick={() => showSorted("place")}>
-                                {t("total_stat.place")} {getSortIcon("place")}
+                                {t("total_stat.place")} {getSortIcon("place", sortBy)}
                             </TableHead>
                             <TableHead className="w-25 cursor-pointer" onClick={() => showSorted("username")}>
-                                {t("total_stat.player")} {getSortIcon("username")}
+                                {t("total_stat.player")} {getSortIcon("username", sortBy)}
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => showSorted("total_matches")}>
-                                {t("total_stat.total_matches")} {getSortIcon("total_matches")}
+                                {t("total_stat.total_matches")} {getSortIcon("total_matches", sortBy)}
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => showSorted("wins")}>
-                                {t("total_stat.wins")} {getSortIcon("wins")}
+                                {t("total_stat.wins")} {getSortIcon("wins", sortBy)}
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => showSorted("score")}>
-                                {t("total_stat.score")} {getSortIcon("score")}
+                                {t("total_stat.score")} {getSortIcon("score", sortBy)}
                             </TableHead>
                         </TableRow>
                     </TableHeader>
@@ -88,7 +67,10 @@ function TotalStat() {
                         {statArray.map((stat) => (
                             <TableRow key={stat.user_id}>
                                 <TableCell className="font-medium">{stat.place}</TableCell>
-                                <TableCell><Link to={`/profile/${stat.user_id}`}>{stat.username}</Link></TableCell>
+                                {/* <TableCell><Link to={`/profile/${stat.user_id}`}>{stat.username}</Link></TableCell> */}
+                                <TableCell><Link to={`/usermatches/${stat.user_id}`} className="underline underline-offset-2">
+                                    {stat.username}
+                                </Link></TableCell>
                                 <TableCell>{stat.total_matches}</TableCell>
                                 <TableCell>{stat.wins}</TableCell>
                                 <TableCell>{stat.score}</TableCell>

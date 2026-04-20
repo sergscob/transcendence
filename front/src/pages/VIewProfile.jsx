@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import API from "../api/api";
 import Avatar from "@/components/ui_int/Avatar";
 import NotFound from "@/pages/NotFound";
@@ -62,6 +63,9 @@ function ViewProfile() {
 				<div className="">
 					{t("view_profile.score")}: {stat?.score || 0}
 				</div>
+				<Link to={`/usermatches/${id}`} className="text-emerald-300 hover:underline">
+					{t("view_profile.view_matches")}
+				</Link>
 			</div>
 		</div>
 	</div>
