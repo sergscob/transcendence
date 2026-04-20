@@ -28,6 +28,7 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 	const rockets: Array<{rocket_id: number, mesh: THREE.Mesh, collider: THREE.Box3, localBox: THREE.Box3}> = []
 
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
+	const rocketColliderWorldSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderWorldSize)
 
 	function generateRocketId() {
 		return user_id * ROCKET_ID_STRIDE + nextRocketNumber++
@@ -57,8 +58,11 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 
 			rocketMesh.updateMatrixWorld(true)
 			rocketCollider.copy(localBox).applyMatrix4(rocketMesh.matrixWorld)
+
+			const rocketColliderForWorld = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(0, 0, 0), rocketColliderWorldSize)
+			rocketColliderForWorld.applyMatrix4(rocketMesh.matrixWorld)
 			
-			if (rocketMesh.position.length() > GAME_CONFIG.ROCKET.maxDistance || worldOctree.boxIntersect(rocketCollider)) {
+			if (rocketMesh.position.length() > GAME_CONFIG.ROCKET.maxDistance || worldOctree.boxIntersect(rocketColliderForWorld)) {
 				scene.remove(rocketMesh)
 				rockets.splice(i, 1)
 				continue

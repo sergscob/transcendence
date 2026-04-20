@@ -147,13 +147,31 @@ function OpenMatches() {
 
                 </TableBody>
             </Table>
-            { myList.length == 0 && 
-                <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 "
-                    onClick={() => setOpenCreateDialog(true)}
-                    disabled={myList.length > 0}>
-                    {t("matches.create_match")}
-                </Button>
-            }
+            <Table className="">
+                <TableBody>
+                    <TableRow>
+                        <TableCell colSpan={5}>
+                            <div className="flex items-center justify-center gap-3">
+                                {myList.length === 0 && (
+                                    <Button
+                                        className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500"
+                                        onClick={() => setOpenCreateDialog(true)}
+                                        disabled={myList.length > 0}
+                                    >
+                                        {t("matches.create_match")}
+                                    </Button>
+                                )}
+                                <Button
+                                    className="max-w-50 bg-blue-500 hover:bg-blue-600 text-white disabled:bg-gray-500"
+                                    onClick={() => navigate(0)}
+                                >
+                                    {t("matches.refresh_match")}
+                                </Button>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+				</TableBody>
+			</Table>
             <CreateMatch open={openCreateDialog} setOpen={setOpenCreateDialog} onSuccess={createdMatch} />
         </div>
     </div >

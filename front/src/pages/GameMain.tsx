@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom"
 import { GAME_CONFIG } from '../game/gameConfig'
 import deathSkullPic from '../assets/images/death_skull.png'
 import robotHead from '../assets/images/robot-head.jpg'
+import ButtonClose from "@/components/ui_int/ButtonClose";
+import { useNavigate } from 'react-router-dom';
 
 let defaultMatchState: ICurrentMatchState
 
@@ -35,6 +37,7 @@ function resetMatchState() {
 resetMatchState()
 
 export default function GameMain() {
+  const navigate = useNavigate();
   const { id: matchId } = useParams()
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
@@ -133,7 +136,8 @@ export default function GameMain() {
 	resetMatchState()
 	return (
       <div className="relative w-screen h-screen overflow-hidden bg-black flex flex-col items-center justify-center">
-        
+		<ButtonClose onClose={() => navigate(-1)} className="absolute top-20 right-20" />
+
         <img 
             src={deathSkullPic}
             alt="Death Skull" 
@@ -149,7 +153,8 @@ export default function GameMain() {
   } else if (matchState?.match_status == "close" && matchState?.isWinner) {
 	resetMatchState()
 	return (
-      <div className="relative w-screen h-screen overflow-hidden bg-white flex flex-col items-center justify-center">
+      <div className="relative w-screen h-screen overflow-hidden bg-gray-500/32 flex flex-col items-center justify-center">
+		<ButtonClose onClose={() => navigate(-1)} className="absolute top-20 right-20" />
         
         <img 
             src={robotHead} 

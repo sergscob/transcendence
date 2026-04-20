@@ -9,6 +9,8 @@ import AcceptFriendIcon from "../assets/icons/acceptFriend.svg?react";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import { useTranslation } from "react-i18next";
+import ButtonClose from "@/components/ui_int/ButtonClose";
+import { useNavigate } from 'react-router-dom';
 
 function EditFriends() {
   const { t } = useTranslation();
@@ -19,6 +21,7 @@ function EditFriends() {
   const [friends, setFriends] = useState([]);
   const [waitingList, setWaitingList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   async function fetchAllData() {
     await Promise.all([
@@ -54,7 +57,8 @@ function EditFriends() {
 
   return (
     <div className="w-screen min-h-screen flex justify-center items-center">
-      <div className="flex flex-col md:flex-row gap-10 lg:gap-20 relative ">
+      <div className="flex flex-col md:flex-row gap-10 lg:gap-20 relative">
+	  	<ButtonClose onClose={() => navigate(-1)} className="absolute top-3 right-3" />
 
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 min-h-100 p-5">
           <h2 className="mr-10 text-lg font-bold text-[40px] text-white">{t("edit_friends.all_users")}</h2>

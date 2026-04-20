@@ -247,7 +247,7 @@ async def shot_user(match_id, user_id, shot_id, damage, score):
     players = match_state.get('players', {})
     curUser = players.get(user_id)
     shotUser = players.get(shot_id)
-    if curUser is not None:
+    if curUser is not None and user_id != shot_id:
         curUser['score'] = curUser.get('score', 0) + score
         print(f"new score user {user_id}: {curUser['score']}")
 

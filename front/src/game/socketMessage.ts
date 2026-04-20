@@ -90,7 +90,7 @@ export function getMatchState(messageObj: any): IMatchState {
 	}
 
 	const result: IMatchState = {
-		online_players: Number(matchState?.online_players),
+		online_players: Number(matchState?.live_players),
 		time_left: String(matchState?.time),
 		players_count: Number(matchState?.players_count),
 		match_status: String(matchState?.match_status),
