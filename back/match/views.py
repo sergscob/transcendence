@@ -28,6 +28,23 @@ class MatchListViewAvailable(APIView):
         return Response(serializer.data)
 
 
+class MatchListViewCurrent(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        qs = (
+            Match.objects.filter(status=MatchStatus.LIVE)
+            .annotate(
+                num_players=Count("players", distinct=True),
+                created_by_name=F("created_by__username"),
+            )
+            # .exclude(players__user=request.user)
+            .distinct()
+        )
+        serializer = MatchSerializer(qs, many=True)
+        return Response(serializer.data)
+
+
 class MatchListViewMy(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

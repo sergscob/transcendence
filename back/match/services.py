@@ -13,7 +13,7 @@ def get_count_players(match, player):
 
 
 @transaction.atomic
-def match_create_and_join(creator, players_maxcount=2, map_name="default", score_limit=5, time_limit=120):
+def match_create_and_join(creator, players_maxcount=2, map_name="default", score_limit=5, time_limit=6000):
 
     if is_participant_of_open_match(creator):
         raise ValidationError({"detail": _("You are already a participant in another match.")})

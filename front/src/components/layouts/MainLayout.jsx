@@ -14,12 +14,15 @@ export default function MainLayout() {
   const location = useLocation();
   const loadUser = useUserStore((s) => s.loadUser);
   const user = useUserStore((s) => s.user);
+  const resetUser = useUserStore((s) => s.resetUser);
   useEffect(() => {
+    console.log("load user")
     loadUser();
   }, [loadUser]);
 
   function onLogout() {
     localStorage.setItem("token", '')
+    resetUser();
     navigate("/login")
   }
 
@@ -42,7 +45,7 @@ export default function MainLayout() {
       <div className="relative z-10 h-screen w-full">
         <Outlet />
       </div>
-
+      <Footer />
     </div>
   );
 }
