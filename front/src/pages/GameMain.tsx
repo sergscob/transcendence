@@ -3,6 +3,7 @@ import { startGame, stopGame } from '../game/main'
 import { useUserStore } from "@/stores/userStore"
 import Loading from "../components/ui_int/Loading"
 import NotFound from "./NotFound";
+import API from "@/api/api";
 import { useTranslation } from 'react-i18next'
 import { ICurrentMatchState } from '@/game/roomState'
 import { useParams } from "react-router-dom"
@@ -45,6 +46,8 @@ export default function GameMain() {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
+  const [isMatchLoading, setIsMatchLoading] = useState(true)
+  const [canStartGame, setCanStartGame] = useState(false)
   const matchStateRef = useRef<ICurrentMatchState>(defaultMatchState)
   const [matchState, setMatchState] = useState<ICurrentMatchState>(defaultMatchState)
   const user = useUserStore((s: any) => s.user)
@@ -78,6 +81,44 @@ export default function GameMain() {
     loadUser();
   }, [loadUser]);
 
+  useEffect(() => {
+    let cancelled = false
+
+    async function validateMatch() {
+      if (!user?.id || !matchId) {
+        setIsMatchLoading(false)
+        setCanStartGame(false)
+        return
+      }
+
+      setIsMatchLoading(true)
+      setCanStartGame(false)
+      try {
+        await API.get(`matches/${matchId}/`)
+        if (!cancelled) {
+          setCanStartGame(true)
+          setIsMatchLoading(false)
+        }
+      } catch (err: any) {
+        if (cancelled) {
+          return
+        }
+
+        setIsMatchLoading(false)
+        setCanStartGame(false)
+        if (err?.response?.status === 404) {
+          navigate('/', { replace: true })
+        }
+      }
+    }
+
+    validateMatch()
+
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id, matchId, navigate])
+
   const updateMatchState = (s: ICurrentMatchState) => {
     const nextState: ICurrentMatchState = {
       ...s,
@@ -100,7 +141,7 @@ export default function GameMain() {
       setMatchState(nextState)
     }
 
-    if (!containerRef.current || !user?.id)
+    if (!canStartGame || !containerRef.current || !user?.id)
       return
 
     startGame(
@@ -124,9 +165,9 @@ export default function GameMain() {
       stopGame()
       document.removeEventListener('pointerlockchange', onPointerLockChange)
     }
-  }, [user?.id, matchId, isView])
+  }, [user?.id, matchId, isView, canStartGame])
 
-  if (loading) return <Loading />
+  if (loading || isMatchLoading) return <Loading />
   if (!user) return <NotFound text={t("game_main.server_connection_error")} code={t("game_main.error_code")} />
 
   if (matchState?.match_status != "close") {
