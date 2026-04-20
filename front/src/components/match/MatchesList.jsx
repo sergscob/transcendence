@@ -5,12 +5,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
-function MatchesList({ matches, actions }) {
+function MatchesList({ matches, actions, title }) {
     const { t } = useTranslation();
 
     const getStatusLabel = (status) => t(`matches.status_${status}`, { defaultValue: status });
 
     return (
+        <>
+            <div className="text-[16px] mb-0 mt-4">{title}</div>
+
             <Table className="border rounded-lg bg-slate-800/50">
                 <TableHeader>
                     <TableRow>
@@ -18,7 +21,7 @@ function MatchesList({ matches, actions }) {
                         <TableHead>{t("matches.status")}</TableHead>
                         <TableHead>{t("matches.players")}</TableHead>
                         <TableHead>{t("matches.created_at")}</TableHead>
-                        <TableHead>{t("matches.actions")}</TableHead>
+                        <TableHead></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -36,6 +39,8 @@ function MatchesList({ matches, actions }) {
 
                 </TableBody>
             </Table>
+        </>
+        
   );
 }
 
