@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import API from "@/api/api";
 import { useTranslation } from "react-i18next";
@@ -30,14 +30,14 @@ function OpenMatches() {
 
     const getStatusLabel = (status) => t(`matches.status_${status}`, { defaultValue: status });
 
-    async function fetchAll() {
+    const fetchAll = useCallback(async () => {
         let res = await API.get("matches/available/")
         setWaitingList(res.data);
         res = await API.get("matches/")
         setMyList(res.data);
         res = await API.get("matches/current/")
         setCurrentList(res.data);
-    }
+    }, []);
 
     async function deleteMyMatch(matchId) {
         try {
@@ -76,10 +76,13 @@ function OpenMatches() {
 
 
     useEffect(() => {
-        if (loaded && user) {
-            fetchAll();
-        }
-    }, [user]);
+        if (!loaded || !user) return;
+
+        fetchAll();
+        const intervalId = setInterval(fetchAll, 10000);
+
+        return () => clearInterval(intervalId);
+    }, [loaded, user, fetchAll]);
 
 
     if (loading) return <Loading />;
