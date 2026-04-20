@@ -2,6 +2,7 @@
 
 django
 djangorestframework
+gunicorn
 djangorestframework-simplejwt
 django-cors-headers
 Pillow
