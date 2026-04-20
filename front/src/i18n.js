@@ -144,6 +144,9 @@ const resources = {
       "total_stat.wins": "Wins",
       "total_stat.score": "Score",
       "total_stat.load_more": "Load more",
+      "total_stat.page_info": "Page {{current}} of {{total}}",
+      "total_stat.next": "Next",
+      "total_stat.previous": "Previous",
 
       // Rules
       "rules.server_connection_error": "Check server connection. Server address in settings.",
@@ -326,6 +329,9 @@ const resources = {
       "total_stat.wins": "Victoires",
       "total_stat.score": "Score",
       "total_stat.load_more": "Charger plus",
+      "total_stat.page_info": "Page {{current}} de {{total}}",
+      "total_stat.next": "Suivant",
+      "total_stat.previous": "Précédent",
 
       //Rules
       "rules.server_connection_error": "Vérifiez la connexion au serveur. L'adresse du serveur se trouve dans les paramètres.",
@@ -506,6 +512,9 @@ const resources = {
       "total_stat.wins": "Победы",
       "total_stat.score": "Очки",
       "total_stat.load_more": "Загрузить еще",
+      "total_stat.page_info": "Страница {{current}} из {{total}}",
+      "total_stat.next": "Следующая",
+      "total_stat.previous": "Предыдущая",
 
       //Rules
       "rules.server_connection_error": "Проверьте подключение к серверу. Адрес сервера находится в настройках.",

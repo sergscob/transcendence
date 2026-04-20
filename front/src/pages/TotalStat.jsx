@@ -11,13 +11,14 @@ import { Link } from "react-router-dom";
 import ButtonClose from "@/components/ui_int/ButtonClose";
 
 function TotalStat() {
+    const pageSize = 3;
     const { t } = useTranslation();
     const user = useUserStore((s) => s.user);
-    const loaded = useUserStore((s) => s.loaded);
     const loading = useUserStore((s) => s.loading);
-    const [statData, setStatData] = useState([]);
+    const [statData, setStatData] = useState({ count: 0, results: [], next: null, previous: null });
     const [statArray, setStatArray] = useState([]);
     const [sortBy, setSortBy] = useState("place");
+    const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     function showSorted(sort) {
@@ -31,6 +32,7 @@ function TotalStat() {
         } else {
             setSortBy(sort);
         }
+        setPage(1);
     }
 
     function getSortIcon(sort) {
@@ -40,24 +42,17 @@ function TotalStat() {
         return "";
     }   
 
-    async function fetchAll() {
-        const res = await API.get("stats/?order=" + sortBy)
+    async function fetchStats(pageNumber = 1) {
+        const res = await API.get(`stats/?order=${sortBy}&page=${pageNumber}&page_size=${pageSize}`);
         setStatData(res.data);
         setStatArray(res.data.results);
     }
 
-    async function fetchNext() {
-        if (!statData.next)
-            return;
-        const res = await API.get(statData.next)
-        setStatData(res.data);
-        setStatArray([...statArray, ...res.data.results]);
-    }
-
     useEffect(() => {
-        fetchAll();
-    }, [sortBy]);
+        fetchStats(page);
+    }, [page, sortBy]);
 
+    const totalPages = Math.max(1, Math.ceil((statData.count || 0) / pageSize));
 
     if (loading) return <Loading />;
     if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
@@ -101,13 +96,25 @@ function TotalStat() {
                         ))}
                     </TableBody>
                 </Table>
-                {statData.next && (
-                    <Button className="max-w-50 _bg-green-500 _hover:bg-green-600 _text-white"
-                        onClick={() => fetchNext()}
+                <div className="flex items-center justify-between gap-3 text-white">
+                    <Button
+                        className="max-w-40"
+                        disabled={!statData.previous || page <= 1}
+                        onClick={() => setPage((current) => Math.max(1, current - 1))}
                     >
-                        {t("total_stat.load_more")}
+                        {t("total_stat.previous")}
                     </Button>
-                )}
+
+                    <span>{t("total_stat.page_info", { current: page, total: totalPages })}</span>
+
+                    <Button
+                        className="max-w-40"
+                        disabled={!statData.next || page >= totalPages}
+                        onClick={() => setPage((current) => current + 1)}
+                    >
+                        {t("total_stat.next")}
+                    </Button>
+                </div>
             </div>
         </div>
     );
