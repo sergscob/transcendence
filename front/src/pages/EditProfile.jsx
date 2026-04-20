@@ -4,6 +4,8 @@ import API from "../api/api";
 import { useUserStore } from "@/stores/userStore";
 import { IMAGES_DIR } from "/config";
 import Input from "../components/ui_int/Input";
+import Button from "../components/ui_int/Button";
+import Avatar from "../components/ui_int/Avatar";
 import Loading from "../components/ui_int/Loading";
 import NotFound from "./NotFound";
 import OtpDialog from "../components/login/OtpDialog";
@@ -24,6 +26,8 @@ function EditProfile() {
   const loaded = useUserStore((s) => s.loaded);
   const fileInputRef = useRef();
   const [openOtpDialog, setOpenOtpDialog] = useState(false);
+  const [username, setUsername] = useState("");
+  const [selectedFileName, setSelectedFileName] = useState("");
   const [qrcode, setQrcode] = useState("");
   const navigate = useNavigate();
 
@@ -31,8 +35,7 @@ function EditProfile() {
     e.preventDefault();
     user.is_2fa_enabled = e.target.checked;
     // console.log("user after change", user);
-    if (user.is_2fa_enabled)
-    {
+    if (user.is_2fa_enabled) {
       try {
         const res = await API.post("/auth/enable-2fa/")
         console.log("formData in EditProfile.jsx", res.data);
@@ -43,8 +46,7 @@ function EditProfile() {
         toast.error(t("edit_profile.enable_2fa_failed"));
       }
     }
-    else
-    {
+    else {
       try {
         const res = await API.patch("profile/update/", {
           id: user.id,
@@ -66,34 +68,37 @@ function EditProfile() {
     }
   }
 
-
-  useEffect(() => {
-    if (loaded && user) {
-    }
-  }, [user]);
-
   useEffect(() => {
     if (!openOtpDialog) {
-      console.log("openOtpDialog changed", openOtpDialog);
       loadUser(true);
     }
-  }, [openOtpDialog]);
+  }, [openOtpDialog, loadUser]);
 
-  async function uploadAvatar(e) {
+  useEffect(() => {
+    if (user?.username) {
+      setUsername(user.username);
+    }
+  }, [user?.username]);
+
+  async function onSave(e) {
     e.preventDefault();
     const file = fileInputRef.current.files[0];
-    if (!file) return;
     const formData = new FormData();
-    formData.append("avatar", file);
+    if (file)
+      formData.append("avatar", file);
+    formData.append("username", username);
+
     try {
       const res = await API.patch("profile/update/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       loadUser(true);
       fileInputRef.current.value = "";
+      setSelectedFileName("");
+      toast.success(t("edit_profile.profile_updated"));
     } catch (err) {
       // alert(t("edit_profile.upload_avatar_failed"));
-      console.log("Error uploading avatar:" );
+      console.log("Error uploading avatar:");
       toast.error(err.response?.data?.error || err.response?.data?.avatar.join() || t("edit_profile.upload_avatar_failed"));
     }
   }
@@ -101,40 +106,51 @@ function EditProfile() {
   if (loading) return <Loading />;
   if (!user) return <NotFound text={t("edit_profile.server_connection_error")} code={t("edit_profile.error_code")} />;
 
+  const hasSelectedFile = Boolean(fileInputRef.current?.files?.[0]);
+
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="flex flex-col border border-black rounded-lg p-10 shadow-lg bg-gray-500 relative min-w-150" >
-      <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
-		<div className="text-lg text-[40px] text-white text-center">{t("edit_profile.edit_profile")}</div>
-		<div className="flex flex-col items-center gap-4">
-			{user.avatar && (
-				<img src={IMAGES_DIR+user.avatar} className="w-70 h-70 rounded-full" />
-			)}
-			<div className="text-[30px] font-bold text-white">{user.username}</div>
-		</div>
-		<div className="flex flex-col items-left gap-2 mt-4">
-			<label className="flex items-center gap-2 text-lg text-[20px] text-white">
-				<input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} className="size-5 cursor-pointer"/>
-				{t("edit_profile.ask_two_factor_authentication")}
-			</label>
-			<div>
-				<div className="text-lg text-[20px] text-white">{t("edit_profile.ask_upload_avatar")}</div>
-				<form onSubmit={uploadAvatar} className="flex items-center justify-between ma-4 border-2 p-4 rounded bg-white mt-2">
-					<label className="cursor-pointer group">
-						<AddFileIcon className="w-10 h-10 stroke-green-400 fill-white hover:scale-110 transition-transform" />
-						<input type="file" accept="image/*" ref={fileInputRef} className="hidden" />
-					</label>
-					<button type="submit" title={t("edit_profile.upload_avatar")} className="hover:scale-110 transition-transform cursor-pointer">
-						<UploadIcon className="w-8 h-8 fill-black" />
-					</button>
-				</form>
-				<OtpDialog
-					open={openOtpDialog} setOpen={setOpenOtpDialog}
-					qrcode={qrcode}
-					onSuccess={(code) => onCodeEntered(code)}
-				/>
-			</div>
-		</div>
+      <div className="flex flex-col  rounded-lg p-10 shadow-lg bg-gray-500 relative min-w-150" >
+        <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
+        <div className="text-lg text-[24px] text-white text-center mb">{t("edit_profile.edit_profile")}</div>
+        <div className="flex flex-col items-center gap-4">
+          <Avatar user={user} size="120" />
+          <div className="text-[20px] font-bold text-white">{user.username}</div>
+        </div>
+        <div className="flex flex-col items-left gap-2 mt-4">
+          <div>
+            <label className="flex items-center gap-2 text-lg text-white mt-3">
+              <input type="checkbox" checked={user.is_2fa_enabled} onChange={onCheck2fa} className="size-5 cursor-pointer" />
+              {t("edit_profile.ask_two_factor_authentication")}
+            </label>
+            <form onSubmit={onSave} className="ma-4 border text-white border-white p-4 rounded mt-2">
+              { t("edit_profile.user_name") }:
+              <Input value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1"/>
+              <label className="cursor-pointer block group bg-black text-white py-2 px-6 rounded-lg mt-4 w-66 text-center">
+                <span className="text-lg text-white">{t("edit_profile.ask_upload_avatar")}</span>
+                <AddFileIcon className="inline ml-2 w-7 h-7 stroke-white hover:scale-110 transition-transform" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  className="hidden"
+                  onChange={(e) => setSelectedFileName(e.target.files?.[0]?.name || "")}
+                />
+              </label>
+                {selectedFileName && (
+                  <div className="ml-2 text-white">{selectedFileName}</div>
+                )}
+              <Button type="submit" className="mt-4" disabled={username === user.username && !hasSelectedFile}>
+                { t('settings.save')}
+              </Button>
+            </form>
+            <OtpDialog
+              open={openOtpDialog} setOpen={setOpenOtpDialog}
+              qrcode={qrcode}
+              onSuccess={(code) => onCodeEntered(code)}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

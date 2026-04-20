@@ -25,7 +25,7 @@ export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl ring-0">
+      <DialogContent className="_sm:max-w-md bg-white border-0 shadow-2xl ring-0 w-150">
         <DialogTitle/ >
         {qrcode && (
           <>
