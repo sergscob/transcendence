@@ -7,6 +7,7 @@ import API from "../api/api";
 import Avatar from "@/components/ui_int/Avatar";
 import NotFound from "@/pages/NotFound";
 import ButtonClose from "@/components/ui_int/ButtonClose";
+import ProgressBar from "@/components/ui_int/ProgressBar";
 
 function ViewProfile() {
   const { t } = useTranslation();
@@ -43,11 +44,17 @@ function ViewProfile() {
 			<div className="flex flex-col items-center gap-1">
 				<Avatar user={user} size="300" />
 				<div className="text-[30px] font-bold text-white">{user.username}</div>
-				<div className="">
-					{t("view_profile.place")}: {stat?.place || 0}
-				</div>
-				<div className="">
-					{t("total_stat.level")}: {stat?.level || 0}
+				<div className="w-full max-w-72 space-y-2">
+					<div className="text-center">
+						{t("total_stat.level")}: {stat?.level || 0}/10
+					</div>
+					<ProgressBar
+						value={stat?.level || 0}
+						max={10}
+					/>
+					<div className="text-center text-sm text-white/80">
+						{t("view_profile.place")}: {stat?.place || 0}
+					</div>
 				</div>
 
 
