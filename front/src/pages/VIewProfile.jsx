@@ -4,25 +4,35 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import API from "../api/api";
-import Avatar from "@/components/ui_int/Avatar";
+import ShortProfile from "@/components/common/ShortProfile";
 import NotFound from "@/pages/NotFound";
 import ButtonClose from "@/components/ui_int/ButtonClose";
-import ProgressBar from "@/components/ui_int/ProgressBar";
+
 
 function ViewProfile() {
   const { t } = useTranslation();
   const { id } = useParams();
   const [ user, setUser ] = useState(null);
   const [ stat, setStat ] = useState(null);
+  const [ nextMilestone, setNextMilestone ] = useState(0);
   const [ loading, setLoading ] = useState(true);
   const navigate = useNavigate();
 
   const loadUser = async () => {
         try {
-            let res = await API.get(`profile/${id}/`);
-            setUser(res.data);
-            res = await API.get(`stats/${id}/`);
-            setStat(res.data);
+			const userRes = await API.get(`profile/${id}/`);
+			setUser(userRes.data);
+
+			const statsRes = await API.get(`stats/${id}/`);
+			const statsData = statsRes.data;
+			setStat(statsData);
+
+			const milestonesRes = await API.get(`milestones/`);
+			const milestones = milestonesRes.data;
+			const currentMilestone = milestones.findIndex((m) => m.level === statsData.level);
+			if (currentMilestone > 0) 
+				setNextMilestone(milestones[currentMilestone-1].score)
+
         } catch (err) {
             console.error("Error loading user profile:", err);
         }
@@ -36,29 +46,13 @@ function ViewProfile() {
   if (loading ) return <div>{t("view_profile.loading")}</div>;
   if (!user) return <NotFound text={t("view_profile.user_not_found")} />;
 
-
   return (
 	<div className="w-screen h-screen flex justify-center items-center">
 		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500 relative" >
 		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
-			<div className="flex flex-col items-center gap-1">
-				<Avatar user={user} size="300" />
-				<div className="text-[30px] font-bold text-white">{user.username}</div>
-				<div className="w-full max-w-72 space-y-2">
-					<div className="text-center">
-						{t("total_stat.level")}: {stat?.level || 0}/10
-					</div>
-					<ProgressBar
-						value={stat?.level || 0}
-						max={10}
-					/>
-					<div className="text-center text-sm text-white/80">
-						{t("view_profile.place")}: {stat?.place || 0}
-					</div>
-				</div>
 
-
-			</div>
+			<ShortProfile user={user} avatarSize="250" stat={stat} nextMilestone={nextMilestone} />
+			
 			<div className="flex flex-col items-left mt-4">
 				<div className="">
 					{t("view_profile.email")}: {user.email}

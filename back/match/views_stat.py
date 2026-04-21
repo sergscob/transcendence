@@ -6,18 +6,13 @@ from django.db.models import Count, F, Q, Sum, Window
 from .models import MatchPlayer, MatchStatus, PlayerResult
 from rest_framework.pagination import PageNumberPagination
 from django.db.models.functions import DenseRank, Coalesce
+from .views_milestones import get_level
 
-
-def get_level(score):
-    score = max(0, score or 0)
-    level = ceil(10 / (1 + score / 500))
-    return max(1, min(10, level))
 
 class StatsPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 3
     page_size_query_param = "page_size"
     max_page_size = 100
-
 
 
 class StatsUserView(APIView):

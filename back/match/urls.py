@@ -9,6 +9,7 @@ from django.urls import path, include
 from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView, MatchListViewCurrent
 from .views_stat import StatsUserView, StatsTotalView
 from .views_users import MatchUsersView
+from .views_milestones import MilestonesView
 
     
 urlpatterns = [
@@ -27,5 +28,7 @@ urlpatterns = [
 
     path("api/stats/<int:user_id>/", StatsUserView.as_view()),
     path("api/stats/", StatsTotalView.as_view()),
+
+    path("api/milestones/", MilestonesView.as_view()),
 
 ]

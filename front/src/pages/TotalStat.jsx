@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Link } from "react-router-dom";
 import ButtonClose from "@/components/ui_int/ButtonClose";
+import ShortProfile from "@/components/common/ShortProfile";
 import { useSorting, getSortIcon } from "@/utils/sortUtils";
 
 function TotalStat() {
@@ -18,10 +19,28 @@ function TotalStat() {
     const loading = useUserStore((s) => s.loading);
     const [statData, setStatData] = useState({ count: 0, results: [], next: null, previous: null });
     const [statArray, setStatArray] = useState([]);
+    const [statFirst, setStatFirst] = useState([]);
+    const [topUsersById, setTopUsersById] = useState({});
     const navigate = useNavigate();
     const { sortBy, page, setPage, showSorted } = useSorting("place");
 
     async function fetchStats(pageNumber = 1) {
+        const resFirst = await API.get(`stats/?order=place&page=1&page_size=3`);
+        const topStats = resFirst.data.results || [];
+        setStatFirst(topStats);
+
+        const topProfiles = await Promise.all(
+            topStats.map(async (stat) => {
+                try {
+                    const profileRes = await API.get(`profile/${stat.user_id}/`);
+                    return [stat.user_id, profileRes.data];
+                } catch {
+                    return [stat.user_id, { id: stat.user_id, username: stat.username, avatar: null }];
+                }
+            })
+        );
+        setTopUsersById(Object.fromEntries(topProfiles));
+
         const res = await API.get(`stats/?order=${sortBy}&page=${pageNumber}&page_size=${pageSize}`);
         setStatData(res.data);
         setStatArray(res.data.results);
@@ -37,8 +56,36 @@ function TotalStat() {
     if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center">
-            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative" >
+        <div className="w-screen h-screen flex flex-col justify-center items-center gap-10">
+
+            <div className="min-w-180 flex gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative h-75 pt-0 align-top justify-between" >
+                {statFirst.length > 1 && (
+                    <ShortProfile
+                        user={topUsersById[statFirst[1].user_id] || { id: statFirst[1].user_id, username: statFirst[1].username, avatar: null }}
+                        avatarSize="90"
+                        stat={statFirst[1]}
+                        className="mt-10 scale-80 w-50 "
+                    />
+                )}
+                {statFirst.length > 0 && (
+                    <ShortProfile
+                        user={topUsersById[statFirst[0].user_id] || { id: statFirst[0].user_id, username: statFirst[0].username, avatar: null }}
+                        avatarSize="90"
+                        stat={statFirst[0]}
+                        className="scale-80 w-50 "
+                    />
+                )}
+                {statFirst.length > 2 && (
+                    <ShortProfile
+                        user={topUsersById[statFirst[2].user_id] || { id: statFirst[2].user_id, username: statFirst[2].username, avatar: null }}
+                        avatarSize="90"
+                        stat={statFirst[2]}
+                        className="mt-20 scale-80 w-50 "
+                    />
+                )}
+            </div>
+
+            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-180 relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 
                 <div className="text-[20px] text-white">{t("total_stat.title")}</div>
