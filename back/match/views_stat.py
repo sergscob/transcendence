@@ -1,15 +1,23 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
+from math import ceil
 from django.db.models import Count, F, Q, Sum, Window
 from .models import MatchPlayer, MatchStatus, PlayerResult
 from rest_framework.pagination import PageNumberPagination
 from django.db.models.functions import DenseRank, Coalesce
 
+
+def get_level(score):
+    score = max(0, score or 0)
+    level = ceil(10 / (1 + score / 500))
+    return max(1, min(10, level))
+
 class StatsPagination(PageNumberPagination):
     page_size = 2
     page_size_query_param = "page_size"
     max_page_size = 100
+
 
 
 class StatsUserView(APIView):
@@ -27,6 +35,7 @@ class StatsUserView(APIView):
         losses = total_matches - wins
         score = finished_qs.aggregate(total_score=Sum("score"))["total_score"] or 0
         username = finished_qs.values_list("user__username", flat=True).first()
+        niveau = "beginner"
 
         leaderboard = (
             MatchPlayer.objects.filter(match__status=MatchStatus.FINISHED)
@@ -65,8 +74,10 @@ class StatsUserView(APIView):
             "wins": wins,
             "losses": losses,
             "score": score,
+            "level": get_level(score),
             "place": place,
         })
+
 
 class StatsTotalView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -124,6 +135,7 @@ class StatsTotalView(APIView):
                 "wins": row["wins"],
                 "losses": row["losses"],
                 "score": row["score"] or 0,
+                "level": get_level(row["score"] or 0),
                 "place": row["place"],
             }
             for row in page

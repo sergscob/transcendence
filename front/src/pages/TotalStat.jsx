@@ -61,6 +61,9 @@ function TotalStat() {
                             <TableHead className="cursor-pointer" onClick={() => showSorted("score")}>
                                 {t("total_stat.score")} {getSortIcon("score", sortBy)}
                             </TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => showSorted("level")}>
+                                {t("total_stat.level")} {getSortIcon("level", sortBy)}
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -74,6 +77,7 @@ function TotalStat() {
                                 <TableCell>{stat.total_matches}</TableCell>
                                 <TableCell>{stat.wins}</TableCell>
                                 <TableCell>{stat.score}</TableCell>
+                                <TableCell>{stat.level}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

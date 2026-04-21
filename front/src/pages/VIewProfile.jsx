@@ -40,16 +40,21 @@ function ViewProfile() {
 	<div className="w-screen h-screen flex justify-center items-center">
 		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500 relative" >
 		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
-			<div className="flex flex-col items-center gap-3">
+			<div className="flex flex-col items-center gap-1">
 				<Avatar user={user} size="300" />
 				<div className="text-[30px] font-bold text-white">{user.username}</div>
-			</div>
-			<div className="flex flex-col items-left">
-				<div className="">
-					{t("view_profile.email")}: {user.email}
-				</div>
 				<div className="">
 					{t("view_profile.place")}: {stat?.place || 0}
+				</div>
+				<div className="">
+					{t("total_stat.level")}: {stat?.level || 0}
+				</div>
+
+
+			</div>
+			<div className="flex flex-col items-left mt-4">
+				<div className="">
+					{t("view_profile.email")}: {user.email}
 				</div>
 				<div className="">
 					{t("view_profile.total_matches")}: {stat?.total_matches || 0}
@@ -63,7 +68,7 @@ function ViewProfile() {
 				<div className="">
 					{t("view_profile.score")}: {stat?.score || 0}
 				</div>
-				<Link to={`/usermatches/${id}`} className="text-emerald-300 hover:underline">
+				<Link to={`/usermatches/${id}`} className="text-white hover:underline mt-2 bg-emerald-400 px-2 py-1 rounded text-center">
 					{t("view_profile.view_matches")}
 				</Link>
 			</div>
