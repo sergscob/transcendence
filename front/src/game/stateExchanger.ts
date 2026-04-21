@@ -36,7 +36,10 @@ export function createStateExchanger(
 	}
 
     function sendState(state: any) {
-        if (channel && channel.readyState === WebSocket.OPEN) {
+        if (user_id != -1) {
+            return
+        }
+        if (channel && channel.readyState === WebSocket.OPEN && user_id != -1) {
             channel.send(JSON.stringify({ type: 'state', state, user_id, match_id: matchId }));
         } else {
             console.error("WebSocket is not open. Unable to send message.");
@@ -44,6 +47,9 @@ export function createStateExchanger(
     }
 
     function sendShot(shot_id: any) {
+        if (user_id != -1) {
+            return
+        }
         if (channel && channel.readyState === WebSocket.OPEN) {
             channel.send(JSON.stringify({ type: 'shot', shot_id, user_id, match_id: matchId }));
         } else {

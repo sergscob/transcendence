@@ -64,6 +64,7 @@ export default function GameMain() {
       online_players: matchState.online_players,
       current_player: {
         ...defaultMatchState.current_player,
+        arms_left: 0,
         score: matchState.current_player.score,
         is_view: true,
         is_ready: true,

@@ -50,7 +50,7 @@ export function startGame(container: HTMLDivElement,
 	function animate() {
 		const matchState = getMatchState()
 
-		if (matchState.match_status == "close" || !matchState.current_player.health) {
+		if (matchState.match_status == "close" || (!matchState.current_player.health && !matchState.current_player.is_view)) {
 			matchState.match_status = "close"
 			setMatchState(matchState)
 			stopGame()
@@ -70,6 +70,7 @@ export function startGame(container: HTMLDivElement,
 
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 		rockets.update(sceneInstance.scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
+		
 		setMatchState(matchState)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0
