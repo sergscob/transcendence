@@ -29,6 +29,7 @@ function EditProfile() {
   const [username, setUsername] = useState("");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [qrcode, setQrcode] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const navigate = useNavigate();
 
   async function onCheck2fa(e) {
@@ -77,6 +78,7 @@ function EditProfile() {
   useEffect(() => {
     if (user?.username) {
       setUsername(user.username);
+      setUsernameError("");
     }
   }, [user?.username]);
 
@@ -95,11 +97,14 @@ function EditProfile() {
       loadUser(true);
       fileInputRef.current.value = "";
       setSelectedFileName("");
+      setUsernameError("");
       toast.success(t("edit_profile.profile_updated"));
-    } catch (err) {
-      // alert(t("edit_profile.upload_avatar_failed"));
+    } catch (e) {
       console.log("Error uploading avatar:");
-      toast.error(err.response?.data?.error || err.response?.data?.avatar.join() || t("edit_profile.upload_avatar_failed"));
+      const err = e.response?.data;
+      const usernameMessage = Array.isArray(err?.username) ? err.username[0] : err?.username;
+      setUsernameError(usernameMessage || "");
+      toast.error( err?.error || err?.detail || err?.avatar?.join?.() || usernameMessage || t("edit_profile.upload_avatar_failed"));
     }
   }
 
@@ -125,7 +130,14 @@ function EditProfile() {
             </label>
             <form onSubmit={onSave} className="ma-4 border text-white border-white p-4 rounded mt-2">
               { t("edit_profile.user_name") }:
-              <Input value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1"/>
+              <Input
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (usernameError) setUsernameError("");
+                }}
+                className={`mt-1 ${usernameError ? "border-red-400 focus:ring-red-400" : ""}`}
+              />
               <label className="cursor-pointer block group bg-black text-white py-2 px-6 rounded-lg mt-4 w-66 text-center">
                 <span className="text-lg text-white">{t("edit_profile.ask_upload_avatar")}</span>
                 <AddFileIcon className="inline ml-2 w-7 h-7 stroke-white hover:scale-110 transition-transform" />
