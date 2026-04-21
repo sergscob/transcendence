@@ -11,6 +11,7 @@ export interface ICurrentPlayerState {
 	arms_left: number;
 	score: number;
 	is_ready: boolean;
+	is_view: boolean;
 	hit_other_player: boolean;
 	pos: [number, number, number];
 }

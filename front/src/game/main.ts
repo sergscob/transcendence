@@ -98,6 +98,10 @@ export function startGame(container: HTMLDivElement,
 }
 
 export function stopGame() {
+	if (document.pointerLockElement) {
+		document.exitPointerLock()
+	}
+
 	removeResizeInstance?.removeResizeEvent()
 	controlsInstance?.destroy()
 	cancelAnimationFrame(animationId)

@@ -118,6 +118,19 @@ const resources = {
       "game_main.error_code": "Error",
       "game_main.loading": "Loading...",
       "game_main.pause_click_resume": "PAUSE - Click to resume",
+      "game_main.hud_health": "HEALTH",
+      "game_main.hud_arms": "ARMS",
+      "game_main.hud_score": "SCORE",
+      "game_main.hud_time": "TIME",
+      "game_main.hud_players": "PLAYERS",
+      "game_main.end_title_win": "Victory Report",
+      "game_main.end_title_loss": "Defeat Report",
+      "game_main.end_result_win": "Result: You won the match",
+      "game_main.end_result_loss": "Result: You lost the match",
+      "game_main.end_final_score": "Your final score",
+      "game_main.end_remaining_players": "Remaining players online",
+      "game_main.end_back_main_menu": "Back to main menu",
+      "game_main.end_back_spectator": "Return to match (spectator mode)",
 
       // NotFound
       "not_found.page_not_found": "Page not found",
@@ -215,6 +228,7 @@ const resources = {
       "matches.status_canceled": "Canceled",
       "matches.not_started": "Not started",
       "matches.current_matches": "Active matches",
+      "matches.players_maxcount_error": "You can only create matches with players range of 2 to 10",
 
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
@@ -317,6 +331,19 @@ const resources = {
       "game_main.error_code": "Erreur",
       "game_main.loading": "Chargement...",
       "game_main.pause_click_resume": "PAUSE - Cliquez pour reprendre",
+      "game_main.hud_health": "SANTE",
+      "game_main.hud_arms": "ARMES",
+      "game_main.hud_score": "SCORE",
+      "game_main.hud_time": "TEMPS",
+      "game_main.hud_players": "JOUEURS",
+      "game_main.end_title_win": "Rapport de victoire",
+      "game_main.end_title_loss": "Rapport de defaite",
+      "game_main.end_result_win": "Resultat : vous avez gagne la partie",
+      "game_main.end_result_loss": "Resultat : vous avez perdu la partie",
+      "game_main.end_final_score": "Votre score final",
+      "game_main.end_remaining_players": "Joueurs restants en ligne",
+      "game_main.end_back_main_menu": "Retour au menu principal",
+      "game_main.end_back_spectator": "Retourner dans la partie (mode spectateur)",
 
       // NotFound
       "not_found.page_not_found": "Page introuvable",
@@ -412,6 +439,7 @@ const resources = {
       "matches.status_canceled": "Annule",
       "matches.not_started": "Non commencé",
       "matches.current_matches": "Matchs en cours",
+      "matches.players_maxcount_error": "Un match peux seulement avoir entre 2 et 10 joueurs",
 
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
@@ -514,6 +542,19 @@ const resources = {
       "game_main.error_code": "Ошибка",
       "game_main.loading": "Загрузка...",
       "game_main.pause_click_resume": "ПАУЗА - Нажмите, чтобы продолжить",
+      "game_main.hud_health": "ЗДОРОВЬЕ",
+      "game_main.hud_arms": "ОРУЖИЕ",
+      "game_main.hud_score": "СЧЕТ",
+      "game_main.hud_time": "ВРЕМЯ",
+      "game_main.hud_players": "ИГРОКИ",
+      "game_main.end_title_win": "Отчет о победе",
+      "game_main.end_title_loss": "Отчет о поражении",
+      "game_main.end_result_win": "Результат: вы выиграли матч",
+      "game_main.end_result_loss": "Результат: вы проиграли матч",
+      "game_main.end_final_score": "Ваш итоговый счет",
+      "game_main.end_remaining_players": "Игроков осталось онлайн",
+      "game_main.end_back_main_menu": "Вернуться в главное меню",
+      "game_main.end_back_spectator": "Вернуться в матч (режим наблюдателя)",
 
       // NotFound
       "not_found.page_not_found": "Страница не найдена",
@@ -610,6 +651,7 @@ const resources = {
       "matches.status_canceled": "Отменен",
       "matches.not_started": "Не начался",
       "matches.current_matches": "Текущие матчи",
+      "matches.players_maxcount_error": "В матче может участвовать от 2 до 10 игроков",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"
