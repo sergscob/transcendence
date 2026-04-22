@@ -4,6 +4,11 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
 from .models import Match, MatchPlayer, MatchStatus
 
+MIN_PLAYERS = 2
+MAX_PLAYERS = 10
+MIN_TIME_LIMIT = 120
+MAX_TIME_LIMIT = 3600
+
 def is_participant_of_open_match(user):
     return MatchPlayer.objects.filter(user=user, match__status=MatchStatus.WAITING).exists()
 
@@ -13,7 +18,23 @@ def get_count_players(match, player):
 
 
 @transaction.atomic
-def match_create_and_join(creator, players_maxcount=2, map_name="default", score_limit=5, time_limit=6000):
+def match_create_and_join(creator, players_maxcount=2, map_name="default", score_limit=5, time_limit=120):
+
+    try:
+        players_maxcount = int(players_maxcount)
+    except (TypeError, ValueError) as exc:
+        raise ValidationError({"detail": _("Players count must be a number.")}) from exc
+
+    if players_maxcount < MIN_PLAYERS or players_maxcount > MAX_PLAYERS:
+        raise ValidationError({"detail": _("Players count must be between 2 and 10.")})
+
+    try:
+        time_limit = int(time_limit)
+    except (TypeError, ValueError) as exc:
+        raise ValidationError({"detail": _("Time limit must be a number.")}) from exc
+
+    if time_limit < MIN_TIME_LIMIT or time_limit > MAX_TIME_LIMIT:
+        raise ValidationError({"detail": _("Time limit must be between 120 and 3600 seconds.")})
 
     if is_participant_of_open_match(creator):
         raise ValidationError({"detail": _("You are already a participant in another match.")})

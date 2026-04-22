@@ -11,7 +11,8 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
   const [error, setError] = useState("");
   const [okEnabled, setOkEnabled] = useState(false);
   const [form, setForm] = useState({
-    players_maxcount: 2
+    players_maxcount: 2,
+    time_limit: 120,
   });
 
   async function changeForm(field) {
@@ -25,13 +26,24 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
   }, [open]);
 
   async function OnClickOk() {
-    if (form.players_maxcount < 2 || form.players_maxcount > 10) {
+    const playersMaxcount = Number(form.players_maxcount);
+    const timeLimit = Number(form.time_limit);
+
+    if (playersMaxcount < 2 || playersMaxcount > 10) {
       setError(t("matches.players_maxcount_error"));
       return;
     }
 
+    if (timeLimit < 120 || timeLimit > 3600) {
+      setError(t("matches.time_limit_error"));
+      return;
+    }
+
     try {
-        const res = await API.post("matches/", form);
+        const res = await API.post("matches/", {
+          players_maxcount: playersMaxcount,
+          time_limit: timeLimit,
+        });
         onSuccess(res.data);
         setOpen(false);
     } catch (err) {
@@ -50,10 +62,22 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
         <div className="">
             <label>{t("matches.players_maxcount")}:</label>
             <Input 
+              type="number"
+              min={2}
+              max={10}
               value={form.players_maxcount}
               className="w-full mt-4" 
               onChange={(e) => changeForm({ players_maxcount: e.target.value })} />
-            {/* <Input placeholder={t("matches.time_limit")} className="w-full mt-4" /> */}
+            <label className="mt-4 block">{t("matches.time_limit")}:</label>
+            <Input
+              type="number"
+              min={120}
+              max={3600}
+              step={10}
+              value={form.time_limit}
+              className="w-full mt-2"
+              onChange={(e) => changeForm({ time_limit: e.target.value })}
+            />
         </div>
         <div className="error-message text-center mt-2">
             {error}

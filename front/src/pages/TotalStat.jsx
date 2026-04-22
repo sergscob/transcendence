@@ -59,6 +59,7 @@ function TotalStat() {
         <div className="w-screen h-screen flex flex-col justify-center items-center gap-10">
 
             <div className="min-w-180 flex gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative h-75 pt-0 align-top justify-between" >
+                <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
                 {statFirst.length > 1 && (
                     <ShortProfile
                         user={topUsersById[statFirst[1].user_id] || { id: statFirst[1].user_id, username: statFirst[1].username, avatar: null }}
@@ -86,7 +87,6 @@ function TotalStat() {
             </div>
 
             <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-180 relative" >
-                <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 
                 <div className="text-[20px] text-white">{t("total_stat.title")}</div>
 

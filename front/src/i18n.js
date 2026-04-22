@@ -175,6 +175,11 @@ const resources = {
       "total_stat.next": "Next",
       "total_stat.previous": "Previous",
 
+      // Achievements
+      "achievements.level_up": "Level up! You reached level {{level}}",
+      "achievements.first_win": "First win!",
+      "achievements.unknown": "Achievement unlocked",
+
       // Rules
       "rules.server_connection_error": "Check server connection. Server address in settings.",
       "rules.error_code": "Error",
@@ -241,6 +246,7 @@ const resources = {
       "matches.not_started": "Not started",
       "matches.current_matches": "Active matches",
       "matches.players_maxcount_error": "You can only create matches with players range of 2 to 10",
+      "matches.time_limit_error": "Time limit must be from 120 to 3600 seconds",
 
       "footer.privacy_policy": "Privacy Policy",
       "footer.terms_of_service": "Terms of Service"
@@ -400,6 +406,11 @@ const resources = {
       "total_stat.next": "Suivant",
       "total_stat.previous": "Précédent",
 
+      // Achievements
+      "achievements.level_up": "Niveau superieur ! Vous avez atteint le niveau {{level}}",
+      "achievements.first_win": "Premiere victoire !",
+      "achievements.unknown": "Succes debloque",
+
       //Rules
       "rules.server_connection_error": "Vérifiez la connexion au serveur. L'adresse du serveur se trouve dans les paramètres.",
       "rules.error_code": "Erreur",
@@ -464,6 +475,7 @@ const resources = {
       "matches.not_started": "Non commencé",
       "matches.current_matches": "Matchs en cours",
       "matches.players_maxcount_error": "Un match peux seulement avoir entre 2 et 10 joueurs",
+      "matches.time_limit_error": "La limite de temps doit etre comprise entre 120 et 3600 secondes",
 
       "footer.privacy_policy": "Politique de confidentialité",
       "footer.terms_of_service": "Conditions d'utilisation"
@@ -623,6 +635,11 @@ const resources = {
       "total_stat.next": "Следующая",
       "total_stat.previous": "Предыдущая",
 
+      // Achievements
+      "achievements.level_up": "Новый уровень! Вы достигли уровня {{level}}",
+      "achievements.first_win": "Первая победа!",
+      "achievements.unknown": "Достижение получено",
+
       //Rules
       "rules.server_connection_error": "Проверьте подключение к серверу. Адрес сервера находится в настройках.",
       "rules.error_code": "Ошибка",
@@ -688,6 +705,7 @@ const resources = {
       "matches.not_started": "Не начался",
       "matches.current_matches": "Текущие матчи",
       "matches.players_maxcount_error": "В матче может участвовать от 2 до 10 игроков",
+      "matches.time_limit_error": "Лимит времени должен быть от 120 до 3600 секунд",
 
       "footer.privacy_policy": "Политика конфиденциальности",
       "footer.terms_of_service": "Условия использования"
