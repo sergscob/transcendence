@@ -21,6 +21,7 @@ import Settings from "./pages/Settings";
 import Rules from "./pages/Rules";
 import OpenMatches from "./pages/OpenMatches";
 import UserMatches from "./pages/UserMatches";
+import ViewAchivements from "./pages/ViewAchivements";
 import TotalStat from "./pages/TotalStat";
 
 
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/stats" element={<TotalStat />} />
             <Route path="/matches" element={<OpenMatches />} />
             <Route path="/usermatches/:userid" element={<UserMatches />} />
+            <Route path="/userachievements/:userid" element={<ViewAchivements />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/rules" element={<Rules />} />
             <Route path="/" element={<Index />} />

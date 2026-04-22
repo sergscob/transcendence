@@ -69,9 +69,14 @@ function ViewProfile() {
 				<div className="">
 					{t("view_profile.score")}: {stat?.score || 0}
 				</div>
-				<Link to={`/usermatches/${id}`} className="text-white hover:underline mt-2 bg-emerald-400 px-2 py-1 rounded text-center">
-					{t("view_profile.view_matches")}
-				</Link>
+				<div className="flex gap-2 mt-2">
+					<Link to={`/usermatches/${id}`} className="text-white bg-emerald-400 px-2 py-1 rounded text-center">
+						{t("view_profile.view_matches")}
+					</Link>
+					<Link to={`/userachievements/${id}`} className="text-white bg-cyan-400 px-2 py-1 rounded text-center">
+						{t("view_profile.view_achievements")}
+					</Link>
+				</div>
 			</div>
 		</div>
 	</div>

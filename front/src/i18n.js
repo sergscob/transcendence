@@ -149,6 +149,7 @@ const resources = {
       "view_profile.email": "Email",
       "view_profile.place": "Place",
       "view_profile.view_matches": "View matches",
+      "view_profile.view_achievements": "View achievements",
       "view_profile.next_milestone": "Next milestone",
       "view_profile.rank": "Rank",
       "view_profile.rank_1": "Legend",
@@ -179,6 +180,8 @@ const resources = {
       "achievements.level_up": "Level up! You reached level {{level}}",
       "achievements.first_win": "First win!",
       "achievements.unknown": "Achievement unlocked",
+      "achievements.user_achievements_title": "Achievements of {{username}}",
+      "view_achievements.no_achievements": "No achievements yet",
 
       // Rules
       "rules.server_connection_error": "Check server connection. Server address in settings.",
@@ -380,6 +383,7 @@ const resources = {
       "view_profile.email": "Email",
       "view_profile.place": "Place",
       "view_profile.view_matches": "Voir les matchs",
+      "view_profile.view_achievements": "Voir les achievements",
       "view_profile.next_milestone": "Prochain palier",
       "view_profile.rank": "Rang",
       "view_profile.rank_1": "Legende",
@@ -410,6 +414,8 @@ const resources = {
       "achievements.level_up": "Niveau superieur ! Vous avez atteint le niveau {{level}}",
       "achievements.first_win": "Premiere victoire !",
       "achievements.unknown": "Succes debloque",
+      "achievements.user_achievements_title": "Achievements de {{username}}",
+      "view_achievements.no_achievements": "Aucun achievement pour le moment",
 
       //Rules
       "rules.server_connection_error": "Vérifiez la connexion au serveur. L'adresse du serveur se trouve dans les paramètres.",
@@ -609,6 +615,7 @@ const resources = {
       "view_profile.email": "Почта",
       "view_profile.place": "Место",
       "view_profile.view_matches": "Посмотреть матчи",
+      "view_profile.view_achievements": "Посмотреть достижения",
       "view_profile.next_milestone": "Следующий рубеж",
       "view_profile.rank": "Звание",
       "view_profile.rank_1": "Легенда",
@@ -639,6 +646,8 @@ const resources = {
       "achievements.level_up": "Новый уровень! Вы достигли уровня {{level}}",
       "achievements.first_win": "Первая победа!",
       "achievements.unknown": "Достижение получено",
+      "achievements.user_achievements_title": "Достижения пользователя {{username}}",
+      "view_achievements.no_achievements": "Пока нет достижений",
 
       //Rules
       "rules.server_connection_error": "Проверьте подключение к серверу. Адрес сервера находится в настройках.",

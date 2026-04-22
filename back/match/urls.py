@@ -31,6 +31,6 @@ urlpatterns = [
     path("api/stats/", StatsTotalView.as_view()),
 
     path("api/milestones/", MilestonesView.as_view()),
-    path("api/achievements/", AchievementListView.as_view()),
+    path("api/achievements/<int:user_id>/", AchievementListView.as_view()),
 
 ]
