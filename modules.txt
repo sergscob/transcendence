@@ -32,6 +32,21 @@
     ◦ Fair gameplay mechanics for all participants.
     ◦ Proper synchronization across all clients
 19. Minor: Implement advanced search functionality with filters, sorting, and pagination
+20. Minor: Game statistics and match history (requires a game module).
+    ◦ Track user game statistics (wins, losses, ranking, level, etc.).
+    ◦ Display match history (1v1 games, dates, results, opponents).
+    ◦ Show achievements and progression.
+    ◦ Leaderboard integration
+21. Minor: A gamification system to reward users for their actions.
+    ◦ Implement at least 3 of the following: achievements, badges, leaderboards, XP/level system, daily challenges, rewards
+    ◦ System must be persistent (stored in database)
+    ◦ Visual feedback for users (notifications, progress bars, etc.)
+    ◦ Clear rules and progression mechanics
+22. Minor: Implement spectator mode for games.
+    ◦ Allow users to watch ongoing games.
+    ◦ Real-time updates for spectators.
+    ◦ Optional: spectator chat.
+
 
 
 Major: Remote players — Enable two players on separate computers to play the same game in real-time.
@@ -42,23 +57,7 @@ Major: Remote players — Enable two players on separate computers to play the s
 
 
 
-Minor: Game statistics and match history (requires a game module).
-◦ Track user game statistics (wins, losses, ranking, level, etc.).
-◦ Display match history (1v1 games, dates, results, opponents).
-◦ Show achievements and progression.
-◦ Leaderboard integration
-
-Minor: Implement spectator mode for games.
-◦ Allow users to watch ongoing games.
-◦ Real-time updates for spectators.
-◦ Optional: spectator chat.
-
-
-
 Minor: Custom-made design system with reusable components, including a proper color palette, typography, and icons (minimum: 10 reusable components).    
-
-
-
 
 
 Minor: Support for additional browsers.
