@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
-from math import ceil
 from django.db.models import Count, F, Q, Sum, Window
 from .models import MatchPlayer, MatchStatus, PlayerResult
 from rest_framework.pagination import PageNumberPagination
@@ -13,6 +12,40 @@ class StatsPagination(PageNumberPagination):
     page_size = 3
     page_size_query_param = "page_size"
     max_page_size = 100
+
+
+def _get_leaderboard_rows():
+    return list(
+        MatchPlayer.objects.filter(match__status=MatchStatus.FINISHED)
+        .values("user_id", "user__username")
+        .annotate(
+            total_matches=Count("id"),
+            wins=Count("id", filter=Q(result=PlayerResult.WIN)),
+            score=Coalesce(Sum("score"), 0),
+        )
+        .order_by(
+            F("wins").desc(),
+            F("score").desc(),
+            F("total_matches").desc(),
+            F("user_id").asc(),
+        )
+    )
+
+
+def _get_dense_rank(rows, user_id):
+    place = 0
+    previous_key = None
+
+    for row in rows:
+        current_key = (row["wins"], row["score"], row["total_matches"])
+        if current_key != previous_key:
+            place += 1
+            previous_key = current_key
+
+        if row["user_id"] == user_id:
+            return place
+
+    return None
 
 
 class StatsUserView(APIView):
@@ -30,37 +63,9 @@ class StatsUserView(APIView):
         losses = total_matches - wins
         score = finished_qs.aggregate(total_score=Sum("score"))["total_score"] or 0
         username = finished_qs.values_list("user__username", flat=True).first()
-        niveau = "beginner"
 
-        leaderboard = (
-            MatchPlayer.objects.filter(match__status=MatchStatus.FINISHED)
-            .values("user_id")
-            .annotate(
-                total_matches=Count("id"),
-                wins=Count("id", filter=Q(result=PlayerResult.WIN)),
-                score=Sum("score")
-            )
-            .annotate(
-                place=Window(
-                    expression=DenseRank(),
-                    order_by=[
-                        F("wins").desc(),
-                        F("score").desc(),
-                        F("total_matches").desc(),
-                        F("user_id").asc(),
-                    ],
-                )
-            )
-        )
-        # print (leaderboard)
-        place_row = (
-            leaderboard
-            .filter(user_id=user_id)
-            .order_by("place", "user_id")
-            .values("place")
-            .first()
-        )
-        place = place_row["place"] if place_row else None
+        leaderboard_rows = _get_leaderboard_rows()
+        place = _get_dense_rank(leaderboard_rows, user_id)
         
         return Response({
             "user_id": user_id,
@@ -102,7 +107,7 @@ class StatsTotalView(APIView):
             .annotate(
                 total_matches=Count("id"),
                 wins=Count("id", filter=Q(result=PlayerResult.WIN)),
-                score=Sum("score"),
+                score=Coalesce(Sum("score"), 0),
             )
             .annotate(losses=F("total_matches") - F("wins"))
             .annotate(
