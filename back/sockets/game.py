@@ -57,7 +57,7 @@ class PlayerConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         url_route = self.scope.get("url_route", {})
         kwargs = url_route.get("kwargs", {})
-        self.match_id = kwargs.get("match_id")        
+        self.match_id = kwargs.get("match_id")
         if not self.match_id:
             await self.close(code=4400)
             return

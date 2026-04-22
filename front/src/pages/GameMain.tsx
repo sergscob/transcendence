@@ -23,7 +23,7 @@ function resetMatchState() {
 		arms_left: GAME_CONFIG.PLAYER.totalAmmo,
 		score: 0,
 		is_ready: false,
-    is_view: false,
+		is_view: false,
 		hit_other_player: false,
 		pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
 	},
@@ -67,8 +67,7 @@ export default function GameMain() {
         arms_left: 0,
         score: matchState.current_player.score,
         is_view: true,
-        is_ready: true,
-        user_id: -1,
+        is_ready: true
       },
     }
 
@@ -134,8 +133,7 @@ export default function GameMain() {
         ...matchStateRef.current,
         current_player: {
           ...matchStateRef.current.current_player,
-          is_view: true,
-          user_id: -1,
+          is_view: true
         },
       }
       matchStateRef.current = nextState

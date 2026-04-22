@@ -37,7 +37,7 @@ export function startGame(container: HTMLDivElement,
 	const sceneInstance    = createScene()
 	const worldOctree = loadWorld(sceneInstance.scene)
 	const roomState = createRoomStateInstance(user_id, sceneInstance)
-	stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState)
+	stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState, getMatchState)
 	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex)
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
