@@ -82,6 +82,10 @@ export function createRocketInstance(user_id: number, sendShot: (shot: any) => v
 
 		waitAmmoAcumulator += delta
 
+		if (PlayerGetState.current_player.is_view) {
+			return
+		}
+
 		if (click && PlayerGetState.current_player.arms_left > 0 && waitAmmoAcumulator > 0.5) {
 			waitAmmoAcumulator = 0
 			PlayerGetState.current_player.arms_left--

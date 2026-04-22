@@ -37,7 +37,7 @@ export function startGame(container: HTMLDivElement,
 	const sceneInstance    = createScene()
 	const worldOctree = loadWorld(sceneInstance.scene)
 	const roomState = createRoomStateInstance(user_id, sceneInstance)
-	stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState)
+	stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState, getMatchState)
 	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex)
 	const rockets = createRocketInstance(user_id, stateExchanger.sendShot)
 	const SEND_INTERVAL = 0.016
@@ -50,7 +50,7 @@ export function startGame(container: HTMLDivElement,
 	function animate() {
 		const matchState = getMatchState()
 
-		if (matchState.match_status == "close" || !matchState.current_player.health) {
+		if (matchState.match_status == "close" || (!matchState.current_player.health && !matchState.current_player.is_view)) {
 			matchState.match_status = "close"
 			setMatchState(matchState)
 			stopGame()
@@ -70,6 +70,7 @@ export function startGame(container: HTMLDivElement,
 
 		player.update(delta, controlsInstance?.keys ?? {}, controlsInstance?.getYaw() ?? 0, worldOctree)
 		rockets.update(sceneInstance.scene, camera, controlsInstance?.getClick() ?? false, delta, worldOctree, roomState.players, matchState)
+		
 		setMatchState(matchState)
 
 		camera.rotation.y = controlsInstance?.getYaw() ?? 0

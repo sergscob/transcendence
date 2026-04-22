@@ -1,4 +1,5 @@
-import { useSettingsStore } from "@/stores/settingsStore";
+import { useSettingsStore } from "@/stores/settingsStore"
+import { ICurrentMatchState } from './roomState'
 
 type CallbackOnMessage = (messageObj: any) => void
 
@@ -7,7 +8,8 @@ export function createStateExchanger(
 	matchId: string,
 	callbackRoomState: CallbackOnMessage,
 	callbackStartRoom: CallbackOnMessage,
-	callbackStopRoom: CallbackOnMessage
+	callbackStopRoom: CallbackOnMessage,
+	getMatchState: () => ICurrentMatchState
 	) {
 	let connectionEstablish = false
     const serverIP = useSettingsStore.getState().serverIP;
@@ -36,6 +38,9 @@ export function createStateExchanger(
 	}
 
     function sendState(state: any) {
+        if (getMatchState().current_player.is_view) {
+            return
+        }
         if (channel && channel.readyState === WebSocket.OPEN) {
             channel.send(JSON.stringify({ type: 'state', state, user_id, match_id: matchId }));
         } else {
@@ -44,6 +49,9 @@ export function createStateExchanger(
     }
 
     function sendShot(shot_id: any) {
+        if (getMatchState().current_player.is_view) {
+            return
+        }
         if (channel && channel.readyState === WebSocket.OPEN) {
             channel.send(JSON.stringify({ type: 'shot', shot_id, user_id, match_id: matchId }));
         } else {
