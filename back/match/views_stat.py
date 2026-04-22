@@ -6,7 +6,7 @@ from django.db.models import Count, F, Q, Sum, Window
 from .models import MatchPlayer, MatchStatus, PlayerResult
 from rest_framework.pagination import PageNumberPagination
 from django.db.models.functions import DenseRank, Coalesce
-from .views_milestones import get_level
+from .levels import get_level
 
 
 class StatsPagination(PageNumberPagination):

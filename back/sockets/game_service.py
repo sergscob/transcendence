@@ -6,6 +6,8 @@ from channels.layers import get_channel_layer
 from django.apps import apps
 from django.utils import timezone
 
+from .achievements import get_player_achievements
+
 
 class PlayerState(TypedDict, total=False):
     user_id: int
@@ -193,9 +195,16 @@ async def _save_match_finish(match_id):
 
     payload = []
     for player_id, player_info in match_state['players'].items():
+        achievements = await get_player_achievements(
+            match_id=match_id,
+            player_id=player_id,
+            current_score=player_info.get('score', 0),
+            is_winner=player_info.get('user_id') == winner_id,
+        )
         payload.append({
             'user_id': player_id,
             'result': 'win' if player_info.get('user_id') == winner_id else 'loss',
+            'achievements': achievements,
         })
     print("Prepared finish payload: ", payload)
     await broadcast_to_match(match_id, 'room_state', match_state)
