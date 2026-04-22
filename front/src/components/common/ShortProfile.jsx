@@ -28,7 +28,7 @@ function ShortProfile({ user, avatarSize, stat, nextMilestone=0, className }) {
             <div className="text-center text-sm text-emerald-300 ">
                 {t("view_profile.rank")}: {rankLabel}
             </div>
-            <ProgressBar value={stat?.level || 0} max={10} />
+            <ProgressBar value={10 - stat?.level || 0} max={10} />
             {
                 nextMilestone > 0 && (
                     <div className="text-center text-xs text-white/80">

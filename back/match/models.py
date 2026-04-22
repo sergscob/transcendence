@@ -61,3 +61,20 @@ class MatchPlayer(models.Model):
 
     def __str__(self):
         return f"{self.match_id} | {self.user.username} | ready: {self.is_ready}"
+
+
+class Achievement(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='achievements')
+    created_at = models.DateTimeField(auto_now_add=True)
+    code = models.CharField(max_length=64)
+    level = models.PositiveIntegerField(null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user"]),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["code"]),
+        ]
+
+    def __str__(self):
+        return f"{self.user_id} | {self.code} | {self.level}"

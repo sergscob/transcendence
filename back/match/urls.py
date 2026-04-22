@@ -6,7 +6,8 @@
 # GET /api/matches/my.
 
 from django.urls import path, include
-from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView, MatchListViewCurrent
+from .views import MatchListViewMy, MatchListViewAvailable, MatchActionView, MatchListViewCurrent 
+from .views_achivements import AchievementListView
 from .views_stat import StatsUserView, StatsTotalView
 from .views_users import MatchUsersView
 from .views_milestones import MilestonesView
@@ -30,5 +31,6 @@ urlpatterns = [
     path("api/stats/", StatsTotalView.as_view()),
 
     path("api/milestones/", MilestonesView.as_view()),
+    path("api/achievements/", AchievementListView.as_view()),
 
 ]

@@ -40,6 +40,10 @@ def _get_player_achievements_sync(match_id: str, player_id: int, current_score: 
     return achievements
 
 
+def get_player_achievements_sync(match_id: str, player_id: int, current_score: int, is_winner: bool) -> list[dict[str, Any]]:
+    return _get_player_achievements_sync(match_id, player_id, current_score, is_winner)
+
+
 @database_sync_to_async
 def get_player_achievements(match_id: str, player_id: int, current_score: int, is_winner: bool) -> list[dict[str, Any]]:
     return _get_player_achievements_sync(match_id, player_id, current_score, is_winner)

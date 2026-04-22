@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Match, MatchPlayer
+from .models import Match, MatchPlayer, Achievement
 
 
 class MatchSerializer(serializers.ModelSerializer):
@@ -66,3 +66,15 @@ class MatchUsersSerializer(MatchSerializer):
 
     class Meta(MatchSerializer.Meta):
         fields = MatchSerializer.Meta.fields + ["players"]
+
+
+class AchievementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Achievement
+        fields = [
+            "id",
+            "created_at",
+            "code",
+            "level",
+            "user",
+        ]

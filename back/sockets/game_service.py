@@ -6,7 +6,7 @@ from channels.layers import get_channel_layer
 from django.apps import apps
 from django.utils import timezone
 
-from .achievements import get_player_achievements
+from .achievements import get_player_achievements, get_player_achievements_sync
 
 
 class PlayerState(TypedDict, total=False):
@@ -160,6 +160,7 @@ def calcWinner(match_state: MatchState) -> int:
 def _save_match_finish_db(match_id, winner_id):
     match_state = ROOM_GAME_STATE_BY_MATCH.get(match_id, {'players': {}})
     Match = apps.get_model('match', 'Match')
+    Achievement = apps.get_model('match', 'Achievement')
     match_record = Match.objects.filter(id=match_id).first()
     if match_record is None:
         return False
@@ -180,6 +181,19 @@ def _save_match_finish_db(match_id, winner_id):
             player_record.result = 'win' if player_info.get('user_id') == winner_id else 'loss'
             player_record.save(update_fields=['score', 'result'])
             print(f"Updated player {player_id} record with score {player_record.score} and result {player_record.result}")
+
+        achievements = get_player_achievements_sync(
+            match_id=match_id,
+            player_id=player_id,
+            current_score=player_info.get('score', 0),
+            is_winner=player_info.get('user_id') == winner_id,
+        )
+        for achievement in achievements:
+            Achievement.objects.create(
+                user_id=player_id,
+                code=achievement.get('code', ''),
+                level=achievement.get('level'),
+            )
 
     return True
 
