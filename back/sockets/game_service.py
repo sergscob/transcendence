@@ -35,6 +35,10 @@ ROOM_GAME_STATE_BY_MATCH: RoomStateByMatch = {}
 DEFAULT_MATCH_TIME_LIMIT = 600
 
 
+def clear_match_state(match_id: str):
+    ROOM_GAME_STATE_BY_MATCH.pop(match_id, None)
+
+
 def _format_time_left(total_seconds: float | int) -> str:
     seconds_left = max(0, int(total_seconds))
     minutes, seconds = divmod(seconds_left, 60)
@@ -203,6 +207,7 @@ async def _save_match_finish(match_id):
     winner_id = calcWinner(match_state)
     was_saved = await _save_match_finish_db(match_id, winner_id)
     if not was_saved:
+        clear_match_state(match_id)
         return
 
     print(f"Match FINISHED {match_id}")
@@ -224,7 +229,7 @@ async def _save_match_finish(match_id):
     await broadcast_to_match(match_id, 'room_state', match_state)
     await broadcast_to_match(match_id, 'stop', payload)
 
-    ROOM_GAME_STATE_BY_MATCH.pop(match_id, None)
+    clear_match_state(match_id)
 
 
 async def add_new_player(match_state, userInfo):

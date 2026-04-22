@@ -14,6 +14,7 @@ export interface ICurrentPlayerState {
 	is_view: boolean;
 	hit_other_player: boolean;
 	pos: [number, number, number];
+	achivement: Array<any>;
 }
 
 export interface ICurrentMatchState {
@@ -55,6 +56,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 	const rocketColliderSize = new THREE.Vector3(...GAME_CONFIG.ROCKET.colliderSize)
 	let gameStarted = false
 	let isWinner = false
+	let achivement: Array<string> = []
 	let screenAcumulator = 0
 	let matchState: IMatchState = {
 		players_count: 1,
@@ -278,6 +280,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 			}
 			if (raw.user_id == client_user_id) {
 				isWinner = raw?.result == "win"
+				achivement = raw?.achievements
 			}
 		}
 
@@ -445,6 +448,7 @@ export function createRoomStateInstance(client_user_id: number, sceneInstance: s
 		currentMatchState.isWinner = isWinner
 		currentMatchState.current_player.score = playerState.score
 		currentMatchState.current_player.pos = playerState.pos
+		currentMatchState.current_player.achivement = achivement
 		if (currentMatchState.current_player.health > playerState.health) {
 			sceneInstance.colorSceneSetter(0xff0000)
 			screenAcumulator = 0

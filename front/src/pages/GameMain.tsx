@@ -12,6 +12,11 @@ import backgroundImage from "@/assets/images/brick-bg.jpg";
 import ButtonClose from "@/components/ui_int/ButtonClose";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { getAchivmentMessage } from "@/utils/achivements";
+import dayjs from "dayjs";
+
+const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
 let defaultMatchState: ICurrentMatchState
 
@@ -25,7 +30,8 @@ function resetMatchState() {
 		is_ready: false,
 		is_view: false,
 		hit_other_player: false,
-		pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]]
+		pos: [...GAME_CONFIG.PLAYER.spawnEnd[0]],
+		achivement: []
 	},
 	online_players: 1,
 	max_players: 10,
@@ -61,13 +67,12 @@ export default function GameMain() {
 
     const spectatorState: ICurrentMatchState = {
       ...defaultMatchState,
-      online_players: matchState.online_players,
       current_player: {
         ...defaultMatchState.current_player,
         arms_left: 0,
         score: matchState.current_player.score,
         is_view: true,
-        is_ready: true
+        is_ready: true,
       },
     }
 
@@ -140,7 +145,8 @@ export default function GameMain() {
       setMatchState(nextState)
     }
 
-    if (!canStartGame || !containerRef.current || !user?.id)
+    // Wait until loading screens are gone so the canvas container is mounted.
+    if (loading || isMatchLoading || !canStartGame || !containerRef.current || !user?.id)
       return
 
     startGame(
@@ -164,7 +170,7 @@ export default function GameMain() {
       stopGame()
       document.removeEventListener('pointerlockchange', onPointerLockChange)
     }
-  }, [user?.id, matchId, isView, canStartGame])
+  }, [user?.id, matchId, isView, canStartGame, loading, isMatchLoading])
 
   if (loading || isMatchLoading) return <Loading />
   if (!user) return <NotFound text={t("game_main.server_connection_error")} code={t("game_main.error_code")} />
@@ -212,6 +218,7 @@ export default function GameMain() {
   const won = Boolean(matchState?.isWinner)
   const score = matchState?.current_player?.score ?? 0
   const onlinePlayers = matchState?.online_players ?? 0
+  const achievements = matchState?.current_player?.achivement ?? []
 
   return (
     <div
@@ -241,8 +248,11 @@ export default function GameMain() {
           <button
             type="button"
             className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg transition cursor-pointer"
-            onClick={() => navigate('/')}
-          >
+            onClick={() => {
+				resetMatchState()
+				matchStateRef.current = defaultMatchState
+				setMatchState(defaultMatchState)
+				navigate('/')}}>
             {t("game_main.end_back_main_menu")}
           </button>
 
@@ -255,6 +265,18 @@ export default function GameMain() {
               {t("game_main.end_back_spectator")}
             </button>
           )}
+		{ achievements.length > 0 && (
+		<Table className="text-white bg-slate-800/50">
+			<TableBody>
+				{achievements.map((achievement) => (
+					<TableRow key={achievement.id}>
+						<TableCell className="font-medium">{dayjs(achievement.created_at).format(DATE_FORMAT)}</TableCell>
+						<TableCell>{getAchivmentMessage(achievement)}</TableCell>
+					</TableRow>
+				))}
+			</TableBody>
+		</Table>
+		)}
         </div>
       </div>
     </div>

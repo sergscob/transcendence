@@ -3,10 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.exceptions import NotFound
 from django.db.models import Count, F, Q, Exists, OuterRef
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .models import Match, MatchPlayer, MatchStatus
 from . import services
 from .serializers import MatchSerializer
+from sockets.game_service import clear_match_state
 
 
 class MatchListViewAvailable(APIView):
@@ -55,7 +57,13 @@ class MatchListViewMy(APIView):
     def get(self, request):
         qs = (
             Match.objects.filter(
-                Exists(MatchPlayer.objects.filter(match_id=OuterRef('pk'), user=request.user))
+                Exists(
+                    MatchPlayer.objects.filter(
+                        match_id=OuterRef("pk"),
+                        user=request.user,
+                        health__gt=0,
+                    )
+                )
             )
             .exclude(status=MatchStatus.FINISHED)
             .annotate(
@@ -77,7 +85,7 @@ class MatchActionView(APIView):
                 num_players=Count("players", distinct=True),
                 ready_players=Count("players", filter=Q(players__is_ready=True), distinct=True),
                 created_by_name=F("created_by__username"),
-            ).get(id=match_id)
+            ).exclude(status=MatchStatus.FINISHED).get(id=match_id)
         except Match.DoesNotExist as exc:
             raise NotFound(_("Match not found")) from exc
 
@@ -98,6 +106,7 @@ class MatchActionView(APIView):
             match.status = MatchStatus.FINISHED
             match.finished_at = timezone.now()
             match.save(update_fields=["status", "finished_at"])
+            clear_match_state(str(match_id))
             
         return Response({"ok": True})
 
