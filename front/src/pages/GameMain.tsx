@@ -42,9 +42,8 @@ function resetMatchState() {
 	};
 }
 
-resetMatchState()
-
 export default function GameMain() {
+  resetMatchState()
   const navigate = useNavigate();
   const location = useLocation();
   const { id: matchId } = useParams()
@@ -145,7 +144,6 @@ export default function GameMain() {
       setMatchState(nextState)
     }
 
-    // Wait until loading screens are gone so the canvas container is mounted.
     if (loading || isMatchLoading || !canStartGame || !containerRef.current || !user?.id)
       return
 
@@ -249,10 +247,10 @@ export default function GameMain() {
             type="button"
             className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg transition cursor-pointer"
             onClick={() => {
-				resetMatchState()
-				matchStateRef.current = defaultMatchState
-				setMatchState(defaultMatchState)
-				navigate('/')}}>
+              resetMatchState()
+              matchStateRef.current = defaultMatchState
+              setMatchState(defaultMatchState)
+              navigate('/')}}>
             {t("game_main.end_back_main_menu")}
           </button>
 
