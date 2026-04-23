@@ -2,7 +2,14 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { Octree } from 'three/addons/math/Octree.js'
 
-export function loadWorld(scene: THREE.Scene): Octree {
+export async function loadWorld(scene: THREE.Scene): Promise<Octree> {
+	const myPromise = new Promise((resolve, reject) => {
+		loadingWorld(scene, resolve, reject)
+	});
+	return myPromise
+}
+
+export function loadingWorld(scene: THREE.Scene, resolve: any, reject: any): Octree {
 	const worldOctree = new Octree()
 
 	const loader = new GLTFLoader()
@@ -30,8 +37,10 @@ export function loadWorld(scene: THREE.Scene): Octree {
 					child.material.map.anisotropy = 4
 			}
 		})
+		resolve(worldOctree)
 	}, undefined, (err) => {
 		console.error('Failed to load world GLB:', err)
+		reject(worldOctree)
 	})
 
 	return worldOctree

@@ -21,12 +21,12 @@ let stateExchanger: {
 	getConnectionStatus: () => boolean;
 }
 
-export function startGame(container: HTMLDivElement,
+export async function startGame(container: HTMLDivElement,
 	user_id: number,
 	matchId: string | undefined,
 	getMatchState: () => ICurrentMatchState,
 	setMatchState: (state: ICurrentMatchState) => void
-	) {
+	): Promise<void> {
 	if (!matchId) 
 		return
 
@@ -35,7 +35,7 @@ export function startGame(container: HTMLDivElement,
 	const camera   = createCamera(container)
 	removeResizeInstance = setResizeEvent(rendererInstance, camera, container)
 	const sceneInstance    = createScene()
-	const worldOctree = loadWorld(sceneInstance.scene)
+	const worldOctree = await loadWorld(sceneInstance.scene)
 	const roomState = createRoomStateInstance(user_id, sceneInstance)
 	stateExchanger = createStateExchanger(user_id, matchId, roomState.modifyRoomState, roomState.startState, roomState.stopState, getMatchState)
 	const player = createPlayer(camera, stateExchanger.sendShot, user_id, roomState.getSpawnIndex)
@@ -60,6 +60,7 @@ export function startGame(container: HTMLDivElement,
 		animationId = requestAnimationFrame(animate)
 
 		const delta = Math.min(clock.getDelta(), 0.05)
+		clock.update()
 
 		roomState.update(delta, matchState, player.teleportPlayer)
 		if (!stateExchanger.getConnectionStatus() || waitConnectionAccumulator < 0.5) {

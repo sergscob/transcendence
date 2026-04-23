@@ -36,11 +36,11 @@ export default function MainLayout() {
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
           <div className="flex items-center">
             <Link to={`/profile/${user?.id}`}>
-              <span className="text-white mr-3">{user?.username}</span>
+              <span className="bg-blue-500 hover:bg-red-600 w-full text-white text-center py-1 px-3 border text-lg rounded-3xl hover:transition hover:duration-300">{user?.username}</span>
             </Link>
             <LangSwitcher className="mr-3"/>
             <IconExit className="w-6 h-6 ml-3 stroke-slate-200" onClick={()=>onLogout()} />
-            </div>
+          </div>
       </div>
       <div className="relative z-10 h-screen w-full">
         <Outlet />
