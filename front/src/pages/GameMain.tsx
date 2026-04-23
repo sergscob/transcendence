@@ -12,9 +12,8 @@ import backgroundImage from "@/assets/images/brick-bg.jpg";
 import ButtonClose from "@/components/ui_int/ButtonClose";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { getAchivmentMessage } from "@/utils/achivements";
-import dayjs from "dayjs";
+import { toast } from 'react-toastify'
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
@@ -132,6 +131,27 @@ export default function GameMain() {
   }
 
   useEffect(() => {
+    if (matchState?.match_status !== "close") 
+      return
+
+    const achievements = matchState?.current_player?.achivement ?? []
+
+    achievements.forEach((achievement: any) => {
+      toast(getAchivmentMessage(achievement), {
+          autoClose: 5000,
+          style: {
+            fontFamily: 'Black Ops One, system-ui, sans-serif',
+            background: '#385080',
+            color: '#ffffff',
+            fontSize: '1.5rem',
+            lineHeight: 1.3,
+          },
+        }
+      )
+    })
+  }, [matchState?.match_status, matchState?.current_player?.achivement])
+
+  useEffect(() => {
     if (isView && !matchStateRef.current.current_player.is_view) {
       const nextState: ICurrentMatchState = {
         ...matchStateRef.current,
@@ -216,7 +236,6 @@ export default function GameMain() {
   const won = Boolean(matchState?.isWinner)
   const score = matchState?.current_player?.score ?? 0
   const onlinePlayers = matchState?.online_players ?? 0
-  const achievements = matchState?.current_player?.achivement ?? []
 
   return (
     <div
@@ -263,18 +282,6 @@ export default function GameMain() {
               {t("game_main.end_back_spectator")}
             </button>
           )}
-		{ achievements.length > 0 && (
-		<Table className="text-white bg-slate-800/50">
-			<TableBody>
-				{achievements.map((achievement) => (
-					<TableRow key={achievement.id}>
-						<TableCell className="font-medium">{dayjs(achievement.created_at).format(DATE_FORMAT)}</TableCell>
-						<TableCell>{getAchivmentMessage(achievement)}</TableCell>
-					</TableRow>
-				))}
-			</TableBody>
-		</Table>
-		)}
         </div>
       </div>
     </div>
