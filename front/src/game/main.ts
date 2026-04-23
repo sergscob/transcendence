@@ -46,7 +46,7 @@ export function startGame(container: HTMLDivElement,
 	const posBuffer: [number, number, number] = [0, 0, 0]
 	const rotationBuffer: [number, number, number] = [0, 0, 0]
 
-	const clock = new THREE.Clock()
+	const clock = new THREE.Timer()
 	function animate() {
 		const matchState = getMatchState()
 
