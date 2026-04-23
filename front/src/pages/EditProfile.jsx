@@ -43,7 +43,7 @@ function EditProfile() {
         setQrcode(res.data.qr);
         setOpenOtpDialog(true);
       } catch (err) {
-        console.error(err);
+        console.log(err);
         toast.error(t("edit_profile.enable_2fa_failed"));
       }
     }
@@ -55,7 +55,7 @@ function EditProfile() {
         });
         setUser(res.data);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     }
   }

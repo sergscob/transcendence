@@ -131,6 +131,7 @@ const resources = {
       "game_main.end_remaining_players": "Remaining players online",
       "game_main.end_back_main_menu": "Back to main menu",
       "game_main.end_back_spectator": "Return to match (spectator mode)",
+	  "game_main.spectator_mode": "Spectator mode",
 
       // NotFound
       "not_found.page_not_found": "Page not found",
@@ -365,6 +366,7 @@ const resources = {
       "game_main.end_remaining_players": "Joueurs restants en ligne",
       "game_main.end_back_main_menu": "Retour au menu principal",
       "game_main.end_back_spectator": "Retourner dans la partie (mode spectateur)",
+	  "game_main.spectator_mode": "Mode spectateur",
 
       // NotFound
       "not_found.page_not_found": "Page introuvable",
@@ -597,6 +599,7 @@ const resources = {
       "game_main.end_remaining_players": "Игроков осталось онлайн",
       "game_main.end_back_main_menu": "Вернуться в главное меню",
       "game_main.end_back_spectator": "Вернуться в матч (режим наблюдателя)",
+	  "game_main.spectator_mode": "Режим зрителя",
 
       // NotFound
       "not_found.page_not_found": "Страница не найдена",
