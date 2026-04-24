@@ -212,20 +212,20 @@ export default function GameMain() {
 			X
 			</div>
 		)}
-		<div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 text-3xl">
-			<div className={`ml-2 font-display whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
+		<div className="absolute w-screen bottom-0 bg-black/20 flex pt-2 sm:text-[30px] text-[20px] flex-wrap justify-around gap-3">
+			<div className={`font-display  whitespace-nowrap ${matchState?.current_player.health < 30 ? "text-red-500/50" : "text-white/50"}`}>
       {t("game_main.hud_health")}: {matchState?.current_player?.health.toFixed(0)}%
 			</div>
-			<div className={`ml-10 font-display whitespace-nowrap ${matchState?.current_player.arms_left < 2 ? "text-red-500/50" : "text-white/50"}`}>
+			<div className={`font-display whitespace-nowrap ${matchState?.current_player.arms_left < 2 ? "text-red-500/50" : "text-white/50"}`}>
       {t("game_main.hud_arms")}: {matchState.current_player.arms_left}
 			</div>
-			<div className="ml-10 font-display whitespace-nowrap text-green-500/50">
+			<div className="font-display whitespace-nowrap text-green-500/50">
       {t("game_main.hud_score")}: {matchState?.current_player?.score}
 			</div>
-			<div className="ml-10 font-display whitespace-nowrap text-yellow-500/50">
+			<div className="font-display whitespace-nowrap text-yellow-500/50">
       {t("game_main.hud_time")}: {matchState?.time_left}
 			</div>
-			<div className="ml-10 font-display whitespace-nowrap text-blue-500/50 ">
+			<div className="font-display whitespace-nowrap text-blue-500/50 ">
       {t("game_main.hud_players")}: {matchState?.online_players}
 			</div>
 		</div>

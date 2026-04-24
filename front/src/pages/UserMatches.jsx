@@ -60,7 +60,7 @@ function UserMatches() {
 
     return (
         <div className="w-screen h-screen flex justify-center items-center">
-            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative" >
+            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 
                 <div className="text-[20px] text-white">{t("matches.user_matches_title", {username: user?.username})}</div>

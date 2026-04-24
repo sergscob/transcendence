@@ -11,13 +11,13 @@ function MatchesList({ matches, actions, title }) {
     const getStatusLabel = (status) => t(`matches.status_${status}`, { defaultValue: status });
 
     return (
-        <>
+        <div className="w-full max-w-full">
             <div className="text-[16px] mb-0 mt-4">{title}</div>
 
             <Table className="border rounded-lg bg-slate-800/50">
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-25">{t("matches.creator")}</TableHead>
+                        <TableHead>{t("matches.creator")}</TableHead>
                         <TableHead>{t("matches.status")}</TableHead>
                         <TableHead>{t("matches.players")}</TableHead>
                         <TableHead>{t("matches.created_at")}</TableHead>
@@ -27,7 +27,7 @@ function MatchesList({ matches, actions, title }) {
                 <TableBody>
                     {matches?.map(match => (
                         <TableRow key={match.id}>
-                            <TableCell className="font-medium">{match.created_by_name}</TableCell>
+                            <TableCell>{match.created_by_name}</TableCell>
                             <TableCell>{getStatusLabel(match.status)}</TableCell>
                             <TableCell>{match.num_players}/{match.players_maxcount}</TableCell>
                             <TableCell>{ dayjs(match.created_at).format(DATE_FORMAT)   }</TableCell>
@@ -39,7 +39,7 @@ function MatchesList({ matches, actions, title }) {
 
                 </TableBody>
             </Table>
-        </>
+        </div>
         
   );
 }

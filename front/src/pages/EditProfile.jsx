@@ -115,7 +115,7 @@ function EditProfile() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="flex flex-col  rounded-lg p-10 shadow-lg bg-gray-500 relative min-w-150" >
+      <div className="flex flex-col rounded-lg p-6 shadow-lg bg-gray-500 relative w-150 max-w-full" >
         <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
         <div className="text-lg text-[24px] text-white text-center mb">{t("edit_profile.edit_profile")}</div>
         <div className="flex flex-col items-center gap-4">

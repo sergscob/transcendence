@@ -58,14 +58,14 @@ function TotalStat() {
     return (
         <div className="w-screen h-screen flex flex-col justify-center items-center gap-10">
 
-            <div className="min-w-180 flex gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative h-75 pt-0 align-top justify-between" >
+            <div className="flex border border-black rounded-md p-2 shadow-lg bg-gray-500 max-w-full relative h-75 pt-0 align-top justify-between" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
                 {statFirst.length > 1 && (
                     <ShortProfile
                         user={topUsersById[statFirst[1].user_id] || { id: statFirst[1].user_id, username: statFirst[1].username, avatar: null }}
                         avatarSize="90"
                         stat={statFirst[1]}
-                        className="mt-10 scale-80 w-50 "
+                        className="mt-8 scale-80 w-1/3"
                     />
                 )}
                 {statFirst.length > 0 && (
@@ -73,7 +73,7 @@ function TotalStat() {
                         user={topUsersById[statFirst[0].user_id] || { id: statFirst[0].user_id, username: statFirst[0].username, avatar: null }}
                         avatarSize="90"
                         stat={statFirst[0]}
-                        className="scale-80 w-50 "
+                        className="scale-80 w-1/3 "
                     />
                 )}
                 {statFirst.length > 2 && (
@@ -81,12 +81,12 @@ function TotalStat() {
                         user={topUsersById[statFirst[2].user_id] || { id: statFirst[2].user_id, username: statFirst[2].username, avatar: null }}
                         avatarSize="90"
                         stat={statFirst[2]}
-                        className="mt-20 scale-80 w-50 "
+                        className="mt-16 scale-80 w-1/3 "
                     />
                 )}
             </div>
 
-            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-180 relative" >
+            <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
 
                 <div className="text-[20px] text-white">{t("total_stat.title")}</div>
 
