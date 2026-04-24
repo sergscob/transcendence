@@ -54,6 +54,10 @@ export default function Login() {
                 setTmpUserId(res.data.user_id);
                 setOpenOtpDialog(true);
             }
+			else if (res.data.detail == "Password or username is incorrect") {
+				setErrors({ common: res.data.detail })
+				return
+			}
             else {
                 localStorage.setItem("token", res.data.access);
                 navigate("/")
@@ -61,7 +65,7 @@ export default function Login() {
         } catch (err) {
             setErrors(getErrorMessage(err));
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     };
 

@@ -34,7 +34,7 @@ function ViewProfile() {
 				setNextMilestone(milestones[currentMilestone-1].score)
 
         } catch (err) {
-            console.error("Error loading user profile:", err);
+            console.log("Error loading user profile:", err);
         }
         setLoading(false);
    }

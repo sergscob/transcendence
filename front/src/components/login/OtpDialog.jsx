@@ -1,6 +1,6 @@
 import Button from "@/components/ui_int/Button"
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { useTranslation } from "react-i18next";
 
@@ -26,7 +26,8 @@ export default function QrcodeDialog({ open, setOpen, qrcode, onSuccess }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="_sm:max-w-md bg-white border-0 shadow-2xl ring-0 w-150">
-        <DialogTitle/ >
+		<DialogDescription />
+        <DialogTitle/>
         {qrcode && (
           <>
             <h2 className="text-lg font-semibold text-center">

@@ -2,7 +2,7 @@ import Button from "@/components/ui_int/Button"
 import Input from "@/components/ui_int/Input"
 import API from "@/api/api";
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { useTranslation } from "react-i18next";
 
 
@@ -55,7 +55,8 @@ export default function CreateMatch({ open, setOpen, onSuccess }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl ring-0">
-        <DialogTitle/ >
+        <DialogDescription />
+		<DialogTitle/>
         <h2 className="text-lg font-semibold text-center">
           {t("matches.create_match")}
         </h2>

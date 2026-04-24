@@ -90,7 +90,7 @@ def login_view(request):
     user = authenticate(username=username, password=password)
 
     if not user:
-        return Response({"detail": "Password or username is incorrect"}, status=400)
+        return Response({"detail": "Password or username is incorrect"}, status=200)
 
     if user.is_2fa_enabled:
         return Response({

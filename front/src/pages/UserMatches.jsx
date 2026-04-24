@@ -34,7 +34,7 @@ function UserMatches() {
             const res = await API.get(`profile/${userid}/`);
             setUser(res.data);
         } catch (err) {
-            console.error("Error loading user profile:", err);
+            console.log("Error loading user profile:", err);
         }
    }
 

@@ -39,7 +39,7 @@ function OpenMatches() {
             await fetchAll();
             setMatchId("");
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     }
 
@@ -50,7 +50,7 @@ function OpenMatches() {
             setMatchId(matchId);
             navigate(`/game/${matchId}`);
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     }
 
@@ -64,7 +64,7 @@ function OpenMatches() {
             setMatchId(match.id);
             navigate(`/game/${match.id}`);
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     }
 

@@ -197,12 +197,17 @@ export default function GameMain() {
 	return (
 		<div className="relative w-screen h-screen overflow-hidden">
 		<div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+		{!paused && isView && (
+			<div className="select-none absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
+			{t("game_main.spectator_mode")}
+			</div>
+		)}
 		{paused && (
 			<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-black/60 px-6 py-4 text-white text-2xl">
 			{t("game_main.pause_click_resume")}
 			</div>
 		)}
-		{!paused && (
+		{!paused && !isView && (
 			<div className="select-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-6 py-4 text-white text-2xl">
 			+
 			</div>

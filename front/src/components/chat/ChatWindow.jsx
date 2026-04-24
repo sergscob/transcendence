@@ -36,7 +36,7 @@ function ChatWindow({
       });
     };
     channel.current.onerror = (e) => {
-      console.error("WebSocket error:", e);
+      console.log("WebSocket error:", e);
     };
     return () => {
       channel.current && channel.current.close();
@@ -50,7 +50,7 @@ function ChatWindow({
       channel.current.send(JSON.stringify({ message: userMessage, username: user.username, user_id: user.id }));
       setUserMessage("");
     } else {
-      console.error("WebSocket is not open. Unable to send message.");
+      console.log("WebSocket is not open. Unable to send message.");
     }
   };
 
