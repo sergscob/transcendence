@@ -22,6 +22,8 @@ def create_reset_token(user):
 @api_view(['POST'])
 def request_password_reset(request):
     email = request.data.get("email")
+    if email is None:
+        return Response({"message": "If email exists, reset link sent"})
 
     try:
         user = User.objects.get(email=email)

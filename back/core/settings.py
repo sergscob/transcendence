@@ -177,8 +177,14 @@ E42_CLIENT_ID = env('E42_CLIENT_ID')
 E42_CLIENT_SECRET = env('E42_CLIENT_SECRET')
 E42_REDIRECT_URI = env('E42_REDIRECT_URI')
 
-FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')
-BACKEND_URL = env('BACKEND_URL', default='http://localhost:8000')
+FRONTEND_URL = env('FRONTEND_URL', default='https://localhost:5173')
+BACKEND_URL = env('BACKEND_URL', default='https://localhost:8000')
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=not DEBUG)
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', default=not DEBUG)
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE', default=not DEBUG)
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[FRONTEND_URL])
 DEFAULT_FROM_EMAIL = "no-reply@myapp.com"
 
 MEDIA_URL = '/uploads/'
