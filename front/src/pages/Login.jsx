@@ -77,14 +77,14 @@ export default function Login() {
         <div className="flex h-screen items-center justify-center">
                 <form
                     onSubmit={onSubmit}
-                    className="bg-gray-500 p-6 rounded-2xl shadow-md w-100"
+                    className="bg-gray-500 p-6 rounded-2xl shadow-md _w-100 max-w-full"
                 >
-                    <h2 className="text-[30px] text-white mb-4 text-center">{t('login.title')}</h2>
+                    <h2 className="text-[30px] _text-white mb-4 text-center">{t('login.title')}</h2>
                     <Input
                         placeholder={t('login.username')}
                         value={form.username}
                         onChange={(e) => changeForm({ username: e.target.value })}
-						className="placeholder:text-white border-gray-300 text-white"
+						className="_placeholder:text-white border-gray-300 text-white"
                     />
                     <div className="error-message">{errors.username}</div>
                     <Input
@@ -92,7 +92,7 @@ export default function Login() {
                         placeholder={t('login.password')}
                         value={form.password}
                         onChange={(e) => changeForm({ password: e.target.value })}
-						className="placeholder:text-white border-gray-300 text-white"
+						className="_placeholder:text-white border-gray-300 text-white"
                     />
                     <div className="error-message">{errors.password}</div>
                     <div className="error-message text-center">{errors.common}</div>

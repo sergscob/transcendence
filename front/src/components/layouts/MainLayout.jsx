@@ -34,13 +34,13 @@ export default function MainLayout() {
         </Link>
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
-          <div className="flex items-center">
-            <Link to={`/profile/${user?.id}`}>
-              <span className="text-white mr-3">{user?.username}</span>
-            </Link>
+          <div className="flex items-center justify-end mb-2">
             <LangSwitcher className="mr-3"/>
             <IconExit className="w-6 h-6 ml-3 stroke-slate-200" onClick={()=>onLogout()} />
-            </div>
+          </div>
+          <Link to={`/profile/${user?.id}`}>
+            <span className="text-white underline">{user?.username}</span>
+          </Link>
       </div>
       <div className="relative z-10 h-screen w-full">
         <Outlet />
