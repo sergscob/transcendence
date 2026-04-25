@@ -12,7 +12,7 @@ body {
 }
 
 .error-message {
-    color: red;
+    color: #f66;
     height: 22px;
     font-size: 11px;
 }
@@ -28,6 +28,7 @@ a.simple-link {
 .font-display {
     font-family: "Black Ops One", system-ui, sans-serif;
     letter-spacing: 0.08em;
+    line-height: 100%;
     text-transform: uppercase;
 }
 

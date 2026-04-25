@@ -27,20 +27,20 @@ export default function MainLayout() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div className="relative min-h-screen _overflow-hidden bg-cover bg-center bg-no-repeat _pb-10" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="relative z-30">
         <Link to="/">
           <IconMenu className="absolute top-2 left-4 mb-4 h-6 w-6 text-slate-300"/>
         </Link>
       </div>
-      <div className="absolute top-2 right-2 z-30 cursor-pointer">
-          <div className="flex items-center">
-            <Link to={`/profile/${user?.id}`}>
-              <span className="bg-blue-500 hover:bg-red-600 w-full text-white text-center py-1 px-3 border text-lg rounded-3xl hover:transition hover:duration-300">{user?.username}</span>
-            </Link>
+      <div className="absolute top-2 right-2 z-30 cursor-pointer flex flex-col items-end">
+          <div className="flex items-center justify-end mb-2">
             <LangSwitcher className="mr-3"/>
             <IconExit className="w-6 h-6 ml-3 stroke-slate-200" onClick={()=>onLogout()} />
           </div>
+          <Link to={`/profile/${user?.id}`}>
+            <span className="text-white underline">{user?.username}</span>
+          </Link>
       </div>
       <div className="relative z-10 h-screen w-full">
         <Outlet />

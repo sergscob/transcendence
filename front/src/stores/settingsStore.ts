@@ -6,10 +6,10 @@ type LanguagesEnum = "en" | "fr" | "ru";
 type SettingsState = {
     serverIP: string;
     language: LanguagesEnum;
-    // setServerIp: (serverIp: string) => void;
-    // setLanguage: (language: LanguagesEnum) => void;
-    // getServerHttpUrl: () => string;
-    // getServerWsUrl: () => string;
+    setServerIp: (serverIp: string) => void;
+    setLanguage: (language: LanguagesEnum) => void;
+    getServerHttpUrl: () => string;
+    getServerWsUrl: () => string;
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -28,10 +28,11 @@ export const useSettingsStore = create<SettingsState>()(
 
             getServerHttpUrl: () => {
                 const serverIP = get().serverIP;
-                if (!serverIP.startsWith("http://") && !serverIP.startsWith("https://")) {
-                    return "http://" + serverIP;
+                if (serverIP.startsWith("http://") || serverIP.startsWith("https://")) {
+                    return serverIP;
                 }
-                return serverIP;
+                const pageProtocol = typeof window !== "undefined" && window.location.protocol === "https:" ? "https" : "http";
+                return `${pageProtocol}://${serverIP}`;
             },
             getServerWsUrl: () => {
                 const serverIP = get().serverIP;
@@ -39,8 +40,9 @@ export const useSettingsStore = create<SettingsState>()(
                     return "ws://" + serverIP.slice(7);
                 } else if (serverIP.startsWith("https://")) {
                     return "wss://" + serverIP.slice(8);
-                } 
-                return "ws://" + serverIP;
+                }
+                const wsProtocol = typeof window !== "undefined" && window.location.protocol === "https:" ? "wss" : "ws";
+                return `${wsProtocol}://${serverIP}`;
             }
         }),
         { name: "trans-settings-storage" },

@@ -12,9 +12,8 @@ export function createStateExchanger(
 	getMatchState: () => ICurrentMatchState
 	) {
 	let connectionEstablish = false
-    const serverIP = useSettingsStore.getState().serverIP;
-    console.log("Game server:", serverIP);
-    const webSocketUrl = `ws://${serverIP}/ws/game/${matchId}/`;
+    const webSocketUrl = `${useSettingsStore.getState().getServerWsUrl()}/ws/game/${matchId}/`;
+    console.log("Game server:", webSocketUrl);
     const channel = new WebSocket(webSocketUrl);
 
     channel.onmessage = (event) => {

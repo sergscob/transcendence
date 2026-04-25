@@ -8,10 +8,10 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(config => {
-  const serverIP = useSettingsStore.getState().serverIP;
+  const serverHttpUrl = useSettingsStore.getState().getServerHttpUrl();
   const lang = useSettingsStore.getState().language;
 
-  config.baseURL = `http://${serverIP}/api/`;
+  config.baseURL = `${serverHttpUrl}/api/`;
   const token = getToken();
   if (token) 
     config.headers.Authorization = `Bearer ${token}`;
