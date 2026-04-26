@@ -16,7 +16,6 @@ export function createControls(container: HTMLDivElement, isMobile = false) {
 	const mobileRoot = container.parentElement
 
 	const setKey = (code: string, pressed: boolean) => {
-		console.log(code)
 		keys[code] = pressed
 	}
 
