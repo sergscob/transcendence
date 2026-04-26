@@ -308,8 +308,8 @@ export default function GameMain() {
     {isMobile && !isLandscape && (
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/90 px-6 text-center">
           <div className="max-w-sm rounded-xl border border-white/20 bg-black/70 px-5 py-4 text-white backdrop-blur-sm">
-            <p className="text-lg font-bold">Mode paysage requis</p>
-            <p className="mt-2 text-sm text-white/80">Tournez votre appareil pour jouer en paysage.</p>
+            <p className="text-lg font-bold">{t("game_main.require_landscape")}</p>
+            <p className="mt-2 text-sm text-white/80">{t("game_main.require_landscape_message")}</p>
           </div>
         </div>
     )}

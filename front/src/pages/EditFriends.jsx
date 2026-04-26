@@ -57,11 +57,11 @@ function EditFriends() {
 
   return (
     <div className="w-screen min-h-screen flex justify-center items-center">
-      <div className="flex flex-col md:flex-row gap-10 lg:gap-20 relative">
+      <div className="flex flex-col md:flex-row gap-1 lg:gap-20 relative">
         <ButtonClose onClose={() => navigate(-1)} className="absolute top-3 right-3" />
 
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 _min-w-150 min-h-100 p-5">
-          <h2 className="mr-10 text-lg font-bold text-[30px] text-white">{t("edit_friends.all_users")}</h2>
+          <h2 className="mr-10 text-md font-bold text-[20px] text-white">{t("edit_friends.all_users")}</h2>
           <input
             className="placeholder:text-white p-1 text-white placeholder:italic rounded-md bg-gray-600 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder={t("edit_friends.search_user")} type="text" value={searchQuery}
@@ -98,7 +98,7 @@ function EditFriends() {
         </div>
 
         <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500">
-          <h2 className="text-lg text-[30px] font-bold text-white">{t("edit_friends.friends")}</h2>
+          <h2 className="text-md text-[20px] font-bold text-white">{t("edit_friends.friends")}</h2>
           {friends.length ?
             <ul className="overflow-y-auto border rounded-md bg-gray-600 border-gray-300 p-4 space-y-4">
               {friends.map(friend => (

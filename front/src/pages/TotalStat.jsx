@@ -129,7 +129,7 @@ function TotalStat() {
                         ))}
                     </TableBody>
                 </Table>
-                <div className="flex items-center justify-between gap-3 text-white">
+                <div className="flex items-center justify-between gap-2 text-white">
                     <Button
                         className="max-w-40"
                         disabled={!statData.previous || page <= 1}
@@ -137,8 +137,6 @@ function TotalStat() {
                     >
                         {t("total_stat.previous")}
                     </Button>
-
-                    <span>{t("total_stat.page_info", { current: page, total: totalPages })}</span>
 
                     <Button
                         className="max-w-40"
@@ -148,6 +146,9 @@ function TotalStat() {
                         {t("total_stat.next")}
                     </Button>
                 </div>
+				<div className="flex justify-center items-center">
+					<span>{t("total_stat.page_info", { current: page, total: totalPages })}</span>
+				</div>
             </div>
         </div>
     );
