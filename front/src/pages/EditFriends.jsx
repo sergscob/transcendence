@@ -119,7 +119,7 @@ function EditFriends() {
               {waitingList.map(friend => (
                 <li key={friend.id}>
                   <div className="flex justify-between items-center border border-gray-500 rounded-md p-2 bg-gray-600">
-                    <FriendInfo friend={friend} className="text-[25px] text-white gap-3"> </FriendInfo>
+                    <FriendInfo friend={friend} className="text-white gap-3"> </FriendInfo>
                     <a className="cursor-pointer" title={t("edit_friends.accept_invitation")} onClick={() => acceptInvitation(friend.id)}>
                       <AcceptFriendIcon className="w-7 h-7 stroke-green-500" />
                     </a>
