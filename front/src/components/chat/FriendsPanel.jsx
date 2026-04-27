@@ -98,7 +98,7 @@ function FriendsPanel() {
         title={t("friends_panel.title")}
         defaultPosition={{ x: 5, y: 40 }}
         headerClassName="bg-gray-500 text-white"
-        className="w-[320px] max-w-[calc(100vw-2rem)]"
+        className="w-[320px] max-w-[calc(100vw-2rem)] z-20"
         bodyClassName="max-h-[60vh] overflow-y-auto bg-gray-300 px-3 py-2"
       >
         {friends.length ? (

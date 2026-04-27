@@ -14,7 +14,7 @@ export default function AuthLayout() {
 			<div className="absolute top-[10px] left-[10px] text-white">Transendance</div>
 			<div className="absolute top-[10px] right-[10px] flex items-end flex-col">
 				<LangSwitcher />
-				<Link className="text-white" to="/settings-start">{t('main_menu.settings')}</Link>
+				{/* <Link className="text-white" to="/settings-start">{t('main_menu.settings')}</Link> */}
 
 			</div>
 			<Outlet />
