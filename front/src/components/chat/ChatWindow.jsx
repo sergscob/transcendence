@@ -68,7 +68,7 @@ function ChatWindow({
       <div className="flex-1 overflow-y-auto p-2">
         {messages.map((msg, index) => (
           <div key={index} className={`flex ${msg.user_id == user.id ? 'justify-end' : ''}`}>
-            <div className="mb-2 rounded-2xl border border-zinc-300 bg-blue-50 px-3 py-1">
+            <div className={`mb-2 rounded-2xl border border-zinc-300  px-3 py-1 ${msg.user_id == user.id ? 'bg-blue-200' : 'bg-blue-50'}`}>
               <div className="text-right text-xs font-semibold text-zinc-400">
                 {msg.username}
               </div>
