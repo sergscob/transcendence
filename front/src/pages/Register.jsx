@@ -42,20 +42,20 @@ function Register() {
 		<div className="flex h-screen items-center justify-center">
 				{registered ?
 					<div className="bg-gray-500 p-6 rounded-2xl shadow-md w-100 text-center">
-						<h3 className="text-l text-white mb-4 text-center">{t("register.registration_succeeded")}</h3>
+						<h3 className="text-l _text-white mb-4 text-center">{t("register.registration_succeeded")}</h3>
 						<Button onClick={toLogin}>{t("register.go_to_login")}</Button>
 					</div>
 					:
 					<form
 						onSubmit={handleSubmit}
-						className="bg-gray-500 p-6 rounded-2xl shadow-md w-100"
+						className="bg-gray-500 p-6 rounded-2xl shadow-md _w-100"
 					>
-						<h2 className="text-[30px] text-white mb-4 text-center">{t("register.title")}</h2>
+						<h2 className="text-[30px] _text-white mb-4 text-center">{t("register.title")}</h2>
 						<Input
 							value={form.username}
 							onChange={e => changeForm({ username: e.target.value })}
 							placeholder={t("register.username")}
-							className="placeholder:text-white border-gray-300 text-white"
+							className="_placeholder:text-white border-gray-300 text-white"
 						/>
 						<div className="error-message">{errors.username}</div>
 
@@ -63,7 +63,7 @@ function Register() {
 							value={form.email}
 							onChange={e => changeForm({ email: e.target.value })}
 							placeholder={t("register.email")}
-							className="placeholder:text-white border-gray-300 text-white"
+							className="_placeholder:text-white border-gray-300 text-white"
 						/>
 						<div className="error-message">{errors.email}</div>
 
@@ -72,12 +72,12 @@ function Register() {
 							value={form.password}
 							onChange={e => changeForm({ password: e.target.value })}
 							placeholder={t("register.password")}
-							className="placeholder:text-white border-gray-300 text-white"
+							className="_placeholder:text-white border-gray-300 text-white"
 						/>
 						<div className="error-message">{errors.password}</div>
 						<div className="error-message">{errors.common}</div>
 						<Button className="w-full" loading={loading}>{t("register.title")}</Button>
-						<div className="text-sm mt-6 text-center text-white">{t("register.have_account")}
+						<div className="text-sm mt-6 text-center _text-white">{t("register.have_account")}
 							<Link className="text-blue-800 ml-2" to="/login">{t("register.login_here")}</Link>
 						</div>
 

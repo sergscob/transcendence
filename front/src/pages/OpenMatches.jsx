@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import dayjs from "dayjs";
 import API from "@/api/api";
 import { useTranslation } from "react-i18next";
 import { useUserStore } from "@/stores/userStore";
@@ -10,11 +9,8 @@ import NotFound from "@/pages/NotFound";
 import CreateMatch from "@/components/match/CreateMatch";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import ButtonClose from "@/components/ui_int/ButtonClose";
 import MatchesList from "@/components/match/MatchesList";
-
-const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
 function OpenMatches() {
     const { t } = useTranslation();
@@ -27,8 +23,6 @@ function OpenMatches() {
     const [myList, setMyList] = useState([]);
     const setMatchId = useGameStore((s) => s.setMatchId);
     const navigate = useNavigate();
-
-    const getStatusLabel = (status) => t(`matches.status_${status}`, { defaultValue: status });
 
     const fetchAll = useCallback(async () => {
         let res = await API.get("matches/available/")
@@ -89,9 +83,9 @@ function OpenMatches() {
     if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center">
+        <div className="w-screen h-screen flex justify-center items-center px-2">
 
-            <div className="text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 min-w-150 relative">
+            <div className="max-w-full text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 relative">
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
 
                 {myList.length > 0 && (

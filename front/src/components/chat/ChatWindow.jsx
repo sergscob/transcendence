@@ -29,9 +29,9 @@ function ChatWindow({
       console.log("WebSocket connection established");
     };
     channel.current.onmessage = (event) => {
-      console.log("Received message:", event.data);
+    //   console.log("Received message:", event.data);
       setMessages((prevMessages) => {
-        console.log("Current messages:", prevMessages);
+        // console.log("Current messages:", prevMessages);
         return [...prevMessages, JSON.parse(event.data)]
       });
     };
@@ -47,7 +47,7 @@ function ChatWindow({
   const sendMessage = (event) => {
     event.preventDefault();
     if (channel.current && channel.current.readyState === WebSocket.OPEN) {
-      channel.current.send(JSON.stringify({ message: userMessage, username: user.username, user_id: user.id }));
+      channel.current.send(JSON.stringify({ message: userMessage.replace(/(.{30})/g,"$1 "), username: user.username, user_id: user.id }));
       setUserMessage("");
     } else {
       console.log("WebSocket is not open. Unable to send message.");
@@ -61,9 +61,9 @@ function ChatWindow({
       onClose={onClose}
       defaultPosition={defaultPosition}
       zIndex={zIndex}
-      className="w-[320px] max-w-[calc(100vw-2rem)]"
+      className="w-[400px] max-w-[calc(100vw-2rem)]"
       headerClassName="bg-gray-500 text-white"
-      bodyClassName="flex h-[420px] flex-col bg-gray-300 text-gray-800"
+      bodyClassName="flex h-[450px] flex-col bg-gray-300 text-gray-800"
     >
       <div className="flex-1 overflow-y-auto p-2">
         {messages.map((msg, index) => (

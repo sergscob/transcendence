@@ -96,7 +96,7 @@ function FriendsPanel() {
       <DraggableWindow
         name="friends-panel"
         title={t("friends_panel.title")}
-        defaultPosition={{ x: 40, y: 120 }}
+        defaultPosition={{ x: 5, y: 40 }}
         headerClassName="bg-gray-500 text-white"
         className="w-[320px] max-w-[calc(100vw-2rem)]"
         bodyClassName="max-h-[60vh] overflow-y-auto bg-gray-300 px-3 py-2"
@@ -132,7 +132,7 @@ function FriendsPanel() {
           friend={friend}
           roomName={getRoomName(friend.id)}
           onClose={() => closeChat(friend.id)}
-          defaultPosition={{ x: 420 + index * 28, y: 120 + index * 28 }}
+          defaultPosition={{ x: 5 + index * 25, y: 220 + index * 25 }}
           zIndex={30 + index}
         />
       ))}

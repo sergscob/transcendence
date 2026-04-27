@@ -1,5 +1,5 @@
 
-.PHONY: all prod back front i-back i-front i back-admin
+.PHONY: all prod prod-https back front i-back i-front i back-admin
 
 all:
 	$(MAKE) back &
@@ -8,6 +8,9 @@ all:
 
 prod:
 	docker-compose up --build
+
+prod-https:
+	docker-compose -f docker-compose.prod.yml up --build
 
 back:
 # 	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
