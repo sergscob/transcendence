@@ -2,7 +2,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.conf import settings
 from collections import deque
 
-from .bot import load_model, generate_bot_response
+# from .bot import load_model, generate_bot_response
 import asyncio
 
 ROOM_CHAT_HISTORY = {}
@@ -18,7 +18,7 @@ def get_room_history(room_name):
 class ChatConsumer(AsyncJsonWebsocketConsumer ):
 
     async def connect(self):
-        load_model()  
+        # load_model()  
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
@@ -63,25 +63,25 @@ class ChatConsumer(AsyncJsonWebsocketConsumer ):
         )
 
         # BOT
-        bot_response, self.chat_history_ids = await asyncio.to_thread(
-            generate_bot_response,
-            self.chat_history_ids,
-            message,
-        )
-        print("Bot response:", bot_response)
+        # bot_response, self.chat_history_ids = await asyncio.to_thread(
+        #     generate_bot_response,
+        #     self.chat_history_ids,
+        #     message,
+        # )
+        # print("Bot response:", bot_response)
 
-        bot_message_event = {
-            'type': 'chat_message',
-            'message': bot_response,
-            'username': 'Bot',
-            'user_id': 0,
-        }
-        self.append_to_history(bot_message_event)
+        # bot_message_event = {
+        #     'type': 'chat_message',
+        #     'message': bot_response,
+        #     'username': 'Bot',
+        #     'user_id': 0,
+        # }
+        # self.append_to_history(bot_message_event)
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            bot_message_event
-        )
+        # await self.channel_layer.group_send(
+        #     self.room_group_name,
+        #     bot_message_event
+        # )
 
     async def chat_message(self, event):
         print ("Chat message:", event['message'])
