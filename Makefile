@@ -47,3 +47,9 @@ clearback:
 
 clearfront:
 	rm -rf front/node_modules
+
+fclear:
+	$(MAKE) clearpodman
+	$(MAKE) clearports
+	$(MAKE) clearback
+	$(MAKE) clearfront

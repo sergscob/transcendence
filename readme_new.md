@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by sskobyak, irkalini, enrmarti, dgibrat*
+*This project has been created as part of the 42 curriculum by sskobyak, irkalini, kleung-t, dgibrat*
 
 ## Team Information
 
@@ -6,7 +6,7 @@
 |---|---|
 | sskobyak | Tech lead and developer, responsible for technical direction and implementation |
 | irkalini | Project manager and developer, responsible for coordination and feature delivery |
-| enrmarti | Product owner and developer, responsible for product vision and feature priorities |
+| kleung-t | Product owner and developer, responsible for product vision and feature priorities |
 | dgibrat | Project manager and developer, responsible for planning and implementation follow-up |
 
 # Robot-Battle
@@ -160,7 +160,7 @@ python manage.py compilemessages
 
 - sskobyak handled the backend.
 - irkalini worked on CSS and Tailwind for UI/UX.
-- enrmarti facilitated team coordination and removed obstacles.
+- kleung-t facilitated team coordination and removed obstacles.
 - dgibrat developed the web game on the frontend.
 
 ### Project Management Tools
@@ -352,7 +352,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 - Contributed reusable frontend component patterns to keep the UI consistent.
 - Improved browser compatibility and frontend reliability across major environments.
 
-### enrmarti
+### kleung-t
 
 - Led product ownership activities: feature prioritization, scope alignment, and roadmap decisions.
 - Coordinated team execution by organizing tasks, clarifying requirements, and unblocking delivery.
