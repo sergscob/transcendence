@@ -59,7 +59,7 @@ function UserMatches() {
     if (!user) return <NotFound />;
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center">
+        <div className="w-screen _h-screen flex justify-center items-center py-15">
             <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-2 right-2" /> 
 

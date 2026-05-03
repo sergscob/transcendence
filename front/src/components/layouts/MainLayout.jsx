@@ -42,7 +42,7 @@ export default function MainLayout() {
              <span className="text-white underline">{user?.username}</span>
             </Link>
       </div>
-      <div className="relative _z-10 h-screen w-full">
+      <div className="relative _z-10 _h-screen w-full">
         <Outlet />
       </div>
       <Footer />

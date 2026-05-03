@@ -13,7 +13,7 @@ export default function Index() {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-center overflow-hidden">
+    <div className="w-screen _h-screen flex justify-center overflow-hidden py-12">
       <div className="flex w-full h-full justify-center items-center">
         <div className="flex justify-center items-center">
           <MainMenu />

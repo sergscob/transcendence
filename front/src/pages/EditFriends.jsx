@@ -56,7 +56,7 @@ function EditFriends() {
   if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
 
   return (
-    <div className="w-screen min-h-screen flex justify-center items-center">
+    <div className="w-screen min-h-screen flex justify-center items-center py-15">
       <div className="flex flex-col md:flex-row gap-1 lg:gap-20 relative">
         <ButtonClose onClose={() => navigate(-1)} className="absolute top-3 right-3" />
 

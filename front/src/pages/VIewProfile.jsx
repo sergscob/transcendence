@@ -47,7 +47,7 @@ function ViewProfile() {
   if (!user) return <NotFound text={t("view_profile.user_not_found")} />;
 
   return (
-	<div className="w-screen h-screen flex justify-center items-center">
+	<div className="w-screen _h-screen flex justify-center items-center py-15">
 		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500 relative" >
 		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 
