@@ -13,3 +13,6 @@ class User(AbstractUser):
 
     reset_token = models.CharField(max_length=100, blank=True, null=True)
     reset_token_created_at = models.DateTimeField(null=True, blank=True)    
+
+    def __str__(self):
+        return f"{self.username}. Email: {self.email}"

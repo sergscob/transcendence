@@ -141,6 +141,8 @@ const resources = {
 
       // OAuth
       "oauth.logging_in": "Logging in...",
+      "oauth.error_default": "Login failed. Redirecting back to the login page.",
+      "oauth.error_e42_token_exchange_failed": "42 login failed. Redirecting back to the login page.",
 
       // VIewProfile
       "view_profile.loading": "Loading...",
@@ -378,6 +380,8 @@ const resources = {
 
       // OAuth
       "oauth.logging_in": "Connexion en cours...",
+      "oauth.error_default": "Echec de connexion. Redirection vers la page de connexion.",
+      "oauth.error_e42_token_exchange_failed": "Echec de la connexion 42. Redirection vers la page de connexion.",
 
       // VIewProfile
       "view_profile.loading": "Chargement...",
@@ -613,6 +617,8 @@ const resources = {
 
       // OAuth
       "oauth.logging_in": "Вход...",
+      "oauth.error_default": "Ошибка входа. Возврат на страницу входа.",
+      "oauth.error_e42_token_exchange_failed": "Ошибка входа через 42. Возврат на страницу входа.",
 
       // VIewProfile
       "view_profile.loading": "Загрузка...",
