@@ -10,7 +10,7 @@ prod:
 	podman-compose up --build -d
 
 prod-https:
-	podman-compose -f podman-compose.prod.yml up --build
+	podman-compose -f docker-compose.prod.yml up --build
 
 back:
 # 	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000

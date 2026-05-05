@@ -13,15 +13,12 @@ services:
     depends_on:
       - backend
 
-  tls-proxy:
-    build: ./infra/nginx-prod
-    container_name: tls-proxy
+  nginx-proxy:
+    build: ./prod/nginx-prod
+    container_name: nginx-proxy
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      - TLS_CERT_CN=localhost
-      - TLS_CERT_DAYS=365
     volumes:
       - tls_certs:/etc/nginx/certs
     depends_on:
