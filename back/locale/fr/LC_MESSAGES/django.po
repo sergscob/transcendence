@@ -129,6 +129,10 @@ msgstr ""
 msgid "Invalid code"
 msgstr "Code invalide"
 
+#: users/views_2fa.py:93
+msgid "Password or username is incorrect"
+msgstr "Mot de passe ou nom d'utilisateur incorrect"
+
 #: users/views_2fa.py:83 users/views_2fa.py:86
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:91
 msgid "This field is required."

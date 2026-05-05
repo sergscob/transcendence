@@ -54,10 +54,10 @@ export default function Login() {
                 setTmpUserId(res.data.user_id);
                 setOpenOtpDialog(true);
             }
-			else if (res.data.detail == "Password or username is incorrect") {
-				setErrors({ common: res.data.detail })
-				return
-			}
+			else if (res.data.detail) 
+				return setErrors({ common: res.data.detail })
+			else if (!res.data.access) 
+                setErrors(getErrorMessage({response: res}));
             else {
                 localStorage.setItem("token", res.data.access);
                 navigate("/")

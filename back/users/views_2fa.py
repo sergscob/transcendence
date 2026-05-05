@@ -85,12 +85,12 @@ def login_view(request):
     if not password:
         error["password"] = str(_("This field is required."))
     if error:
-        return Response(error, status=400)    
+        return Response(error, status=200)    
 
     user = authenticate(username=username, password=password)
 
     if not user:
-        return Response({"detail": "Password or username is incorrect"}, status=200)
+        return Response({"detail": str(_("Password or username is incorrect"))}, status=200)
 
     if user.is_2fa_enabled:
         return Response({
