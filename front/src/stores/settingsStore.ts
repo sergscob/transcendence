@@ -5,6 +5,7 @@ type LanguagesEnum = "en" | "fr" | "ru";
 
 type SettingsState = {
     serverIP: string;
+    htppsServerIP: string;
     language: LanguagesEnum;
     setServerIp: (serverIp: string) => void;
     setLanguage: (language: LanguagesEnum) => void;
@@ -16,6 +17,7 @@ export const useSettingsStore = create<SettingsState>()(
     persist(
         (set, get) => ({
             serverIP: "localhost:8000",
+            htppsServerIP: "localhost",
             language: "en",
 
             setServerIp: (serverIp: string) =>set((state: SettingsState) => ({
@@ -32,7 +34,8 @@ export const useSettingsStore = create<SettingsState>()(
                     return serverIP;
                 }
                 const pageProtocol = typeof window !== "undefined" && window.location.protocol === "https:" ? "https" : "http";
-                return `${pageProtocol}://${serverIP}`;
+                console.log(pageProtocol)
+                return `${pageProtocol}://${pageProtocol === 'https' ? get().htppsServerIP : serverIP}`;
             },
             getServerWsUrl: () => {
                 const serverIP = get().serverIP;
@@ -42,7 +45,7 @@ export const useSettingsStore = create<SettingsState>()(
                     return "wss://" + serverIP.slice(8);
                 }
                 const wsProtocol = typeof window !== "undefined" && window.location.protocol === "https:" ? "wss" : "ws";
-                return `${wsProtocol}://${serverIP}`;
+                return `${wsProtocol}://${wsProtocol === 'wss' ? get().htppsServerIP : serverIP}`;
             }
         }),
         { name: "trans-settings-storage" },

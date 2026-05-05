@@ -20,10 +20,10 @@ function ChatWindow({
   const [userMessage, setUserMessage] = useState("");
   const channel = useRef(null);
   const user = useUserStore((s) => s.user);
-  const serverIP = useSettingsStore((s) => s.serverIP);
+  const getServerWsUrl = useSettingsStore((s) => s.getServerWsUrl);
 
   useEffect(() => {
-    const webSocketUrl = `ws://${serverIP}/ws/chat/${roomName}/`;
+    const webSocketUrl = `${getServerWsUrl()}/ws/chat/${roomName}/`;
     channel.current = new WebSocket(webSocketUrl);
     channel.current.onopen = () => {
       console.log("WebSocket connection established");
@@ -41,7 +41,7 @@ function ChatWindow({
     return () => {
       channel.current && channel.current.close();
     };
-  }, [roomName]);
+  }, [roomName, getServerWsUrl]);
 
 
   const sendMessage = (event) => {
