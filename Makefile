@@ -7,7 +7,7 @@ all:
 	wait
 
 prod:
-	podman-compose up --build
+	podman-compose up --build -d
 
 prod-https:
 	podman-compose -f podman-compose.prod.yml up --build

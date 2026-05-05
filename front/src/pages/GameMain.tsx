@@ -379,9 +379,9 @@ export default function GameMain() {
           <p className="leading-relaxed text-gray-300">
             {t("game_main.end_final_score")}: <span className="font-bold text-white">{score}</span>
           </p>
-          <p className="leading-relaxed text-gray-300">
+          {/* <p className="leading-relaxed text-gray-300">
             {t("game_main.end_remaining_players")}: <span className="font-bold text-white">{onlinePlayers}</span>
-          </p>
+          </p> */}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:justify-center">
