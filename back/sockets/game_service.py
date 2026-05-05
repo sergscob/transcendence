@@ -249,7 +249,7 @@ async def add_new_player(match_state, userInfo):
 
 
 async def update_player(match_id, userInfo):
-    print(userInfo)
+    # print(userInfo)
     if userInfo['user_id'] == -1:
         return
     match_state = await get_match_state(match_id)
