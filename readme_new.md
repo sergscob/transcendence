@@ -290,8 +290,8 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 | User registration and login | Account creation and JWT-based authentication flow. | sskobyak |
 | OAuth2 authentication | Login via Google and 42 OAuth providers. | sskobyak |
 | Two-factor authentication | Enable/confirm 2FA and verify OTP during login. | sskobyak |
-| Profile system | Retrieve and update profile data, including avatar and description. | sskobyak |
-| Friends system | Search users, send requests, accept requests, delete friendships. | sskobyak |
+| Profile system | Retrieve and update profile data, including avatar and description. | irkalini |
+| Friends system | Search users, send requests, accept requests, delete friendships. | irkalini |
 | Online presence | Friend list includes recent activity-based online status. | sskobyak |
 | Real-time chat | WebSocket chat room with message broadcast and room history. | sskobyak |
 | Matchmaking and lobbies | Create/join matches and manage pre-game readiness. | sskobyak |
@@ -320,7 +320,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 | Complete 2FA system | Minor | 1 | To increase account security with a second verification factor. | pyotp secret generation, QR provisioning, OTP verification. | sskobyak |
 | Standard user management and authentication | Major | 2 | To cover the core user lifecycle from signup to profile and social access control. | Register/login/profile/avatar/friends/online status. | sskobyak |
 | Real-time features with WebSockets | Major | 2 | To support low-latency bidirectional communication required by chat and gameplay. | Django Channels consumers for chat and game state. | sskobyak |
-| User interactions (chat/profile/friends) | Major | 2 | To make the platform social and collaborative, not only game-focused. | REST + WebSocket interactions across users/friends/chat. | sskobyak |
+| User interactions (chat/profile/friends) | Major | 2 | To make the platform social and collaborative, not only game-focused. | REST + WebSocket interactions across users/friends/chat. | sskobyak irkalini |
 | Multi-language support (3 languages) | Minor | 1 | To make the application accessible to a broader user base. | i18n backend locales + frontend translation support. | irkalini |
 | Advanced 3D graphics | Major | 2 | To deliver a more immersive and distinctive game experience. | Three.js + react-three ecosystem in game frontend. | dgibrat |
 | Complete web-based multiplayer game | Major | 2 | To fulfill the main project objective: a full online multiplayer experience in browser. | Live matches with rules, scores, and finish state. | dgibrat |
