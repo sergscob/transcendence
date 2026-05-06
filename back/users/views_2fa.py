@@ -10,7 +10,7 @@ from io import BytesIO
 import base64
 
 def verify_2fa(user, code):
-    print("verify_2fa", user.two_factor_secret)
+    # print("verify_2fa", user.two_factor_secret)
     totp = pyotp.TOTP(user.two_factor_secret)
     return totp.verify(code)
 
@@ -28,7 +28,7 @@ def get_tokens(user):
 def enable_2fa(request):
     user = request.user
     secret = pyotp.random_base32()
-    print ("save generated secret", secret)
+    # print ("save generated secret", secret)
     user.two_factor_secret = secret
     user.save()
 
@@ -48,7 +48,7 @@ def enable_2fa(request):
 @permission_classes([IsAuthenticated])
 def confirm_2fa(request):
     code = request.data.get("code")
-    print ("Received code in confirm_2fa", code)
+    # print ("Received code in confirm_2fa", code)
     if verify_2fa(request.user, code):
         request.user.is_2fa_enabled = True
         request.user.save()

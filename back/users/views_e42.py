@@ -44,7 +44,7 @@ User = get_user_model()
 
 def e42_callback(request):
     code = request.GET.get("code")
-    print (code) 
+    # print (code)
     state_value = request.GET.get("state", "").strip()
     redirect_uri = _callback_url(request)
 
@@ -60,7 +60,7 @@ def e42_callback(request):
     )
 
     if (token_res.status_code != 200): 
-        print("E42 RESPONSE:", token_res.text)
+        # print("E42 RESPONSE:", token_res.text)
         frontend_base_url = _frontend_base_url(state_value)
         return redirect(f"{frontend_base_url}/oauth?error=e42_token_exchange_failed")
         
