@@ -13,7 +13,11 @@
 
 ## Description
 
-Robot-Battle is a full-stack web application built around an online multiplayer game experience.
+Transcendence (Robot-Battle) is a full‑stack web application that enables real‑time, browser‑based multiplayer matches with social features and persistent progression.
+
+Goal: provide a polished multiplayer experience where players can create or join synchronized matches, communicate via real‑time chat, track statistics and achievements, and play responsive 3D matches directly in the browser.
+
+Overview: the backend uses Django for real‑time WebSockets and JWT/OAuth authentication (Google and 42); the frontend is a React + Vite SPA using Three.js for game rendering. The project includes optional 2FA, a friends system, match lifecycle management, internationalization (en/fr/ru), and deployment scaffolding with an HTTPS nginx proxy to enable secure HTTPS and WSS connections.
 
 ### Goal
 
@@ -134,6 +138,13 @@ npm run dev
 make prod
 ```
 
+or run over https with self-signed certificates:
+
+```bash
+make prod-https
+```
+
+
 ### Useful Commands
 
 Backend migrations:
@@ -194,9 +205,8 @@ python manage.py compilemessages
 
 - Channels (ASGI/WebSockets)
 - Daphne
-- drf_yasg (Swagger docs)
-- requests
-- React Router
+- Three.js 
+- Tailwind CSS
 - Zustand
 - i18next
 
