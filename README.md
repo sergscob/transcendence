@@ -60,7 +60,6 @@ Create a file at back/.env with:
 
 ```env
 SECRET_KEY=
-DEBUG=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_REDIRECT_URI=

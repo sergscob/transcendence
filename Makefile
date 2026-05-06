@@ -6,14 +6,10 @@ all:
 	$(MAKE) front &
 	wait
 
-prod:
-	podman-compose up --build -d
-
 prod-https:
-	podman-compose -f docker-compose.prod.yml up --build
+	podman-compose up --build
 
 back:
-# 	cd back && . venv/bin/activate && python3 manage.py runserver 0.0.0.0:8000
 	cd back && . venv/bin/activate && daphne -b 0.0.0.0 -p 8000 core.asgi:application
 
 back-admin:
@@ -24,7 +20,6 @@ front:
 
 i-back:
 	cd back && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt
-#	cd back && uv python install 3.13 && uv venv --python 3.13 --seed venv && . venv/bin/activate && python -m pip install -r requirements.txt
 
 i-front:
 	cd front && npm install

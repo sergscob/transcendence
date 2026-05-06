@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function OAuth() {
   const { t } = useTranslation();
@@ -35,7 +36,8 @@ export default function OAuth() {
 
   return (
     <div className="bg-red-400 text-white p-10 rounded-2xl">
-      {status.message}
+      {status.message}<br/>
+      <Link to="/login">Login</Link>
     </div>
   );
 }
