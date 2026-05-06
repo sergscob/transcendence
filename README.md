@@ -133,16 +133,17 @@ npm run dev
 
 ### Alternative Docker Run
 
+run over https with self-signed certificates:
+
 ```bash
 make prod
 ```
 
-or run over https with self-signed certificates:
+Open in browser:
 
 ```bash
-make prod-https
+https://localhost:8080
 ```
-
 
 ### Useful Commands
 
