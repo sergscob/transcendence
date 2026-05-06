@@ -6,7 +6,7 @@ all:
 	$(MAKE) front &
 	wait
 
-prod-https:
+prod:
 	podman-compose up --build
 
 back:
