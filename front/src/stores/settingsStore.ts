@@ -51,8 +51,8 @@ export const useSettingsStore = create<SettingsState>()(
             // }
             getServerHttpUrl: () => {
                 const serverIP = get().serverIP;
-                console.log("Getting server HTTP URL", import.meta.env.VITE_USE_HTTPS, import.meta.env.VITE_USE_HTTPS ? `https://${serverIP}` : `https://${serverIP}`);
-                return import.meta.env.VITE_USE_HTTPS ? `https://${serverIP}` : `https://${serverIP}`
+                console.log("Getting server HTTP URL", import.meta.env.VITE_USE_HTTPS, import.meta.env.VITE_USE_HTTPS ? `https://${serverIP}` : `http://${serverIP}`);
+                return import.meta.env.VITE_USE_HTTPS ? `https://${serverIP}` : `http://${serverIP}`
             },
             getServerWsUrl: () => {
                 const serverIP = get().serverIP;

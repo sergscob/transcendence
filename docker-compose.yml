@@ -2,13 +2,40 @@ services:
   backend:
     build: ./back
     container_name: backend
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
+    networks:
+      - nginx
 
   frontend:
     build: ./front
     container_name: frontend
+    expose:
+      - "8080"
     ports:
-      - "5173:80"
+      - "8080:8080"
     depends_on:
       - backend
+    networks:
+      - nginx
+
+  nginx-proxy:
+    build: ./prod/nginx-prod
+    container_name: nginx-proxy
+    ports:
+      - "8000:443"
+    volumes:
+      - tls_certs:/etc/nginx/certs
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - nginx
+
+volumes:
+  tls_certs:
+
+networks:
+  nginx:
+    driver: bridge
+
