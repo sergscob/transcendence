@@ -36,6 +36,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=150, required=False, trim_whitespace=False)
+
     def validate_avatar(self, value):
         max_size = 200*1024  
         valid_types = ["image/jpeg", "image/png"]
@@ -44,6 +46,14 @@ class UserSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(_("Max file size is 200 KB."))
             if hasattr(value, 'content_type') and value.content_type not in valid_types:
                 raise serializers.ValidationError(_("Only JPEG and PNG images are allowed."))
+        return value
+
+    def validate_username(self, value):
+        queryset = User.objects.filter(username=value)
+        if self.instance:
+            queryset = queryset.exclude(pk=self.instance.pk)
+        if queryset.exists():
+            raise serializers.ValidationError(_("Username already taken."))
         return value
 
     avatar = serializers.ImageField(required=False, allow_null=True, use_url=True)
