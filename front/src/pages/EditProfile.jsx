@@ -152,7 +152,7 @@ function EditProfile() {
                 {selectedFileName && (
                   <div className="ml-2 text-white">{selectedFileName}</div>
                 )}
-              <Button type="submit" className="mt-4" disabled={username === user.username && !hasSelectedFile}>
+              <Button type="submit" className="mt-4" disabled={(username === user.username || !username) && !hasSelectedFile}>
                 { t('settings.save')}
               </Button>
             </form>

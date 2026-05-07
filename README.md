@@ -323,7 +323,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 | Module | Type | Points | Why this module was chosen | How it was implemented | Team member(s) |
 |---|---:|---:|---|---|---|
 | Use a framework for both the frontend and backend | Major | 2 | To ensure a coherent full-stack architecture with maintainable client and server codebases. | React + Vite for the SPA frontend and Django + DRF for the backend API/services. | sskobyak, irkalini, dgibrat |
-| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini dgibrat|
+| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini `dgibrat|
 | Use a backend framework (Django) | Minor | 1 | To speed up API delivery with a mature, secure, and well-documented framework. | Django REST backend with modular apps. | sskobyak |
 | Use an ORM for the database | Minor | 1 | To simplify data modeling, migrations, and query consistency across the project. | Django ORM models and migrations. | sskobyak |
 | OAuth2 remote authentication | Minor | 1 | To provide convenient login options and reduce password-only dependency. | Google and 42 OAuth callback/token exchange endpoints. | kleung-t |

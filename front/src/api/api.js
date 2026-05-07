@@ -8,10 +8,8 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(config => {
-  const serverHttpUrl = useSettingsStore.getState().getServerHttpUrl();
   const lang = useSettingsStore.getState().language;
 
-  // config.baseURL = `${serverHttpUrl}/api/`;
   config.baseURL = `/api/`;
   const token = getToken();
   if (token) 

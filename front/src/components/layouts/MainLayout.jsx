@@ -16,7 +16,6 @@ export default function MainLayout() {
   const user = useUserStore((s) => s.user);
   const resetUser = useUserStore((s) => s.resetUser);
   useEffect(() => {
-    console.log("load user")
     loadUser();
   }, [loadUser]);
 
