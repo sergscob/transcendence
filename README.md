@@ -350,8 +350,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 ### sskobyak
 
 - Designed and implemented the core backend architecture with Django and DRF.
-- Delivered authentication flows: registration/login (JWT), OAuth2 (Google/42), and complete 2FA.
-- Implemented core social/backend features: prou, friends, online presence, and real-time chat/matchmaking support.
+- Implemented core social/backend features: profile, friends, online presence, and real-time chat/matchmaking support.
 - Built progression and analytics endpoints: match history, statistics, achievements, and milestones.
 - Maintained key ORM models, migrations, and API consistency across backend modules.
 
@@ -365,6 +364,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 ### kleung-t
 
 - Led product ownership activities: feature prioritization, scope alignment, and roadmap decisions.
+- Delivered authentication flows: registration/login (JWT), OAuth2 (Google/42), and complete 2FA.
 - Coordinated team execution by organizing tasks, clarifying requirements, and unblocking delivery.
 - Ensured continuous alignment between project goals and implementation progress.
 
@@ -374,6 +374,20 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 - Developed synchronized live gameplay behavior for remote players.
 - Implemented spectator-related real-time game viewing capabilities.
 - Drove game design decisions and game-specific responsive behavior across device sizes.
+
+
+## Challenges and Solutions
+
+### Real-time synchronization
+Synchronizing remote players with low latency while avoiding desync issues was one of the major technical challenges.
+This was addressed through WebSocket-based state broadcasting and authoritative match state management on the backend.
+
+### 3D performance
+Rendering multiple live entities in browser while maintaining responsive gameplay required optimization of scene updates and rendering cycles.
+
+### Authentication complexity
+Combining JWT, OAuth2, and 2FA introduced edge cases in authentication flows.
+The team implemented isolated validation layers and extensive local testing to ensure stability.
 
 
 ## Resources
