@@ -1,5 +1,6 @@
 from django.urls import path, include
 # from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
 from .views_google import google_login, google_callback
 from .views_e42 import e42_login, e42_callback
 from .views import RegisterView, ProfileView
@@ -21,6 +22,7 @@ urlpatterns = [
     path('api/profile/update/', ProfileUpdateView.as_view()),
     
     path('api/auth/login/', login_view),
+    path('api/auth/refresh/', TokenRefreshView.as_view()),
     path('api/auth/verify-otp/', verify_otp),
     path('api/auth/enable-2fa/', enable_2fa),
     path('api/auth/confirm-2fa/', confirm_2fa),    

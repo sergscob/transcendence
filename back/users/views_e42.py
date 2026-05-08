@@ -87,4 +87,4 @@ def e42_callback(request):
     refresh = RefreshToken.for_user(user)
 
     frontend_base_url = _frontend_base_url(state_value)
-    return redirect(f"{frontend_base_url}/oauth?token={refresh.access_token}")
+    return redirect(f"{frontend_base_url}/oauth?token={refresh.access_token}&refresh={refresh}")

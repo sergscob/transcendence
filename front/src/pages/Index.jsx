@@ -3,12 +3,13 @@ import { useNavigate } from "react-router";
 import MainMenu from "@/components/common/MainMenu";
 import FriendsPanel from "@/components/chat/FriendsPanel";
 import { Link } from "react-router-dom";
+import { logout } from "../utils/auth";
 
 export default function Index() {
   const navigate = useNavigate();
 
   function onLogout() {
-    localStorage.setItem("token", '');
+    logout();
     navigate("/login");
   }
 

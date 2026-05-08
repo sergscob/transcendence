@@ -9,6 +9,7 @@ import { Spinner } from "../components/ui/Spinner";
 import OtpDialog from "../components/login/OtpDialog";
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from "@/stores/settingsStore";
+import { setTokens } from "../utils/auth";
 
 export default function Login() {
     const { t } = useTranslation();
@@ -34,7 +35,7 @@ export default function Login() {
                 code
             })
             setOpenOtpDialog(false);
-            localStorage.setItem("token", res.data.access);
+            setTokens({ access: res.data.access, refresh: res.data.refresh });
             navigate("/")
         } catch (err) {
             return err.response.data.error || t("login.error_occurred");
@@ -58,7 +59,7 @@ export default function Login() {
 			else if (!res.data.access) 
                 setErrors(getErrorMessage({response: res}));
             else {
-                localStorage.setItem("token", res.data.access);
+                setTokens({ access: res.data.access, refresh: res.data.refresh });
                 navigate("/")
             }
         } catch (err) {

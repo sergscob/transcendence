@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { setTokens } from "../utils/auth";
 
 export default function OAuth() {
   const { t } = useTranslation();
@@ -9,6 +10,7 @@ export default function OAuth() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
+    const refresh = params.get("refresh");
     const error = params.get("error");
 
     if (error) {
@@ -26,7 +28,7 @@ export default function OAuth() {
     }
 
     if (token) {
-      localStorage.setItem("token", token);
+      setTokens({ access: token, refresh });
       window.location.href = "/";
       return;
     }

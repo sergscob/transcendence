@@ -7,6 +7,7 @@ import IconMenu from "@/assets/icons/menu.svg?react";
 import IconExit from "@/assets/icons/exit.svg?react";
 import LangSwitcher from "@/components/common/LangSwitcher"
 import Footer from "../common/Footer";
+import { logout } from "../../utils/auth";
 
 export default function MainLayout() {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ export default function MainLayout() {
   }, [loadUser]);
 
   function onLogout() {
-    localStorage.setItem("token", '')
+    logout();
     navigate("/login")
   }
 
