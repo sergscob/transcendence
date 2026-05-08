@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import User
 import pyotp
 import qrcode
 from io import BytesIO
@@ -59,8 +60,6 @@ def confirm_2fa(request):
 
 @api_view(['POST'])
 def verify_otp(request):
-    from .models import User
-
     user_id = request.data.get("user_id")
     code = request.data.get("code")
 
@@ -78,19 +77,21 @@ def verify_otp(request):
 @api_view(['POST'])
 def login_view(request):
     error = {}
-    username = request.data.get("username")
-    if not username:
-        error["username"] = str(_("This field is required."))
+    email = (request.data.get("email") or "").strip()
+    if not email:
+        error["email"] = str(_("This field is required."))
     password = request.data.get("password")
     if not password:
         error["password"] = str(_("This field is required."))
     if error:
         return Response(error, status=200)    
 
-    user = authenticate(username=username, password=password)
+    user_by_email = User.objects.filter(email__iexact=email).first()
+    username = user_by_email.username if user_by_email else None
+    user = authenticate(username=username, password=password) if username else None
 
     if not user:
-        return Response({"detail": str(_("Password or username is incorrect"))}, status=200)
+        return Response({"detail": str(_("Password or email is incorrect"))}, status=200)
 
     if user.is_2fa_enabled:
         return Response({

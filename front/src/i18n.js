@@ -30,7 +30,7 @@ const resources = {
       "login.redirecting_to_42": "Redirecting to 42 auth...",
       "login.dont_have_account": "You don't have any account ?",
       "login.forget_password": "You forget your password ?",
-      "login.username": "Username",
+      "login.email": "Email",
       "login.password": "Password",
       "login.error_occurred": "An error occurred",
 
@@ -269,7 +269,7 @@ const resources = {
       "login.forget_password": "Vous avez oublié votre mot de passe ?",
       "login.login_with_42": "Se connecter avec 42",
       "login.redirecting_to_42": "Redirection vers l'authentification 42...",
-      "login.username": "Nom d'utilisateur",
+      "login.email": "Email",
       "login.password": "Mot de passe",
       "login.error_occurred": "Une erreur est survenue",
 
@@ -506,7 +506,7 @@ const resources = {
       "login.redirecting_to_42": "Перенаправление на аутентификацию 42...",
       "login.forget_password": "Вы забыли пароль ?",
       "login.dont_have_account": "У вас нет аккаунта ?",
-      "login.username": "Имя пользователя",
+      "login.email": "Email",
       "login.password": "Пароль",
       "login.error_occurred": "Произошла ошибка",
 

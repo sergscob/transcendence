@@ -13,7 +13,7 @@ import { setTokens } from "../utils/auth";
 
 export default function Login() {
     const { t } = useTranslation();
-    const [form, setForm] = useState({ username: "", password: "" });
+    const [form, setForm] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [login42Clicked, setLogin42Clicked] = useState(false);
@@ -85,12 +85,12 @@ export default function Login() {
                 >
                     <h2 className="text-[30px] _text-white mb-4 text-center">{t('login.title')}</h2>
                     <Input
-                        placeholder={t('login.username')}
-                        value={form.username}
-                        onChange={(e) => changeForm({ username: e.target.value })}
+                        placeholder={t('login.email')}
+                        value={form.email}
+                        onChange={(e) => changeForm({ email: e.target.value })}
 						className="_placeholder:text-white border-gray-300 text-white"
                     />
-                    <div className="error-message">{errors.username}</div>
+                    <div className="error-message">{errors.email}</div>
                     <Input
                         type="password"
                         placeholder={t('login.password')}
