@@ -120,7 +120,7 @@ function OpenMatches() {
                 )}
 
                 {myList.length == 0 &&
-                    <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 mt-2"
+                    <Button className="max-w-50 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 mt-6"
                         onClick={() => setOpenCreateDialog(true)}
                         disabled={myList.length > 0}>
                         {t("matches.create_match")}

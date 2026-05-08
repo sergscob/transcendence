@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from "@/stores/settingsStore";
 
 export default function Login() {
-    const { getServerHttpUrl } = useSettingsStore();
     const { t } = useTranslation();
     const [form, setForm] = useState({ username: "", password: "" });
     const [errors, setErrors] = useState({});
@@ -73,7 +72,7 @@ export default function Login() {
     function onLogin42() {
         setLogin42Clicked(true);
         const frontendOrigin = encodeURIComponent(window.location.origin);
-        window.location = `${getServerHttpUrl()}/api/auth/e42/?next=${frontendOrigin}`;
+        window.location = `/api/auth/e42/?next=${frontendOrigin}`;
     }
 
 
@@ -103,7 +102,7 @@ export default function Login() {
                     <Button loading={loading} className="w-full">
                         {t('login.title')}
                     </Button>
-                    <a href={`${getServerHttpUrl()}/api/auth/google/?next=${encodeURIComponent(window.location.origin)}`} className="block text-center mt-3 text-sm text-blue-800">
+                    <a href={`/api/auth/google/?next=${encodeURIComponent(window.location.origin)}`} className="block text-center mt-3 text-sm text-blue-800">
                         {t('login.login_with_google')}
                     </a>
                     <a className="text-blue-800 text-sm block text-center" onClick={onLogin42}>
