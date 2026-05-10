@@ -342,7 +342,7 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 | Custom design system (reusable components) | Minor | 1 | To keep UI consistent and speed up frontend development. | Reusable UI components in frontend component structure. | irkalini |
 | Additional browser support | Minor | 1 | To improve accessibility by ensuring a stable experience across major browsers. | Cross-browser testing and compatibility fixes on core pages and game UI. | irkalini, sskobyak |
 
-**Total points:** 28
+**Total points:** 26
 
 ## Individual Contributions
 
