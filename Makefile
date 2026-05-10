@@ -29,16 +29,15 @@ i:
 	$(MAKE) i-front
 
 clearpodman:
-	podman ps -aq | xargs -r podman rm -f
-	podman images -aq | xargs -r podman rmi -f
+	(podman ps -aq | xargs -r podman rm -f) || exit 0
+	(podman images -aq | xargs -r podman rmi -f) || exit 0
 
 clearports:
-	lsof -ti :8000 | xargs -r kill -9
-	lsof -ti :5173 | xargs -r kill -9
+	(lsof -ti :8000 | xargs -r kill -9) || exit 0
+	(lsof -ti :5173 | xargs -r kill -9) || exit 0
 
 clearback:
 	rm -rf back/venv
-	rm -rf ~/.cache/huggingface/
 
 clearfront:
 	rm -rf front/node_modules
