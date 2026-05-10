@@ -1,5 +1,6 @@
 import { useSettingsStore } from "@/stores/settingsStore"
 import { ICurrentMatchState } from './roomState'
+import { toast } from 'react-toastify'
 
 type CallbackOnMessage = (messageObj: any) => void
 
@@ -12,6 +13,7 @@ export function createStateExchanger(
 	getMatchState: () => ICurrentMatchState
 	) {
 	let connectionEstablish = false
+    let errorShown = false
     const webSocketUrl = `${useSettingsStore.getState().getServerWsUrl()}/ws/game/${matchId}/`;
     console.log("Game server:", webSocketUrl);
     const channel = new WebSocket(webSocketUrl);
@@ -44,6 +46,9 @@ export function createStateExchanger(
             channel.send(JSON.stringify({ type: 'state', state, user_id, match_id: matchId }));
         } else {
             console.log("WebSocket is not open. Unable to send message.");
+            if (!errorShown)
+                toast.error("WebSocket connection lost");
+            errorShown = true
         }
     }
 
