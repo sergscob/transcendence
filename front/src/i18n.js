@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 
 function getInitialLanguage() {
   try {
-    const raw = localStorage.getItem("settings-storage");
+    const raw = localStorage.getItem("trans-settings-storage");
     if (!raw) return "en";
 
     const parsed = JSON.parse(raw);

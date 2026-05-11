@@ -322,19 +322,19 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 
 | Module | Type | Points | Why this module was chosen | How it was implemented | Team member(s) |
 |---|---:|---:|---|---|---|
-| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini, dgibrat|
+| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini, dgibrat, sskobyak |
 | Use a backend framework (Django) | Minor | 1 | To speed up API delivery with a mature, secure, and well-documented framework. | Django REST backend with modular apps. | sskobyak |
 | Use an ORM for the database | Minor | 1 | To simplify data modeling, migrations, and query consistency across the project. | Django ORM models and migrations. | sskobyak |
 | OAuth2 remote authentication | Minor | 1 | To provide convenient login options and reduce password-only dependency. | Google and 42 OAuth callback/token exchange endpoints. | kleung-t, sskobyak |
 | Complete 2FA system | Minor | 1 | To increase account security with a second verification factor. | pyotp secret generation, QR provisioning, OTP verification. | kleung-t |
-| Standard user management and authentication | Major | 2 | To cover the core user lifecycle from signup to profile and social access control. | Register/login/profile/avatar/friends/online status. | sskobyak |
+| Standard user management and authentication | Major | 2 | To cover the core user lifecycle from signup to profile and social access control. | Register/login/profile/avatar/friends/online status. | sskobyak irkalini |
 | Real-time features with WebSockets | Major | 2 | To support low-latency bidirectional communication required by chat and gameplay. | Django Channels consumers for chat and game state. | sskobyak |
 | User interactions (chat/profile/friends) | Major | 2 | To make the platform social and collaborative, not only game-focused. | REST + WebSocket interactions across users/friends/chat. | sskobyak irkalini |
 | Multi-language support (3 languages) | Minor | 1 | To make the application accessible to a broader user base. | i18n backend locales + frontend translation support. | irkalini |
 | Advanced 3D graphics | Major | 2 | To deliver a more immersive and distinctive game experience. | Three.js + react-three ecosystem in game frontend. | dgibrat |
 | Complete web-based multiplayer game | Major | 2 | To fulfill the main project objective: a full online multiplayer experience in browser. | Live matches with rules, scores, and finish state. | dgibrat |
 | Multiplayer game (>2 players) | Major | 2 | To improve gameplay depth and support richer match formats. | players_maxcount support and synchronized room state. | dgibrat |
-| Advanced search (filters/sorting/pagination) | Minor | 1 | To keep user and match exploration usable as data volume grows. | User search + stats/matches sorting and pagination endpoints. | sskobyak |
+| Advanced search (filters/sorting/pagination) | Minor | 1 | To keep user and match exploration usable as data volume grows. | User search + stats/matches sorting and pagination endpoints. | sskobyak irkalini |
 | Game statistics and match history | Minor | 1 | To provide progression tracking and post-game analysis for players. | Stats endpoints, per-user match history, achievements. | sskobyak |
 | Gamification system | Minor | 1 | To increase long-term engagement through rewards and milestones. | Achievement model and reward generation at match end. | sskobyak |
 | Spectator mode | Minor | 1 | To enable community viewing and make ongoing matches observable in real time. | Listing and viewing current live matches in real time. | dgibrat |
