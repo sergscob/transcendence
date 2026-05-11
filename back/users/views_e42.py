@@ -75,7 +75,7 @@ def e42_callback(request):
 
     if (user_info is None): print("Me is none")
 
-    username = f"{user_info.get('usual_full_name')} (42 login: {user_info.get('login')}"
+    username = f"{user_info.get('usual_full_name')} (42 login: {user_info.get('login')})"
     email = user_info.get("email")
     # 'email': 'sskobyak@student.42.fr', 'login': 'sskobyak', 'first_name': 'Sergey', 'last_name': 'Skobyakov', 'usual_full_name': 'Sergey Skobyakov'
 
