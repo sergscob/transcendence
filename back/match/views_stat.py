@@ -117,7 +117,7 @@ class StatsTotalView(APIView):
                         F("wins").desc(),
                         F("score").desc(),
                         F("total_matches").desc(),
-                        F("user_id").asc(),  # стабильный tie-break
+                        F("user_id").asc(),  
                     ],
                 )
             )            

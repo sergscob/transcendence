@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Avatar from "@/components/ui_int/Avatar";
 import ProgressBar from "@/components/ui_int/ProgressBar";
+import { elipsys } from "@/utils/showUtils";
+
 
 function ShortProfile({ user, avatarSize, stat, nextMilestone=0, className }) {
 
@@ -16,10 +18,10 @@ function ShortProfile({ user, avatarSize, stat, nextMilestone=0, className }) {
     <div className={`flex flex-col items-center gap-1 ${className || ''}`}>
         <Avatar user={user} size={avatarSize} />
         <div
-            className="w-full text-center text-ellipsis overflow-hidden h-8 text-[24px] text-white shrink-0 break-all max-w-80"
+            className="w-full text-center h-8 text-[24px] text-white shrink-0"
             title={user?.username}
         >
-            {user?.username}
+            {elipsys(user?.username)}
         </div>
         <div className="w-full max-w-72 space-y-2">
             <div className="text-center text-white">

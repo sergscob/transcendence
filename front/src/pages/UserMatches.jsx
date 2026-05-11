@@ -64,7 +64,9 @@ function UserMatches() {
             <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-2 right-2" /> 
 
-                <div className="text-[20px] text-white pr-4 max-w-50">{t("matches.user_matches_title", {username: elipsys(user?.username)})}</div>
+                <div className="text-[20px] text-white pr-4 max-w-50" title={user?.username}>
+                    {t("matches.user_matches_title", {username: elipsys(user?.username)})}
+                </div>
 
                 <Table className="text-white">
                     <TableHeader>
@@ -103,7 +105,7 @@ function UserMatches() {
                                                     to={`/profile/${player.user}`}
                                                     className={`${getResultClass(player.result)} underline underline-offset-2`}
                                                 >
-													<div className="inline-block max-w-50">
+													<div className="inline-block max-w-50" title={player?.username}>
                                                     	{elipsys(player.username)} 
 													</div>
                                                 </Link>

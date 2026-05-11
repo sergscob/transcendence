@@ -40,7 +40,7 @@ export default function MainLayout() {
             <IconExit className="w-6 h-6 ml-3 stroke-slate-200" onClick={()=>onLogout()} />
           </div>
             <Link to={`/profile/${user?.id}`}>
-             <span className="text-white underline break-all overflow-hidden inline-block max-w-100">{elipsys(user?.username)}</span>
+             <span className="text-white underline break-all overflow-hidden inline-block max-w-100" title={user?.username}>{elipsys(user?.username)}</span>
             </Link>
       </div>
       <div className="relative _z-10 _h-screen w-full">
