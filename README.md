@@ -298,8 +298,8 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 | Feature | Description | Team member(s) |
 |---|---|---|
 | User registration and login | Account creation and JWT-based authentication flow. | sskobyak |
-| OAuth2 authentication | Login via Google and 42 OAuth providers. | kleung-t |
-| Two-factor authentication | Enable/confirm 2FA and verify OTP during login. | kleung-t, sskobyak |
+| OAuth2 authentication | Login via Google and 42 OAuth providers. | kleung-t, sskobyak |
+| Two-factor authentication | Enable/confirm 2FA and verify OTP during login. | kleung-t |
 | Profile system | Retrieve and update profile data, including avatar and description. | irkalini |
 | Friends system | Search users, send requests, accept requests, delete friendships. | irkalini |
 | Online presence | Friend list includes recent activity-based online status. | sskobyak |
@@ -322,11 +322,11 @@ Model mapping: `APP_USER -> User`, `FRIENDSHIP -> Friend`, `GAME_MATCH -> Match`
 
 | Module | Type | Points | Why this module was chosen | How it was implemented | Team member(s) |
 |---|---:|---:|---|---|---|
-| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini `dgibrat|
+| Use a frontend framework (React) | Minor | 1 | To build a maintainable SPA with reusable components and fast UI iteration. | React + Vite frontend architecture. | irkalini, dgibrat|
 | Use a backend framework (Django) | Minor | 1 | To speed up API delivery with a mature, secure, and well-documented framework. | Django REST backend with modular apps. | sskobyak |
 | Use an ORM for the database | Minor | 1 | To simplify data modeling, migrations, and query consistency across the project. | Django ORM models and migrations. | sskobyak |
-| OAuth2 remote authentication | Minor | 1 | To provide convenient login options and reduce password-only dependency. | Google and 42 OAuth callback/token exchange endpoints. | kleung-t |
-| Complete 2FA system | Minor | 1 | To increase account security with a second verification factor. | pyotp secret generation, QR provisioning, OTP verification. | kleung-t, sskobyak |
+| OAuth2 remote authentication | Minor | 1 | To provide convenient login options and reduce password-only dependency. | Google and 42 OAuth callback/token exchange endpoints. | kleung-t, sskobyak |
+| Complete 2FA system | Minor | 1 | To increase account security with a second verification factor. | pyotp secret generation, QR provisioning, OTP verification. | kleung-t |
 | Standard user management and authentication | Major | 2 | To cover the core user lifecycle from signup to profile and social access control. | Register/login/profile/avatar/friends/online status. | sskobyak |
 | Real-time features with WebSockets | Major | 2 | To support low-latency bidirectional communication required by chat and gameplay. | Django Channels consumers for chat and game state. | sskobyak |
 | User interactions (chat/profile/friends) | Major | 2 | To make the platform social and collaborative, not only game-focused. | REST + WebSocket interactions across users/friends/chat. | sskobyak irkalini |
