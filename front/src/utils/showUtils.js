@@ -1,6 +1,6 @@
 export function elipsys(s) {
 	if (s)
- 		return s.length > 10 ? s.substring(0, 10) + '...' : s
+ 		return s.length > 16 ? s.substring(0, 16) + '...' : s
 	else
 		return ""
 }
