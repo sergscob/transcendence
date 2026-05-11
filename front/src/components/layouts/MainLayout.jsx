@@ -9,6 +9,7 @@ import IconExit from "@/assets/icons/exit.svg?react";
 import LangSwitcher from "@/components/common/LangSwitcher"
 import Footer from "../common/Footer";
 import { logout } from "../../utils/auth";
+import { elipsys } from "@/utils/showUtils";
 
 export default function MainLayout() {
   const navigate = useNavigate()
@@ -39,7 +40,7 @@ export default function MainLayout() {
             <IconExit className="w-6 h-6 ml-3 stroke-slate-200" onClick={()=>onLogout()} />
           </div>
             <Link to={`/profile/${user?.id}`}>
-             <span className="text-white underline">{user?.username}</span>
+             <span className="text-white underline break-all overflow-hidden inline-block max-w-100">{elipsys(user?.username)}</span>
             </Link>
       </div>
       <div className="relative _z-10 _h-screen w-full">

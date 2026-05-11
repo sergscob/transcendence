@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import ButtonClose from "@/components/ui_int/ButtonClose";
 import { useSorting, getSortIcon } from "@/utils/sortUtils";
+import { elipsys } from "@/utils/showUtils";
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
@@ -63,7 +64,7 @@ function UserMatches() {
             <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-2 right-2" /> 
 
-                <div className="text-[20px] text-white pr-4">{t("matches.user_matches_title", {username: user?.username})}</div>
+                <div className="text-[20px] text-white pr-4 max-w-50">{t("matches.user_matches_title", {username: elipsys(user?.username)})}</div>
 
                 <Table className="text-white">
                     <TableHeader>
@@ -102,7 +103,9 @@ function UserMatches() {
                                                     to={`/profile/${player.user}`}
                                                     className={`${getResultClass(player.result)} underline underline-offset-2`}
                                                 >
-                                                    {player.username} 
+													<div className="inline-block max-w-50">
+                                                    	{elipsys(player.username)} 
+													</div>
                                                 </Link>
                                             </span>
                                     ))}

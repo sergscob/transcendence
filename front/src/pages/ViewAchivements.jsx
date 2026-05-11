@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import ButtonClose from "@/components/ui_int/ButtonClose";
 import { getAchivmentMessage } from "@/utils/achivements";
+import { elipsys } from "@/utils/showUtils";
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
@@ -43,7 +44,7 @@ function UserAchievements() {
             <div className="flex flex-col gap-4 border border-black rounded-md p-5 shadow-lg bg-gray-500 max-w-full relative" >
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
 
-                <div className="text-[20px] text-white mr-5">{t("achievements.user_achievements_title", {username: user?.username})}</div>
+                <div className="text-[20px] text-white mr-5">{t("achievements.user_achievements_title", {username: elipsys(user?.username)})}</div>
 
                 { achievements.length > 0 ? (
                 <Table className="text-white bg-slate-800/50">

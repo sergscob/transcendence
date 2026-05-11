@@ -8,6 +8,7 @@ import IconExit from "@/assets/icons/exit.svg?react";
 import LangSwitcher from "@/components/common/LangSwitcher"
 import Footer from "../common/Footer";
 import { logout } from "../../utils/auth";
+import { elipsys } from "@/utils/showUtils";
 
 export default function MainLayout() {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ export default function MainLayout() {
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
           <div className="flex items-center">
-            <span className="text-gray-500 mr-3">{user?.username}</span> 
+            <span className="text-gray-500 mr-3 break-all inline-block max-w-50">{elipsys(user?.username)}</span> 
             <LangSwitcher className="mr-3"/>
             <IconExit className="w-6 h-6 ml-3" onClick={()=>onLogout()} />
             </div>

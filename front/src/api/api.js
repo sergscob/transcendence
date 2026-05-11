@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { useSettingsStore } from "@/stores/settingsStore";
 
 const API = axios.create({
-  baseURL: ""
+  baseURL: import.meta.env.VITE_USE_HTTPS ? "" : "http://localhost:8000"
 });
 
 let refreshRequest = null;
@@ -41,7 +41,7 @@ async function refreshAccessToken() {
 API.interceptors.request.use(config => {
   const lang = useSettingsStore.getState().language;
 
-  config.baseURL = `/api/`;
+  config.baseURL = import.meta.env.VITE_USE_HTTPS ? "/api/" : "http://localhost:8000/api/";
   const token = getToken();
   if (token) 
     config.headers.Authorization = `Bearer ${token}`;

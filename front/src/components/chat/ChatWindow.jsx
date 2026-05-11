@@ -47,7 +47,7 @@ function ChatWindow({
   const sendMessage = (event) => {
     event.preventDefault();
     if (channel.current && channel.current.readyState === WebSocket.OPEN) {
-      channel.current.send(JSON.stringify({ message: userMessage.replace(/(.{30})/g,"$1 "), username: user.username, user_id: user.id }));
+      channel.current.send(JSON.stringify({ message: userMessage, username: user.username, user_id: user.id }));
       setUserMessage("");
     } else {
       console.log("WebSocket is not open. Unable to send message.");
@@ -68,7 +68,7 @@ function ChatWindow({
       <div className="flex-1 overflow-y-auto p-2">
         {messages.map((msg, index) => (
           <div key={index} className={`flex ${msg.user_id == user.id ? 'justify-end' : ''}`}>
-            <div className={`mb-2 rounded-2xl border border-zinc-300  px-3 py-1 ${msg.user_id == user.id ? 'bg-blue-200' : 'bg-blue-50'}`}>
+            <div className={`mb-2 rounded-2xl border border-zinc-300 break-all max-w-full px-3 py-1 ${msg.user_id == user.id ? 'bg-blue-200' : 'bg-blue-50'}`}>
               <div className="text-right text-xs font-semibold text-zinc-400">
                 {msg.username}
               </div>

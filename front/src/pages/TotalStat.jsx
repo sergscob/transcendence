@@ -119,8 +119,10 @@ function TotalStat() {
                             <TableRow key={stat.user_id}>
                                 <TableCell className="font-medium">{stat.place}</TableCell>
                                 {/* <TableCell><Link to={`/profile/${stat.user_id}`}>{stat.username}</Link></TableCell> */}
-                                <TableCell><Link to={`/usermatches/${stat.user_id}`} className="underline underline-offset-2">
-                                    {stat.username}
+                                <TableCell><Link to={`/usermatches/${stat.user_id}`} className="underline underline-offset-2 break-all inline-block max-w-50">
+								<div className="inline-block max-w-50">
+									{stat.username}
+								</div>
                                 </Link></TableCell>
                                 <TableCell>{stat.total_matches}</TableCell>
                                 <TableCell>{stat.wins}</TableCell>

@@ -60,6 +60,9 @@ export function createStateExchanger(
             channel.send(JSON.stringify({ type: 'shot', shot_id, user_id, match_id: matchId }));
         } else {
             console.log("WebSocket is not open. Unable to send message.");
+            if (!errorShown)
+                toast.error("WebSocket connection lost");
+            errorShown = true
         }
     }
 

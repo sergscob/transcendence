@@ -16,7 +16,7 @@ function ShortProfile({ user, avatarSize, stat, nextMilestone=0, className }) {
     <div className={`flex flex-col items-center gap-1 ${className || ''}`}>
         <Avatar user={user} size={avatarSize} />
         <div
-            className="w-full text-center text-ellipsis overflow-hidden h-8 text-[24px] text-white shrink-0"
+            className="w-full text-center text-ellipsis overflow-hidden h-8 text-[24px] text-white shrink-0 break-all max-w-80"
             title={user?.username}
         >
             {user?.username}

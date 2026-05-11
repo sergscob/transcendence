@@ -120,7 +120,7 @@ function EditProfile() {
         <div className="text-lg text-[24px] text-white text-center mb">{t("edit_profile.edit_profile")}</div>
         <div className="flex flex-col items-center gap-4">
           <Avatar user={user} size="120" />
-          <div className="text-[20px] font-bold text-white">{user.username}</div>
+          <div className="text-[20px] font-bold text-white break-all max-w-full">{user.username}</div>
         </div>
         <div className="flex flex-col items-left gap-2 mt-4">
           <div>
