@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { elipsys } from "@/utils/showUtils";
 
 const DATE_FORMAT = "DD.MM.YYYY HH:mm";
 
@@ -27,7 +28,7 @@ function MatchesList({ matches, actions, title }) {
                 <TableBody>
                     {matches?.map(match => (
                         <TableRow key={match.id}>
-                            <TableCell>{match.created_by_name}</TableCell>
+                            <TableCell title="{match.created_by_name}">{elipsys(match.created_by_name)}</TableCell>
                             <TableCell>{getStatusLabel(match.status)}</TableCell>
                             <TableCell>{match.num_players}/{match.players_maxcount}</TableCell>
                             <TableCell>{ dayjs(match.created_at).format(DATE_FORMAT)   }</TableCell>

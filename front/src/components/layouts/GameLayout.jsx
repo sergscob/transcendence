@@ -33,7 +33,7 @@ export default function MainLayout() {
       </div>
       <div className="absolute top-2 right-2 z-30 cursor-pointer">
           <div className="flex items-center">
-            <span className="text-gray-500 mr-3 break-all inline-block max-w-50" title={user?.username}>{elipsys(user?.username)}</span> 
+            <span className="text-gray-500 mr-3 " title={user?.username}>{elipsys(user?.username)}</span> 
             <LangSwitcher className="mr-3"/>
             <IconExit className="w-6 h-6 ml-3" onClick={()=>onLogout()} />
             </div>
