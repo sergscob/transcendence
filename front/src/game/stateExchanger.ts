@@ -15,7 +15,7 @@ export function createStateExchanger(
 	let connectionEstablish = false
     let errorShown = false
     const webSocketUrl = `${useSettingsStore.getState().getServerWsUrl()}/ws/game/${matchId}/`;
-    console.log("Game server:", webSocketUrl);
+    // console.log("Game server:", webSocketUrl);
     const channel = new WebSocket(webSocketUrl);
 
     channel.onmessage = (event) => {
@@ -35,7 +35,7 @@ export function createStateExchanger(
 
 	channel.onopen = (event) => {
 		connectionEstablish = true
-		console.log("WebSocket open:", event);
+		// console.log("WebSocket open:", event);
 	}
 
     function sendState(state: any) {
@@ -70,7 +70,7 @@ export function createStateExchanger(
         if (channel && channel.readyState !== WebSocket.CLOSED) {
             channel.close();
         }
-		console.log("WebSocket close");
+		// console.log("WebSocket close");
 	}
 
 	function getConnectionStatus() {

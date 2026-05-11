@@ -26,7 +26,7 @@ function ChatWindow({
     const webSocketUrl = `${getServerWsUrl()}/ws/chat/${roomName}/`;
     channel.current = new WebSocket(webSocketUrl);
     channel.current.onopen = () => {
-      console.log("WebSocket connection established");
+      // console.log("WebSocket connection established");
     };
     channel.current.onmessage = (event) => {
     //   console.log("Received message:", event.data);

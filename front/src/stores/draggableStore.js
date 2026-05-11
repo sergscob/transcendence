@@ -20,7 +20,7 @@ export const useDraggableStore = create(
                   set(state => {
                         const p = state.positions
                         delete p[name];
-                        console.log("p=", p)
+                        // console.log("p=", p)
                         return { positions: {
                               ...p,
                         }

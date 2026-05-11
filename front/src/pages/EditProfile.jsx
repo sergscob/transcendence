@@ -39,7 +39,7 @@ function EditProfile() {
     if (user.is_2fa_enabled) {
       try {
         const res = await API.post("/auth/enable-2fa/")
-        console.log("formData in EditProfile.jsx", res.data);
+        // console.log("formData in EditProfile.jsx", res.data);
         setQrcode(res.data.qr);
         setOpenOtpDialog(true);
       } catch (err) {
