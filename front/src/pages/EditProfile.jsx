@@ -114,7 +114,7 @@ function EditProfile() {
   const hasSelectedFile = Boolean(fileInputRef.current?.files?.[0]);
 
   return (
-    <div className="w-screen _h-screen flex justify-center items-center py-12">
+    <div className="w-screen h-screen flex justify-center items-center py-12">
       <div className="flex flex-col rounded-lg p-6 shadow-lg bg-gray-500 relative w-150 max-w-full" >
         <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
         <div className="text-lg text-[24px] text-white text-center mb">{t("edit_profile.edit_profile")}</div>
