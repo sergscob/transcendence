@@ -60,9 +60,9 @@ function UserMatches() {
     if (!user) return <NotFound />;
 
     return (
-        <div className="w-screen _h-screen flex justify-center items-center py-15">
+        <div className="w-screen h-screen flex justify-center items-center py-15">
             <div className="flex flex-col gap-4 border border-black rounded-md p-4 shadow-lg bg-gray-500 max-w-full relative" >
-                <ButtonClose onClose={() => navigate(-1)} className="absolute top-2 right-2" /> 
+                <ButtonClose onClose={() => navigate(-1)} className="absolute top-2 right-2" />
 
                 <div className="text-[20px] text-white pr-4" title={user?.username}>
                     {t("matches.user_matches_title", {username: elipsys(user?.username)})}
@@ -84,7 +84,7 @@ function UserMatches() {
                                 {t("matches.finished_at")} {getSortIcon("finished_at", sortBy)}
                             </TableHead>
                             <TableHead>
-                                {t("matches.other_players")} 
+                                {t("matches.other_players")}
                             </TableHead>
                         </TableRow>
                     </TableHeader>
@@ -106,8 +106,8 @@ function UserMatches() {
                                                     className={`${getResultClass(player.result)} underline underline-offset-2`}
                                                     title={player?.username}
                                                 >
-													{elipsys(player.username)} 
-													
+													{elipsys(player.username)}
+
                                                 </Link>
                                             </span>
                                     ))}

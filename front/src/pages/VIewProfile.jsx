@@ -30,7 +30,7 @@ function ViewProfile() {
 			const milestonesRes = await API.get(`milestones/`);
 			const milestones = milestonesRes.data;
 			const currentMilestone = milestones.findIndex((m) => m.level === statsData.level);
-			if (currentMilestone > 0) 
+			if (currentMilestone > 0)
 				setNextMilestone(milestones[currentMilestone-1].score)
 
         } catch (err) {
@@ -47,12 +47,12 @@ function ViewProfile() {
   if (!user) return <NotFound text={t("view_profile.user_not_found")} />;
 
   return (
-	<div className="w-screen _h-screen flex justify-center items-center py-15">
+	<div className="w-screen h-screen flex justify-center items-center py-15">
 		<div className="flex flex-col gap-2 border text-white border-black rounded-lg p-10 shadow-lg bg-gray-500 relative" >
-		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" /> 
+		   <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
 
 			<ShortProfile user={user} avatarSize="250" stat={stat} nextMilestone={nextMilestone} />
-			
+
 			<div className="flex flex-col items-left mt-4">
 				<div className="">
 					{t("view_profile.email")}: {user.email}
