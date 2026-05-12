@@ -83,7 +83,7 @@ function OpenMatches() {
     if (!user) return <NotFound text={t("edit_friends.server_connection_error")} code={t("edit_friends.error_code")} />;
 
     return (
-        <div className="w-screen _h-screen flex justify-center items-center px-2 py-15">
+        <div className="w-screen h-screen flex justify-center items-center px-2 py-15">
 
             <div className="max-w-full text-white border border-black rounded-md p-4 shadow-lg bg-gray-500 relative">
                 <ButtonClose onClose={() => navigate(-1)} className="absolute top-4 right-4" />
