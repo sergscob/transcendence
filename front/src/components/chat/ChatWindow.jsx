@@ -34,6 +34,11 @@ function ChatWindow({
         // console.log("Current messages:", prevMessages);
         return [...prevMessages, JSON.parse(event.data)]
       });
+      setTimeout(()=>{
+        const objDiv = document.getElementById('messages'+roomName);
+        if (objDiv)
+          objDiv.scrollTop = objDiv.scrollHeight;
+      }, 100)
     };
     channel.current.onerror = (e) => {
       console.log("WebSocket error:", e);
@@ -65,9 +70,9 @@ function ChatWindow({
       headerClassName="bg-gray-500 text-white"
       bodyClassName="flex h-[450px] flex-col bg-gray-300 text-gray-800"
     >
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto p-2" id={'messages'+roomName} >
         {messages.map((msg, index) => (
-          <div key={index} className={`flex ${msg.user_id == user.id ? 'justify-end' : ''}`}>
+          <div ey={index} className={`flex ${msg.user_id == user.id ? 'justify-end' : ''}`}>
             <div className={`mb-2 rounded-2xl border border-zinc-300 break-all max-w-full px-3 py-1 ${msg.user_id == user.id ? 'bg-blue-200' : 'bg-blue-50'}`}>
               <div className="text-right text-xs font-semibold text-zinc-400">
                 {msg.username}

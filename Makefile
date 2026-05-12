@@ -33,6 +33,7 @@ clearpodman:
 	(podman images -aq | xargs -r podman rmi -f) || exit 0
 
 clearports:
+	(lsof -ti :8080 | xargs -r kill -9) || exit 0
 	(lsof -ti :8000 | xargs -r kill -9) || exit 0
 	(lsof -ti :5173 | xargs -r kill -9) || exit 0
 
